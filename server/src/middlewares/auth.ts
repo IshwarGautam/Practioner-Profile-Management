@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = "ISHWAR";
 
-const auth = (req: any, res: Response, next: any) => {
+const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
     let token = req.headers.authorization;
 

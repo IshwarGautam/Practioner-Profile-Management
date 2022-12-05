@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 const practitionerModel = require("../models/practitioner");
 
-const addPractitioner = async (req: any, res: Response) => {
+const addPractitioner = async (req: Request, res: Response) => {
   const { fullName, email, contact, dob, workingDays, startTime, endTime } =
     req.body;
 
@@ -25,7 +25,7 @@ const addPractitioner = async (req: any, res: Response) => {
   }
 };
 
-const updatePractitioner = async (req: any, res: Response) => {
+const updatePractitioner = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
   const { fullName, email, contact, dob, workingDays, startTime, endTime } =
@@ -64,7 +64,7 @@ const deletePractitioner = async (req: Request, res: Response) => {
   }
 };
 
-const getPractitioners = async (req: any, res: Response) => {
+const getPractitioners = async (req: Request, res: Response) => {
   try {
     const practitioners = await practitionerModel.find();
     res.status(200).json(practitioners);

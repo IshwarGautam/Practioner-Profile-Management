@@ -3,7 +3,7 @@ import bgImg from "../assets/img1.jpg";
 import { useForm } from "react-hook-form";
 import { handleEmailValidation } from "../utils/emailValidation";
 
-export default function Form() {
+export default function Form(props: any) {
   const {
     register,
     handleSubmit,
@@ -13,7 +13,7 @@ export default function Form() {
 
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: object) => {
     fetch("/users/signup/", {
       method: "POST",
       body: JSON.stringify(data),
@@ -27,6 +27,7 @@ export default function Form() {
         );
       } else {
         setErrorMessage("");
+        props.onClick();
         alert("User Successfully Registered!");
       }
     });
@@ -64,10 +65,14 @@ export default function Form() {
             <input
               type="text"
               {...register("password", {
+                required: true,
                 minLength: 5,
               })}
               placeholder="password"
             />
+            {errors.password?.type === "required" && (
+              <div className="errorMsg">Password is required.</div>
+            )}
             {errors.password?.type === "minLength" && (
               <div className="errorMsg">
                 Password length should have at least 5 character.
@@ -95,6 +100,13 @@ export default function Form() {
             <button className="btn">Sign Up</button>
             {errorMessage && <div className="errorMsg"> {errorMessage} </div>}
           </form>
+          <div className="sign-in-user">
+            Already had an account?
+            <span className="sign-in-label" onClick={props.onClick}>
+              {" "}
+              Sign in
+            </span>
+          </div>
         </div>
         <div className="col-2">
           <img src={bgImg} alt="" />

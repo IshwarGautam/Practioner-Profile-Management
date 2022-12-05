@@ -97,13 +97,13 @@ body {
     text-align: left;
 }
 
-.register-user{
+.register-user, .sign-in-user{
     left: 20px;
     bottom: 20px;
     position: absolute;
 }
 
-.sign-up-label{
+.sign-up-label, .sign-in-label{
     color: blue;
     cursor: pointer;
 }
