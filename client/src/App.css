@@ -1,109 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-*>* {
-    font-family: "Poppins", cursive;
-    margin: 0;
+* > * {
+  font-family: "Poppins", cursive;
+  margin: 0;
 }
 
 body {
-    background: #d7d6dd;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  background: #d7d6dd;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.App {
-    height: 100vh;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+.Form {
+  height: 100vh;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.Practitioner-Form {
+  display: flex;
+  text-align: center;
+  margin-top: 50px;
+  align-items: center;
+  justify-content: center;
 }
 
 .register {
-    width: 100vw;
-    display: flex;
-    max-width: 978px;
-    border-radius: 5px;
-    position: relative;
-    background-color: white;
-    border: 1px solid #e9ecef;
-    box-shadow: 1px 3px 10px #e9ecef;
+  width: 100vw;
+  display: flex;
+  max-width: 978px;
+  border-radius: 5px;
+  position: relative;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  box-shadow: 1px 3px 10px #e9ecef;
 }
 
 .sub-title {
-    color: #adb5bd;
+  color: #adb5bd;
 }
 
 #form {
-    width: 100vw;
-    max-width: 320px;
-    margin: 2em auto;
+  width: 100vw;
+  max-width: 320px;
+  margin: 2em auto;
 }
 
-#form>input,
+#form > input,
 .btn {
-    padding: .9em 1em;
-    border: 1px solid #e9ecef;
+  padding: 0.9em 1em;
+  border: 1px solid #e9ecef;
 }
 
-#form>input:focus {
-    outline: none;
+#form > input:focus {
+  outline: none;
 }
 
-#form>.btn {
-    color: #e9ecef;
-    font-size: 1em;
-    cursor: pointer;
-    background-color: #003049;
+#form > .btn {
+  color: #e9ecef;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #003049;
 }
 
 .flex {
-    gap: 1em;
-    display: flex;
+  gap: 1em;
+  display: flex;
 }
 
 .flex-col {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .register .col-1 {
-    margin: auto;
-    padding: 3em 0;
+  margin: auto;
+  padding: 3em 0;
 }
 
 .register .col-2 img {
-    width: 480px;
-    height: 100%;
-    display: none;
-    object-fit: cover;
-    align-self: flex-end;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+  width: 480px;
+  height: 100%;
+  object-fit: cover;
+  align-self: flex-end;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 @media screen and (min-width: 860px) {
-    .register .col-2 img {
-        display: initial;
-    }
+  .register .col-2 img {
+    display: initial;
+  }
 }
 
-.errorMsg{
-    color: red;
-    font-size: 12px;
-    text-align: left;
+.errorMsg {
+  color: red;
+  font-size: 12px;
+  text-align: left;
 }
 
-.register-user, .sign-in-user{
-    left: 20px;
-    bottom: 20px;
-    position: absolute;
+.register-user,
+.sign-in-user {
+  left: 20px;
+  bottom: 20px;
+  position: absolute;
 }
 
-.sign-up-label, .sign-in-label{
-    color: blue;
-    cursor: pointer;
+.sign-up-label,
+.sign-in-label {
+  color: blue;
+  cursor: pointer;
 }

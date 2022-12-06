@@ -1,38 +1,46 @@
-import { useState } from "react";
-import bgImg from "../assets/img1.jpg";
+import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
+import bgImg from "../../assets/img1.jpg";
+import { http } from "../../services/http";
 
-export default function Form(props: any) {
+import { useHistory } from "react-router-dom";
+
+type FormType = {
+  onClick: MouseEventHandler;
+};
+
+export default function Form(props: FormType) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const history = useHistory();
+
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSubmit = (data: object) => {
-    fetch("/users/signin/", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((data) => {
-      switch (data.status) {
-        case 400:
-          setErrorMessage("Invalid Credentials.");
-          break;
-        case 404:
-          setErrorMessage("User not found.");
-          break;
-        case 500:
-          setErrorMessage("Something went wrong.");
-          break;
-        default:
-          setErrorMessage("");
-      }
-    });
+    http
+      .post("/users/signin/", data)
+      .then(() => {
+        history.replace("/practitioner");
+      })
+      .catch((error) => {
+        switch (error.response.status) {
+          case 400:
+            setErrorMessage("Invalid Credentials.");
+            break;
+          case 404:
+            setErrorMessage("User not found.");
+            break;
+          case 500:
+            setErrorMessage("Something went wrong.");
+            break;
+          default:
+            setErrorMessage("");
+        }
+      });
   };
 
   return (
@@ -74,7 +82,7 @@ export default function Form(props: any) {
           </div>
         </div>
         <div className="col-2">
-          <img src={bgImg} alt="" />
+          <img src={bgImg} alt="Background Image" />
         </div>
       </div>
     </section>

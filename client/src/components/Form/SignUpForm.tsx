@@ -1,7 +1,8 @@
 import { useState } from "react";
-import bgImg from "../assets/img1.jpg";
+import bgImg from "../../assets/img1.jpg";
 import { useForm } from "react-hook-form";
-import { handleEmailValidation } from "../utils/emailValidation";
+import { http } from "../../services/http";
+import { handleEmailValidation } from "../../utils/emailValidation";
 
 export default function Form(props: any) {
   const {
@@ -14,23 +15,22 @@ export default function Form(props: any) {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSubmit = (data: object) => {
-    fetch("/users/signup/", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((data) => {
-      if (data.status === 409) {
-        setErrorMessage(
-          "Looks like the user with that email already exist in the database."
-        );
-      } else {
+    http
+      .post("/users/signup/", data)
+      .then(() => {
         setErrorMessage("");
         props.onClick();
         alert("User Successfully Registered!");
-      }
-    });
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          setErrorMessage(
+            "Looks like the user with that email already exist in the database."
+          );
+        } else {
+          setErrorMessage("Something went wrong.");
+        }
+      });
   };
 
   return (
@@ -109,7 +109,7 @@ export default function Form(props: any) {
           </div>
         </div>
         <div className="col-2">
-          <img src={bgImg} alt="" />
+          <img src={bgImg} alt="Background Image" />
         </div>
       </div>
     </section>

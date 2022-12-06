@@ -11,12 +11,12 @@ const auth = require("../middlewares/auth");
 
 const practitionerRouter = express.Router();
 
-practitionerRouter.get("/", auth, getPractitioners);
+practitionerRouter.get("/", getPractitioners);
 
-practitionerRouter.post("/", auth, addPractitioner);
+practitionerRouter.post("/", addPractitioner);
 
-practitionerRouter.delete("/:practitioner_id", auth, deletePractitioner);
+practitionerRouter.delete("/:practitioner_id", deletePractitioner);
 
-practitionerRouter.put("/:practitioner_id", auth, updatePractitioner);
+practitionerRouter.put("/:practitioner_id", updatePractitioner);
 
 module.exports = practitionerRouter;

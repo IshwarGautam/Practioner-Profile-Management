@@ -1,0 +1,45 @@
+.addPractitioner {
+  width: 100vw;
+  display: flex;
+  max-width: 978px;
+  border-radius: 5px;
+  position: relative;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  box-shadow: 1px 3px 10px #e9ecef;
+}
+
+h2,
+.subTitle {
+  text-align: center;
+}
+
+.subTitle {
+  color: #adb5bd;
+}
+
+.errorMsg {
+  color: red;
+  font-size: 12px;
+  text-align: left;
+}
+
+.flexCol {
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.col1 {
+  margin: auto;
+  padding: 3em 0;
+}
+
+.col2 {
+  width: 480px;
+  height: 100%;
+  object-fit: cover;
+  align-self: flex-end;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
