@@ -2,8 +2,8 @@ import "./App.css";
 import Form from "./pages/Form/Form";
 import Layout from "./components/Layout/Layout";
 import { Route, Switch } from "react-router-dom";
+import AddPractitioner from "./pages/Practitioners/AddPractitioner";
 import AllPractitioners from "./pages/Practitioners/AllPractitioners";
-import AddPractionerForm from "./components/Form/addPractitionerForm";
 
 function App() {
   return (
@@ -17,9 +17,7 @@ function App() {
             <AllPractitioners />
           </Route>
           <Route path="/add-practitioner">
-            <div className="Practitioner-Form">
-              <AddPractionerForm />
-            </div>
+            <AddPractitioner />
           </Route>
         </Switch>
       </Layout>

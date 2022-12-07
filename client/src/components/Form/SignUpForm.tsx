@@ -1,10 +1,14 @@
-import { useState } from "react";
 import bgImg from "../../assets/img1.jpg";
 import { useForm } from "react-hook-form";
 import { http } from "../../services/http";
+import { MouseEventHandler, useState } from "react";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
-export default function Form(props: any) {
+type FormType = {
+  onClick: MouseEventHandler;
+};
+
+export default function Form(props: FormType) {
   const {
     register,
     handleSubmit,
@@ -19,7 +23,6 @@ export default function Form(props: any) {
       .post("/users/signup/", data)
       .then(() => {
         setErrorMessage("");
-        props.onClick();
         alert("User Successfully Registered!");
       })
       .catch((error) => {
@@ -42,7 +45,7 @@ export default function Form(props: any) {
 
           <form
             id="form"
-            className="flex flex-col"
+            className="flex flex-col max-width"
             onSubmit={handleSubmit(onSubmit)}
           >
             <input
