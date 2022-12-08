@@ -1,12 +1,12 @@
 import classes from "./AddPractitioner.module.css";
 import AddPractionerForm from "../../components/Form/addPractitionerForm";
 
-const token: string = JSON.parse(localStorage.getItem("userToken") || "");
-
 function AddPractitioner() {
+  const token = localStorage.getItem("userToken");
+
   return (
     <div className={classes.PractitionerForm}>
-      <AddPractionerForm token={token} />
+      <AddPractionerForm token={token && JSON.parse(token)} />
     </div>
   );
 }

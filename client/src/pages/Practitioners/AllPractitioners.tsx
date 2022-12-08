@@ -1,9 +1,14 @@
+import classes from "./AllPractitioners.module.css";
 import PractitionerTable from "../../components/Table/PractitionerTable";
 
-const token: string = JSON.parse(localStorage.getItem("userToken") || "");
-
 function AllPractitioners() {
-  return <PractitionerTable token={token} />;
+  const token = localStorage.getItem("userToken");
+
+  return (
+    <div className={classes.PractitionerTable}>
+      <PractitionerTable token={token && JSON.parse(token)} />
+    </div>
+  );
 }
 
 export default AllPractitioners;

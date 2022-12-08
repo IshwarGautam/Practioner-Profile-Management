@@ -1,4 +1,6 @@
+import { Popconfirm } from "antd";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import classes from "./NavigationSection.module.css";
 
 type NavigationSectionType = {
@@ -6,6 +8,13 @@ type NavigationSectionType = {
 };
 
 function NavigationSection(props: NavigationSectionType) {
+  const history = useHistory();
+
+  const onLogout = () => {
+    history.replace("/");
+    localStorage.removeItem("userToken");
+  };
+
   return (
     <header className={classes.header}>
       <div className={classes.logo}>
@@ -38,6 +47,15 @@ function NavigationSection(props: NavigationSectionType) {
             >
               Add Practitioner
             </Link>
+          </li>
+          <li>
+            <Popconfirm
+              title="Sure to Logout?"
+              onConfirm={onLogout}
+              className={classes.logout}
+            >
+              <a>Log out</a>
+            </Popconfirm>
           </li>
         </ul>
       </nav>

@@ -2,9 +2,9 @@
   height: 5rem;
   display: flex;
   align-items: center;
+  padding: 0 5% 0 10%;
+  background-color: #2b2d2e;
   justify-content: space-between;
-  background-color: #286577;
-  padding: 0 10%;
 }
 
 .logo {
@@ -32,14 +32,23 @@
 }
 
 .header a:hover,
-.header a:active{
+.header a:active {
   color: white;
 }
 
-.active{
+.active {
   color: white;
 }
 
-.unactive{
+.unactive {
   color: #fcb8d2;
+}
+
+.logout {
+  color: white;
+  padding: 4px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: 2px solid gray;
+  background-color: tomato;
 }

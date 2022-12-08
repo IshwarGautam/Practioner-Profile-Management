@@ -1,7 +1,8 @@
 import { http } from "../../services/http";
 import { useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { Form, Switch, Popconfirm, Table, Typography } from "antd";
+import classes from "./PractitionerTable.module.css";
+import { Switch, Popconfirm, Table, Typography } from "antd";
 
 interface Item {
   _id: string;
@@ -26,7 +27,6 @@ type propsType = {
 
 const PractitionerTable = (props: propsType) => {
   const history = useHistory();
-  const [form] = Form.useForm();
   const [data, setData] = useState<any>([]);
   const [isIcuSpecialist, setIsIcuSpecialist] = useState<boolean>();
 
@@ -162,15 +162,13 @@ const PractitionerTable = (props: propsType) => {
   };
 
   return (
-    <Form form={form} component={false}>
-      <Table
-        bordered
-        rowKey={(obj) => obj.email}
-        dataSource={data}
-        columns={columns}
-        rowClassName="editable-row"
-      />
-    </Form>
+    <Table
+      rowKey={(obj) => obj.email}
+      dataSource={data}
+      columns={columns}
+      pagination={false}
+      className={classes.table}
+    />
   );
 };
 
