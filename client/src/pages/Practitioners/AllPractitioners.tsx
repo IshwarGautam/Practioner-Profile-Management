@@ -1,7 +1,7 @@
-import EditableTable from "../../components/Table/EditableTable";
+import PractitionerTable from "../../components/Table/PractitionerTable";
 
 function AllPractitioners() {
-  return <EditableTable />;
+  return <PractitionerTable />;
 }
 
 export default AllPractitioners;

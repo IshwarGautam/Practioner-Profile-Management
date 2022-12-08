@@ -13,10 +13,13 @@ function App() {
           <Route path="/" exact>
             <Form />
           </Route>
-          <Route path="/practitioner">
+          <Route path="/practitioner" exact>
             <AllPractitioners />
           </Route>
-          <Route path="/add-practitioner">
+          <Route path="/practitioner/form" exact>
+            <AddPractitioner />
+          </Route>
+          <Route path="/practitioner/form/:practitioner_id">
             <AddPractitioner />
           </Route>
         </Switch>

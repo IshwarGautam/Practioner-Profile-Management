@@ -1,6 +1,7 @@
 import express from "express";
 
 const {
+  getPractitioner,
   getPractitioners,
   addPractitioner,
   deletePractitioner,
@@ -12,6 +13,8 @@ const auth = require("../middlewares/auth");
 const practitionerRouter = express.Router();
 
 practitionerRouter.get("/", getPractitioners);
+
+practitionerRouter.get("/form/:practitioner_id", getPractitioner);
 
 practitionerRouter.post("/", addPractitioner);
 

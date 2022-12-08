@@ -30,6 +30,9 @@ const PractitionerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    icuSpecialist: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );

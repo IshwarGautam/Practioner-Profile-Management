@@ -29,9 +29,9 @@ function NavigationSection(props: NavigationSectionType) {
           </li>
           <li>
             <Link
-              to="/add-practitioner"
+              to="/practitioner/form"
               className={
-                props.url === "/add-practitioner"
+                props.url === "/practitioner/form"
                   ? classes.active
                   : classes.unactive
               }

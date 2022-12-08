@@ -28,8 +28,16 @@ const addPractitioner = async (req: Request, res: Response) => {
 const updatePractitioner = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
-  const { fullName, email, contact, dob, workingDays, startTime, endTime } =
-    req.body;
+  const {
+    fullName,
+    email,
+    contact,
+    dob,
+    workingDays,
+    startTime,
+    endTime,
+    icuSpecialist,
+  } = req.body;
 
   const newPractitioner = {
     fullName,
@@ -39,6 +47,7 @@ const updatePractitioner = async (req: Request, res: Response) => {
     workingDays,
     startTime,
     endTime,
+    icuSpecialist,
   };
 
   try {
@@ -64,6 +73,18 @@ const deletePractitioner = async (req: Request, res: Response) => {
   }
 };
 
+const getPractitioner = async (req: Request, res: Response) => {
+  const id = req.params.practitioner_id;
+
+  try {
+    const practitioner = await practitionerModel.find({ _id: id });
+    res.status(202).json(practitioner);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
 const getPractitioners = async (req: Request, res: Response) => {
   try {
     const practitioners = await practitionerModel.find();
@@ -76,7 +97,8 @@ const getPractitioners = async (req: Request, res: Response) => {
 
 module.exports = {
   addPractitioner,
+  getPractitioner,
+  getPractitioners,
   updatePractitioner,
   deletePractitioner,
-  getPractitioners,
 };
