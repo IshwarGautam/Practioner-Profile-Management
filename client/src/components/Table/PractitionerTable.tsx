@@ -20,7 +20,11 @@ type NewDataType = {
   icuSpecialist: boolean;
 };
 
-const EditableTable: React.FC = () => {
+type propsType = {
+  token: string;
+};
+
+const PractitionerTable = (props: propsType) => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [data, setData] = useState<any>([]);
@@ -111,22 +115,26 @@ const EditableTable: React.FC = () => {
   ];
 
   useEffect(() => {
-    http.get("/practitioner").then((response) => {
-      const icuSpecialistPractitioners = response.data.filter(
-        (data: any) => data.icuSpecialist
-      );
+    http
+      .get("/practitioner", {
+        headers: { Authorization: `Bearer ${props.token}` },
+      })
+      .then((response) => {
+        const icuSpecialistPractitioners = response.data.filter(
+          (data: any) => data.icuSpecialist
+        );
 
-      icuSpecialistPractitioners.sort(
-        (practitioner1: any, practitioner2: any) =>
-          practitioner1.fullName.localeCompare(practitioner2.fullName)
-      );
+        icuSpecialistPractitioners.sort(
+          (practitioner1: any, practitioner2: any) =>
+            practitioner1.fullName.localeCompare(practitioner2.fullName)
+        );
 
-      const nonSpecialistPractitioners = response.data.filter(
-        (data: any) => !data.icuSpecialist
-      );
+        const nonSpecialistPractitioners = response.data.filter(
+          (data: any) => !data.icuSpecialist
+        );
 
-      setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
-    });
+        setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
+      });
   }, [isIcuSpecialist]);
 
   const edit = (record: Item) => {
@@ -139,12 +147,18 @@ const EditableTable: React.FC = () => {
     setIsIcuSpecialist(checked);
 
     http
-      .put(`/practitioner/${updateData?._id}`, updateData)
+      .put(`/practitioner/${updateData?._id}`, updateData, {
+        headers: { Authorization: `Bearer ${props.token}` },
+      })
       .catch((error) => console.log(error));
   };
 
   const onDelete = async (key: React.Key) => {
-    http.delete(`/practitioner/${key}`).catch((error) => console.log(error));
+    http
+      .delete(`/practitioner/${key}`, {
+        headers: { Authorization: `Bearer ${props.token}` },
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -160,4 +174,4 @@ const EditableTable: React.FC = () => {
   );
 };
 
-export default EditableTable;
+export default PractitionerTable;

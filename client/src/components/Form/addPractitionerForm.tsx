@@ -6,7 +6,11 @@ import classes from "./addPractitionerForm.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
-export default function AddPractionerForm(props: object) {
+type propsType = {
+  token: string;
+};
+
+export default function AddPractionerForm(props: propsType) {
   const history = useHistory();
 
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -14,7 +18,9 @@ export default function AddPractionerForm(props: object) {
   const onSubmit = (data: any) => {
     if (practitioner_id) {
       http
-        .put(`/practitioner/${practitioner_id}`, data)
+        .put(`/practitioner/${practitioner_id}`, data, {
+          headers: { Authorization: `Bearer ${props.token}` },
+        })
         .then(() => {
           history.replace("/practitioner");
         })
@@ -23,7 +29,9 @@ export default function AddPractionerForm(props: object) {
         });
     } else {
       http
-        .post("/practitioner", data)
+        .post("/practitioner", data, {
+          headers: { Authorization: `Bearer ${props.token}` },
+        })
         .then(() => {
           history.replace("/practitioner");
         })
@@ -54,7 +62,9 @@ export default function AddPractionerForm(props: object) {
   if (practitioner_id) {
     useEffect(() => {
       http
-        .get(`/practitioner/form/${practitioner_id}`)
+        .get(`/practitioner/form/${practitioner_id}`, {
+          headers: { Authorization: `Bearer ${props.token}` },
+        })
         .then((response) => {
           setPractitionerDetail(response.data[0]);
         })

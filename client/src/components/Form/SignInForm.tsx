@@ -1,9 +1,8 @@
-import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import bgImg from "../../assets/img1.jpg";
 import { http } from "../../services/http";
-
 import { useHistory } from "react-router-dom";
+import { MouseEventHandler, useState } from "react";
 
 type FormType = {
   onClick: MouseEventHandler;
@@ -23,7 +22,8 @@ export default function Form(props: FormType) {
   const onSubmit = (data: object) => {
     http
       .post("/users/signin/", data)
-      .then(() => {
+      .then((response) => {
+        localStorage.setItem("userToken", JSON.stringify(response.data.token));
         history.replace("/practitioner");
       })
       .catch((error) => {
