@@ -22,11 +22,8 @@ function Layout(props: LayoutType) {
 
   return (
     <div>
-      {url !== "/" && <NavigationSection url={url} />}
-      {url !== "/" && (
-        <main className={classes.dashboard}>{props.children}</main>
-      )}
-      {url === "/" && <main>{props.children}</main>}
+      <NavigationSection url={url} />
+      <main className={classes.dashboard}>{props.children}</main>
     </div>
   );
 }

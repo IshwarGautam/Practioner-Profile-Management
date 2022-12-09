@@ -2,7 +2,7 @@ import bgImg from "../../assets/img2.jpg";
 import { useForm } from "react-hook-form";
 import { http } from "../../services/http";
 import { useEffect, useState } from "react";
-import classes from "./addPractitionerForm.module.css";
+import classes from "./PractitionerForm.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
@@ -14,6 +14,8 @@ export default function AddPractionerForm(props: propsType) {
   const history = useHistory();
 
   const [errorMessage, setErrorMessage] = useState<string>();
+
+  const { practitioner_id } = useParams<{ practitioner_id?: string }>();
 
   const onSubmit = (data: any) => {
     if (practitioner_id) {
@@ -51,8 +53,6 @@ export default function AddPractionerForm(props: propsType) {
     endTime: "",
   });
 
-  const { practitioner_id } = useParams<{ practitioner_id?: string }>();
-
   const {
     register,
     handleSubmit,
@@ -68,7 +68,9 @@ export default function AddPractionerForm(props: propsType) {
         .then((response) => {
           setPractitionerDetail(response.data[0]);
         })
-        .catch((error) => console.log(error));
+        .catch(() => {
+          history.replace("/practitioner-not-found");
+        });
     }, []);
   }
 

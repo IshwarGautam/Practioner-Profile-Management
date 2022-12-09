@@ -1,12 +1,19 @@
+import { useHistory } from "react-router-dom";
 import classes from "./AddPractitioner.module.css";
-import AddPractionerForm from "../../components/Form/addPractitionerForm";
+import PractionerForm from "../../components/Form/PractitionerForm";
 
 function AddPractitioner() {
+  const history = useHistory();
+
   const token = localStorage.getItem("userToken");
+
+  if (!token) {
+    history.replace("/");
+  }
 
   return (
     <div className={classes.PractitionerForm}>
-      <AddPractionerForm token={token && JSON.parse(token)} />
+      <PractionerForm token={token && JSON.parse(token)} />
     </div>
   );
 }

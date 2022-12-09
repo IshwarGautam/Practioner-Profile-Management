@@ -1,0 +1,32 @@
+.PageNotFound {
+  color: white;
+  margin-top: 200px;
+  text-align: center;
+}
+
+.title {
+  font-size: 60px;
+  text-shadow: 4px 4px 8px #000000;
+}
+
+.subtitle {
+  font-size: 30px;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.button {
+  margin-top: 40px;
+}
+
+.redirect {
+  padding: 10px;
+  font-size: 25px;
+  cursor: pointer;
+  background: green;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.redirect:hover {
+  background: blue;
+}
