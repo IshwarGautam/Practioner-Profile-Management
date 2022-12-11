@@ -117,5 +117,14 @@ body {
   table
   thead.ant-table-thead
   .ant-table-cell {
+  text-align: center;
   background-color: rgb(130, 161, 130);
+}
+
+.ant-table-wrapper .ant-table-tbody {
+  text-align: center;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background: rgba(67, 76, 196, 0.158) !important;
 }

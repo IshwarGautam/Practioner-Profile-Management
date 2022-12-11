@@ -1,10 +1,11 @@
 import { http } from "../../services/http";
 import { useHistory } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import classes from "./PractitionerTable.module.css";
-import { Switch, Popconfirm, Table, Typography } from "antd";
+import { Switch, Popconfirm, Table, Typography, Avatar } from "antd";
 
-interface Item {
+type Item = {
   _id: string;
   fullName: string;
   email: string;
@@ -14,7 +15,7 @@ interface Item {
   startTime: string;
   endTime: string;
   icuSpecialist: boolean;
-}
+};
 
 type NewDataType = {
   _id?: string;
@@ -28,55 +29,54 @@ type propsType = {
 const PractitionerTable = (props: propsType) => {
   const history = useHistory();
   const [data, setData] = useState<any>([]);
-  const [isIcuSpecialist, setIsIcuSpecialist] = useState<boolean>();
+
+  const [count, setCount] = useState(0);
 
   const columns = [
     {
-      title: "Full Name",
-      dataIndex: "fullName",
-      key: "fullName",
-      editable: true,
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      editable: true,
+      title: "Basic Info",
+      dataIndex: "basicInfo",
+      render: (_: any, record: Item) => {
+        return (
+          <div className={classes.basicInfo}>
+            <Avatar size={64} icon={<UserOutlined />}></Avatar>
+            <div className={classes.infoContainer}>
+              <div className={classes.fullName}>{record.fullName}</div>
+              <div className={classes.email}>{record.email}</div>
+            </div>
+          </div>
+        );
+      },
     },
 
     {
       title: "Contact",
       dataIndex: "contact",
       key: "contact",
-      editable: true,
     },
 
     {
       title: "Date of Birth",
       dataIndex: "dob",
       key: "dob",
-      editable: true,
     },
 
     {
       title: "Working Days",
       dataIndex: "workingDays",
       key: "workingDays",
-      editable: true,
     },
 
     {
       title: "Start Time",
       dataIndex: "startTime",
       key: "startTime",
-      editable: true,
     },
 
     {
       title: "End Time",
       dataIndex: "endTime",
       key: "endTime",
-      editable: true,
     },
     {
       title: "operation",
@@ -135,7 +135,7 @@ const PractitionerTable = (props: propsType) => {
 
         setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
       });
-  }, [isIcuSpecialist]);
+  }, [count]);
 
   const edit = (record: Item) => {
     history.push(`/practitioner/form/${record._id}`);
@@ -144,11 +144,12 @@ const PractitionerTable = (props: propsType) => {
   const onChangeSpecialist = (record: object, checked: boolean) => {
     const updateData: NewDataType = { ...record, icuSpecialist: checked };
 
-    setIsIcuSpecialist(checked);
-
     http
       .put(`/practitioner/${updateData?._id}`, updateData, {
         headers: { Authorization: `Bearer ${props.token}` },
+      })
+      .then(() => {
+        setCount((c) => c + 1);
       })
       .catch((error) => console.log(error));
   };
@@ -157,6 +158,9 @@ const PractitionerTable = (props: propsType) => {
     http
       .delete(`/practitioner/${key}`, {
         headers: { Authorization: `Bearer ${props.token}` },
+      })
+      .then(() => {
+        setCount((c) => c + 1);
       })
       .catch((error) => console.log(error));
   };

@@ -23,7 +23,8 @@ export default function Form(props: FormType) {
       .post("/users/signup/", data)
       .then(() => {
         setErrorMessage("");
-        alert("User Successfully Registered!");
+
+        props.onClick();
       })
       .catch((error) => {
         if (error.response.status === 409) {
@@ -48,6 +49,18 @@ export default function Form(props: FormType) {
             className="flex flex-col max-width"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <input
+              type="text"
+              {...register("username", {
+                required: true,
+              })}
+              placeholder="User Name"
+            />
+
+            {errors.username?.type === "required" && (
+              <div className="errorMsg">User Name is required.</div>
+            )}
+
             <input
               type="text"
               {...register("email", {

@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const userModel = require("../models/user");
-const SECRET_KEY = "ISHWAR";
+
+const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
 const signup = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
     const existingUser = await userModel.findOne({ email });
@@ -19,6 +19,7 @@ const signup = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const userData = await userModel.create({
+      username,
       email,
       password: hashedPassword,
     });

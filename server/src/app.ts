@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 import express, { Application } from "express";
 
+require("dotenv").config();
+
 const cors = require("cors");
 const userRouter = require("./routes/userRoutes");
 const practitionerRouter = require("./routes/practitionerRoutes");
 
 const app: Application = express();
-const port: number = 5000;
+const port: number = (process.env.PORT && parseInt(process.env.PORT)) || 8000;
 
 app.use(express.json());
 app.use(cors());

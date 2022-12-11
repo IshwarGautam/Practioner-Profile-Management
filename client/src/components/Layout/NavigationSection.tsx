@@ -1,6 +1,8 @@
-import { Popconfirm } from "antd";
+import { Popconfirm, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import useUserStore from "../../store/userStore";
+import { UserOutlined } from "@ant-design/icons";
 import classes from "./NavigationSection.module.css";
 
 type NavigationSectionType = {
@@ -9,6 +11,8 @@ type NavigationSectionType = {
 
 function NavigationSection(props: NavigationSectionType) {
   const history = useHistory();
+
+  const activeUser = useUserStore((state: any) => state.userName);
 
   const onLogout = () => {
     history.replace("/");
@@ -19,7 +23,10 @@ function NavigationSection(props: NavigationSectionType) {
     <header className={classes.header}>
       <div className={classes.logo}>
         <Link to="/practitioner" className={classes.unactive}>
-          PRACTITIONERS
+          <div className={classes.userLogo}>
+            <Avatar size={64} icon={<UserOutlined />}></Avatar>
+            <div className={classes.activeUser}>{activeUser}</div>
+          </div>
         </Link>
       </div>
       <nav>
@@ -33,7 +40,7 @@ function NavigationSection(props: NavigationSectionType) {
                   : classes.unactive
               }
             >
-              All Practioners
+              All Practitioners
             </Link>
           </li>
           <li>

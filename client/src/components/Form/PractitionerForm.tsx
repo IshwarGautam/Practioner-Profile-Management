@@ -10,14 +10,14 @@ type propsType = {
   token: string;
 };
 
-export default function AddPractionerForm(props: propsType) {
+export default function PractitionerForm(props: propsType) {
   const history = useHistory();
 
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [errorMessage] = useState<string>();
 
-  const { practitioner_id } = useParams<{ practitioner_id?: string }>();
+  let { practitioner_id } = useParams<{ practitioner_id?: string }>();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: object) => {
     if (practitioner_id) {
       http
         .put(`/practitioner/${practitioner_id}`, data, {
@@ -43,7 +43,7 @@ export default function AddPractionerForm(props: propsType) {
     }
   };
 
-  let [practitionerDetail, setPractitionerDetail] = useState({
+  const initialState = {
     fullName: "",
     email: "",
     contact: "",
@@ -51,16 +51,19 @@ export default function AddPractionerForm(props: propsType) {
     workingDays: "",
     startTime: "",
     endTime: "",
-  });
+  };
+
+  let [practitionerDetail, setPractitionerDetail] = useState(initialState);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  if (practitioner_id) {
-    useEffect(() => {
+  useEffect(() => {
+    if (practitioner_id) {
       http
         .get(`/practitioner/form/${practitioner_id}`, {
           headers: { Authorization: `Bearer ${props.token}` },
@@ -71,8 +74,10 @@ export default function AddPractionerForm(props: propsType) {
         .catch(() => {
           history.replace("/practitioner-not-found");
         });
-    }, []);
-  }
+    } else {
+      reset((practitionerDetail = initialState));
+    }
+  }, [practitioner_id]);
 
   return (
     <section>

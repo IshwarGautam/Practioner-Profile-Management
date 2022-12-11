@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import bgImg from "../../assets/img1.jpg";
 import { http } from "../../services/http";
 import { useHistory } from "react-router-dom";
+import useUserStore from "../../store/userStore";
 import { MouseEventHandler, useState } from "react";
 
 type FormType = {
@@ -17,6 +18,8 @@ export default function Form(props: FormType) {
 
   const history = useHistory();
 
+  const setActiveUser = useUserStore((state: any) => state.getActiveUserName);
+
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSubmit = (data: object) => {
@@ -24,6 +27,9 @@ export default function Form(props: FormType) {
       .post("/users/signin/", data)
       .then((response) => {
         localStorage.setItem("userToken", JSON.stringify(response.data.token));
+
+        setActiveUser(response.data.user.username);
+
         history.replace("/practitioner");
       })
       .catch((error) => {

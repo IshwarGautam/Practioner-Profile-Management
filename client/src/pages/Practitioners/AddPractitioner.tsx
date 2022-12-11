@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 import classes from "./AddPractitioner.module.css";
-import PractionerForm from "../../components/Form/PractitionerForm";
+import PractitionerForm from "../../components/Form/PractitionerForm";
 
 function AddPractitioner() {
   const history = useHistory();
@@ -13,7 +13,7 @@ function AddPractitioner() {
 
   return (
     <div className={classes.PractitionerForm}>
-      <PractionerForm token={token && JSON.parse(token)} />
+      <PractitionerForm token={token && JSON.parse(token)} />
     </div>
   );
 }

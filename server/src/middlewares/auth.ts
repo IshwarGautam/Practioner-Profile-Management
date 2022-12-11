@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "ISHWAR";
+const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
