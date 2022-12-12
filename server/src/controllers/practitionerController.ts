@@ -3,8 +3,16 @@ import { Request, Response } from "express";
 const practitionerModel = require("../models/practitioner");
 
 const addPractitioner = async (req: Request, res: Response) => {
-  const { fullName, email, contact, dob, workingDays, startTime, endTime } =
-    req.body;
+  const {
+    fullName,
+    email,
+    contact,
+    dob,
+    workingDays,
+    startTime,
+    endTime,
+    assetUrl,
+  } = req.body;
 
   const newPractitioner = new practitionerModel({
     fullName,
@@ -14,6 +22,7 @@ const addPractitioner = async (req: Request, res: Response) => {
     workingDays,
     startTime,
     endTime,
+    assetUrl,
   });
 
   try {
@@ -37,6 +46,7 @@ const updatePractitioner = async (req: Request, res: Response) => {
     startTime,
     endTime,
     icuSpecialist,
+    assetUrl,
   } = req.body;
 
   const newPractitioner = {
@@ -48,6 +58,7 @@ const updatePractitioner = async (req: Request, res: Response) => {
     startTime,
     endTime,
     icuSpecialist,
+    assetUrl,
   };
 
   try {

@@ -1,29 +1,25 @@
+import label from "../../utils/label";
+import http from "../../services/http";
 import bgImg from "../../assets/img2.jpg";
 import { useForm } from "react-hook-form";
-import { http } from "../../services/http";
 import { useEffect, useState } from "react";
 import classes from "./PractitionerForm.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
-type propsType = {
-  token: string;
-};
-
-export default function PractitionerForm(props: propsType) {
+export default function PractitionerForm() {
   const history = useHistory();
 
-  const [errorMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   let { practitioner_id } = useParams<{ practitioner_id?: string }>();
 
   const onSubmit = (data: object) => {
     if (practitioner_id) {
       http
-        .put(`/practitioner/${practitioner_id}`, data, {
-          headers: { Authorization: `Bearer ${props.token}` },
-        })
+        .put(`/practitioner/${practitioner_id}`, data)
         .then(() => {
+          if (photo) submitPhoto();
           history.replace("/practitioner");
         })
         .catch((error) => {
@@ -31,10 +27,9 @@ export default function PractitionerForm(props: propsType) {
         });
     } else {
       http
-        .post("/practitioner", data, {
-          headers: { Authorization: `Bearer ${props.token}` },
-        })
+        .post("/practitioner", data)
         .then(() => {
+          if (photo) submitPhoto();
           history.replace("/practitioner");
         })
         .catch((error) => {
@@ -53,7 +48,11 @@ export default function PractitionerForm(props: propsType) {
     endTime: "",
   };
 
+  const required: Boolean = true;
+
   let [practitionerDetail, setPractitionerDetail] = useState(initialState);
+
+  const [photo, setPhoto] = useState<Blob | any>(new Blob());
 
   const {
     register,
@@ -65,9 +64,7 @@ export default function PractitionerForm(props: propsType) {
   useEffect(() => {
     if (practitioner_id) {
       http
-        .get(`/practitioner/form/${practitioner_id}`, {
-          headers: { Authorization: `Bearer ${props.token}` },
-        })
+        .get(`/practitioner/form/${practitioner_id}`)
         .then((response) => {
           setPractitionerDetail(response.data[0]);
         })
@@ -78,6 +75,41 @@ export default function PractitionerForm(props: propsType) {
       reset((practitionerDetail = initialState));
     }
   }, [practitioner_id]);
+
+  const submitPhoto = () => {
+    const data = new FormData();
+
+    data.append("file", photo);
+    data.append("upload_preset", "practitioner_profile_management");
+    data.append("cloud_name", "dly7e04zt");
+    data.append("folder", "Practitioner-project-all-images");
+
+    http
+      .post("https://api.cloudinary.com/v1_1/dly7e04zt/image/upload", data)
+      .then((res) => {
+        console.log(res);
+        http.put(`/practitioner/${practitioner_id}`, {
+          ...practitionerDetail,
+          assetUrl: res.data.url,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  interface fileType {
+    type: string;
+  }
+
+  const setPhotoAfterValidation = (file: fileType | null) => {
+    const acceptType = ["image/jpeg", "image/jpg", "image/png"];
+
+    if (file && acceptType.includes(file.type)) {
+      setPhoto(file);
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Only jpg, jpeg and png file are allowed.");
+    }
+  };
 
   return (
     <section>
@@ -96,7 +128,7 @@ export default function PractitionerForm(props: propsType) {
           >
             {(practitionerDetail.fullName || !practitioner_id) && (
               <div className={classes.FormControl}>
-                <label>Full Name:</label>
+                {label("Full Name", required)}
                 <input
                   className={classes.InputStyle}
                   type="text"
@@ -115,7 +147,7 @@ export default function PractitionerForm(props: propsType) {
 
             {(practitionerDetail.email || !practitioner_id) && (
               <div className={classes.FormControl}>
-                <label>Email:</label>
+                {label("Email", required)}
                 <input
                   type="email"
                   defaultValue={practitionerDetail.email}
@@ -140,7 +172,7 @@ export default function PractitionerForm(props: propsType) {
 
             {(practitionerDetail.contact || !practitioner_id) && (
               <div className={classes.FormControl}>
-                <label>Contact:</label>
+                {label("Contact", required)}
                 <input
                   type="number"
                   defaultValue={practitionerDetail.contact}
@@ -168,7 +200,7 @@ export default function PractitionerForm(props: propsType) {
 
             {(practitionerDetail.dob || !practitioner_id) && (
               <div className={classes.FormControl}>
-                <label>Date of birth:</label>
+                {label("Date of birth", required)}
                 <input
                   type="date"
                   defaultValue={practitionerDetail.dob}
@@ -188,7 +220,7 @@ export default function PractitionerForm(props: propsType) {
 
             {(practitionerDetail.workingDays || !practitioner_id) && (
               <div className={classes.FormControl}>
-                <label>Working Days:</label>
+                {label("Working Days", required)}
                 <input
                   type="number"
                   defaultValue={practitionerDetail.workingDays}
@@ -211,7 +243,7 @@ export default function PractitionerForm(props: propsType) {
 
             {(practitionerDetail.startTime || !practitioner_id) && (
               <div className={classes.FormControl}>
-                <label>Start Time:</label>
+                {label("Start Time", required)}
                 <input
                   type="Time"
                   defaultValue={practitionerDetail.startTime}
@@ -229,7 +261,7 @@ export default function PractitionerForm(props: propsType) {
 
             {(practitionerDetail.endTime || !practitioner_id) && (
               <div className={classes.FormControl}>
-                <label>End Time:</label>
+                {label("End Time", required)}
                 <input
                   type="Time"
                   defaultValue={practitionerDetail.endTime}
@@ -244,10 +276,24 @@ export default function PractitionerForm(props: propsType) {
             {errors.endTime?.type === "required" && (
               <div className={classes.errorMsg}>Please fill end time.</div>
             )}
-            <button className="btn">{practitioner_id ? "Edit" : "Add"}</button>
+
+            <div className={classes.FormControl}>
+              {label("Upload Photo")}
+              <input
+                type="file"
+                id="img"
+                accept=".jpg, .jpeg, .png"
+                className={classes.uploadPhoto}
+                onChange={(e) =>
+                  setPhotoAfterValidation(e.target.files && e.target.files[0])
+                }
+              />
+            </div>
             {errorMessage && (
               <div className={classes.errorMsg}> {errorMessage} </div>
             )}
+
+            <button className="btn">{practitioner_id ? "Edit" : "Add"}</button>
           </form>
         </div>
         <div>

@@ -128,3 +128,28 @@ body {
 .ant-table-tbody > tr.ant-table-row:hover > td {
   background: rgba(67, 76, 196, 0.158) !important;
 }
+
+.required-field {
+  color: red;
+}
+
+.input-label {
+  display: flex;
+  width: 200px;
+  margin: auto;
+}
+
+label {
+  text-shadow: 1px 1px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}

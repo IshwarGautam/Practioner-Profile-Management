@@ -1,11 +1,11 @@
 import bgImg from "../../assets/img1.jpg";
 import { useForm } from "react-hook-form";
-import { http } from "../../services/http";
+import http from "../../services/http";
 import { MouseEventHandler, useState } from "react";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
 type FormType = {
-  onClick: MouseEventHandler;
+  onClick: MouseEventHandler | any;
 };
 
 export default function Form(props: FormType) {
@@ -79,7 +79,7 @@ export default function Form(props: FormType) {
             )}
 
             <input
-              type="text"
+              type="password"
               {...register("password", {
                 required: true,
                 minLength: 5,
@@ -96,7 +96,7 @@ export default function Form(props: FormType) {
             )}
 
             <input
-              type="text"
+              type="password"
               {...register("confirmPassword", {
                 required: true,
                 validate: (val: string) => {

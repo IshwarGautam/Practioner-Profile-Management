@@ -1,4 +1,4 @@
-import { http } from "../../services/http";
+import http from "../../services/http";
 import { useHistory } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
@@ -15,6 +15,7 @@ type Item = {
   startTime: string;
   endTime: string;
   icuSpecialist: boolean;
+  assetUrl: string;
 };
 
 type NewDataType = {
@@ -22,11 +23,7 @@ type NewDataType = {
   icuSpecialist: boolean;
 };
 
-type propsType = {
-  token: string;
-};
-
-const PractitionerTable = (props: propsType) => {
+const PractitionerTable = () => {
   const history = useHistory();
   const [data, setData] = useState<any>([]);
 
@@ -39,7 +36,11 @@ const PractitionerTable = (props: propsType) => {
       render: (_: any, record: Item) => {
         return (
           <div className={classes.basicInfo}>
-            <Avatar size={64} icon={<UserOutlined />}></Avatar>
+            <Avatar
+              size={64}
+              icon={<UserOutlined />}
+              src={record.assetUrl}
+            ></Avatar>
             <div className={classes.infoContainer}>
               <div className={classes.fullName}>{record.fullName}</div>
               <div className={classes.email}>{record.email}</div>
@@ -115,26 +116,22 @@ const PractitionerTable = (props: propsType) => {
   ];
 
   useEffect(() => {
-    http
-      .get("/practitioner", {
-        headers: { Authorization: `Bearer ${props.token}` },
-      })
-      .then((response) => {
-        const icuSpecialistPractitioners = response.data.filter(
-          (data: any) => data.icuSpecialist
-        );
+    http.get("/practitioner").then((response) => {
+      const icuSpecialistPractitioners = response.data.filter(
+        (data: any) => data.icuSpecialist
+      );
 
-        icuSpecialistPractitioners.sort(
-          (practitioner1: any, practitioner2: any) =>
-            practitioner1.fullName.localeCompare(practitioner2.fullName)
-        );
+      icuSpecialistPractitioners.sort(
+        (practitioner1: any, practitioner2: any) =>
+          practitioner1.fullName.localeCompare(practitioner2.fullName)
+      );
 
-        const nonSpecialistPractitioners = response.data.filter(
-          (data: any) => !data.icuSpecialist
-        );
+      const nonSpecialistPractitioners = response.data.filter(
+        (data: any) => !data.icuSpecialist
+      );
 
-        setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
-      });
+      setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
+    });
   }, [count]);
 
   const edit = (record: Item) => {
@@ -145,9 +142,7 @@ const PractitionerTable = (props: propsType) => {
     const updateData: NewDataType = { ...record, icuSpecialist: checked };
 
     http
-      .put(`/practitioner/${updateData?._id}`, updateData, {
-        headers: { Authorization: `Bearer ${props.token}` },
-      })
+      .put(`/practitioner/${updateData?._id}`, updateData)
       .then(() => {
         setCount((c) => c + 1);
       })
@@ -156,9 +151,7 @@ const PractitionerTable = (props: propsType) => {
 
   const onDelete = async (key: React.Key) => {
     http
-      .delete(`/practitioner/${key}`, {
-        headers: { Authorization: `Bearer ${props.token}` },
-      })
+      .delete(`/practitioner/${key}`)
       .then(() => {
         setCount((c) => c + 1);
       })

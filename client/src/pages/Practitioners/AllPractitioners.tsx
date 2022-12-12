@@ -13,7 +13,7 @@ function AllPractitioners() {
 
   return (
     <div className={classes.PractitionerTable}>
-      <PractitionerTable token={token && JSON.parse(token)} />
+      <PractitionerTable />
     </div>
   );
 }
