@@ -1,3 +1,5 @@
+import axios from "axios";
+import { Spin } from "antd";
 import label from "../../utils/label";
 import http from "../../services/http";
 import bgImg from "../../assets/img2.jpg";
@@ -7,36 +9,20 @@ import classes from "./PractitionerForm.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
+interface fileType {
+  type: string;
+}
+
 export default function PractitionerForm() {
   const history = useHistory();
+  const required: Boolean = true;
 
+  const [loading, setIsLoading] = useState(false);
+  const [photo, setPhoto] = useState<string | Blob>("");
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [isPhotoChanged, setIsPhotoChanged] = useState(false);
 
   let { practitioner_id } = useParams<{ practitioner_id?: string }>();
-
-  const onSubmit = (data: object) => {
-    if (practitioner_id) {
-      http
-        .put(`/practitioner/${practitioner_id}`, data)
-        .then(() => {
-          if (photo) submitPhoto();
-          history.replace("/practitioner");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      http
-        .post("/practitioner", data)
-        .then(() => {
-          if (photo) submitPhoto();
-          history.replace("/practitioner");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
 
   const initialState = {
     fullName: "",
@@ -48,11 +34,7 @@ export default function PractitionerForm() {
     endTime: "",
   };
 
-  const required: Boolean = true;
-
   let [practitionerDetail, setPractitionerDetail] = useState(initialState);
-
-  const [photo, setPhoto] = useState<Blob | any>(new Blob());
 
   const {
     register,
@@ -63,6 +45,7 @@ export default function PractitionerForm() {
 
   useEffect(() => {
     if (practitioner_id) {
+      setIsLoading(true);
       http
         .get(`/practitioner/form/${practitioner_id}`)
         .then((response) => {
@@ -70,42 +53,75 @@ export default function PractitionerForm() {
         })
         .catch(() => {
           history.replace("/practitioner-not-found");
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else {
       reset((practitionerDetail = initialState));
     }
   }, [practitioner_id]);
 
-  const submitPhoto = () => {
-    const data = new FormData();
+  const onSubmit = (data: object) => {
+    setIsLoading(true);
+    if (isPhotoChanged) {
+      const imageData = new FormData();
 
-    data.append("file", photo);
-    data.append("upload_preset", "practitioner_profile_management");
-    data.append("cloud_name", "dly7e04zt");
-    data.append("folder", "Practitioner-project-all-images");
+      imageData.append("file", photo);
+      imageData.append("upload_preset", "practitioner_profile_management");
 
-    http
-      .post("https://api.cloudinary.com/v1_1/dly7e04zt/image/upload", data)
-      .then((res) => {
-        console.log(res);
-        http.put(`/practitioner/${practitioner_id}`, {
-          ...practitionerDetail,
-          assetUrl: res.data.url,
+      axios
+        .post(
+          "https://api.cloudinary.com/v1_1/dly7e04zt/image/upload",
+          imageData
+        )
+        .then((res) => {
+          updatePractitionerData({ ...data, assetUrl: res.data.url });
+        })
+        .catch((error) => console.log(error))
+        .finally(() => {
+          setIsLoading(false);
         });
-      })
-      .catch((error) => console.log(error));
+    } else {
+      updatePractitionerData(data);
+    }
   };
 
-  interface fileType {
-    type: string;
-  }
+  const updatePractitionerData = (data: object) => {
+    if (practitioner_id) {
+      http
+        .put(`/practitioner/${practitioner_id}`, data)
+        .then(() => {
+          history.replace("/practitioner");
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      http
+        .post("/practitioner", data)
+        .then(() => {
+          history.replace("/practitioner");
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  };
 
-  const setPhotoAfterValidation = (file: fileType | null) => {
+  const setPhotoAfterValidation = (file: fileType | null | any) => {
     const acceptType = ["image/jpeg", "image/jpg", "image/png"];
 
     if (file && acceptType.includes(file.type)) {
       setPhoto(file);
       setErrorMessage("");
+      setIsPhotoChanged(true);
     } else {
       setErrorMessage("Only jpg, jpeg and png file are allowed.");
     }
@@ -113,193 +129,197 @@ export default function PractitionerForm() {
 
   return (
     <section>
-      <div className={classes.addPractitioner}>
-        <div className={classes.col1}>
-          <h2>{practitioner_id ? `Edit ` : `Add New `}Practitioner</h2>
-          <div className={classes.subTitle}>
-            {practitioner_id
-              ? `Update practitioner with new data.`
-              : `Fill the details of new practitioner.`}
-          </div>
-          <form
-            id="form"
-            className={classes.form}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {(practitionerDetail.fullName || !practitioner_id) && (
-              <div className={classes.FormControl}>
-                {label("Full Name", required)}
-                <input
-                  className={classes.InputStyle}
-                  type="text"
-                  placeholder="Full Name"
-                  defaultValue={practitionerDetail.fullName}
-                  {...register("fullName", {
-                    required: true,
-                  })}
-                />
-              </div>
-            )}
-
-            {errors.fullName?.type === "required" && (
-              <div className={classes.errorMsg}>Name is required.</div>
-            )}
-
-            {(practitionerDetail.email || !practitioner_id) && (
-              <div className={classes.FormControl}>
-                {label("Email", required)}
-                <input
-                  type="email"
-                  defaultValue={practitionerDetail.email}
-                  className={classes.InputStyle}
-                  {...register("email", {
-                    required: true,
-                    validate: handleEmailValidation,
-                  })}
-                  placeholder="Email"
-                />
-              </div>
-            )}
-
-            {errors.email?.type === "required" && (
-              <div className={classes.errorMsg}>Email is required.</div>
-            )}
-            {errors.email?.message && (
-              <div className={classes.errorMsg}>
-                {errors.email.message?.toString()}
-              </div>
-            )}
-
-            {(practitionerDetail.contact || !practitioner_id) && (
-              <div className={classes.FormControl}>
-                {label("Contact", required)}
-                <input
-                  type="number"
-                  defaultValue={practitionerDetail.contact}
-                  className={classes.InputStyle}
-                  {...register("contact", {
-                    required: true,
-                    minLength: 10,
-                  })}
-                  placeholder="Contact Number"
-                />
-              </div>
-            )}
-
-            {errors.contact?.type === "minLength" && (
-              <div className={classes.errorMsg}>
-                Minimum length should be 10.
-              </div>
-            )}
-
-            {errors.contact?.type === "required" && (
-              <div className={classes.errorMsg}>
-                Please provide your contact number.
-              </div>
-            )}
-
-            {(practitionerDetail.dob || !practitioner_id) && (
-              <div className={classes.FormControl}>
-                {label("Date of birth", required)}
-                <input
-                  type="date"
-                  defaultValue={practitionerDetail.dob}
-                  className={classes.InputStyle}
-                  {...register("dob", {
-                    required: true,
-                  })}
-                />
-              </div>
-            )}
-
-            {errors.dob?.type === "required" && (
-              <div className={classes.errorMsg}>
-                Please fill your date of birth.
-              </div>
-            )}
-
-            {(practitionerDetail.workingDays || !practitioner_id) && (
-              <div className={classes.FormControl}>
-                {label("Working Days", required)}
-                <input
-                  type="number"
-                  defaultValue={practitionerDetail.workingDays}
-                  className={classes.InputStyle}
-                  min={1}
-                  max={7}
-                  {...register("workingDays", {
-                    required: true,
-                  })}
-                  placeholder="Working Days"
-                />
-              </div>
-            )}
-
-            {errors.workingDays?.type === "required" && (
-              <div className={classes.errorMsg}>
-                Please fill your number of working days.
-              </div>
-            )}
-
-            {(practitionerDetail.startTime || !practitioner_id) && (
-              <div className={classes.FormControl}>
-                {label("Start Time", required)}
-                <input
-                  type="Time"
-                  defaultValue={practitionerDetail.startTime}
-                  className={classes.InputStyle}
-                  {...register("startTime", {
-                    required: true,
-                  })}
-                />
-              </div>
-            )}
-
-            {errors.startTime?.type === "required" && (
-              <div className={classes.errorMsg}>Please fill start time.</div>
-            )}
-
-            {(practitionerDetail.endTime || !practitioner_id) && (
-              <div className={classes.FormControl}>
-                {label("End Time", required)}
-                <input
-                  type="Time"
-                  defaultValue={practitionerDetail.endTime}
-                  className={classes.InputStyle}
-                  {...register("endTime", {
-                    required: true,
-                  })}
-                />
-              </div>
-            )}
-
-            {errors.endTime?.type === "required" && (
-              <div className={classes.errorMsg}>Please fill end time.</div>
-            )}
-
-            <div className={classes.FormControl}>
-              {label("Upload Photo")}
-              <input
-                type="file"
-                id="img"
-                accept=".jpg, .jpeg, .png"
-                className={classes.uploadPhoto}
-                onChange={(e) =>
-                  setPhotoAfterValidation(e.target.files && e.target.files[0])
-                }
-              />
+      {loading && <Spin tip="Loading" size="large" />}
+      {!loading && (
+        <div className={classes.addPractitioner}>
+          <div className={classes.col1}>
+            <h2>{practitioner_id ? `Edit ` : `Add New `}Practitioner</h2>
+            <div className={classes.subTitle}>
+              {practitioner_id
+                ? `Update practitioner with new data.`
+                : `Fill the details of new practitioner.`}
             </div>
-            {errorMessage && (
-              <div className={classes.errorMsg}> {errorMessage} </div>
-            )}
+            <form
+              id="form"
+              className={classes.form}
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              {(practitionerDetail.fullName || !practitioner_id) && (
+                <div className={classes.FormControl}>
+                  {label("Full Name", required)}
+                  <input
+                    className={classes.InputStyle}
+                    type="text"
+                    placeholder="Full Name"
+                    defaultValue={practitionerDetail.fullName}
+                    {...register("fullName", {
+                      required: true,
+                    })}
+                  />
+                </div>
+              )}
 
-            <button className="btn">{practitioner_id ? "Edit" : "Add"}</button>
-          </form>
+              {errors.fullName?.type === "required" && (
+                <div className={classes.errorMsg}>Name is required.</div>
+              )}
+
+              {(practitionerDetail.email || !practitioner_id) && (
+                <div className={classes.FormControl}>
+                  {label("Email", required)}
+                  <input
+                    type="email"
+                    defaultValue={practitionerDetail.email}
+                    className={classes.InputStyle}
+                    {...register("email", {
+                      required: true,
+                      validate: handleEmailValidation,
+                    })}
+                    placeholder="Email"
+                  />
+                </div>
+              )}
+
+              {errors.email?.type === "required" && (
+                <div className={classes.errorMsg}>Email is required.</div>
+              )}
+              {errors.email?.message && (
+                <div className={classes.errorMsg}>
+                  {errors.email.message?.toString()}
+                </div>
+              )}
+
+              {(practitionerDetail.contact || !practitioner_id) && (
+                <div className={classes.FormControl}>
+                  {label("Contact", required)}
+                  <input
+                    type="number"
+                    defaultValue={practitionerDetail.contact}
+                    className={classes.InputStyle}
+                    {...register("contact", {
+                      required: true,
+                      minLength: 10,
+                    })}
+                    placeholder="Contact Number"
+                  />
+                </div>
+              )}
+
+              {errors.contact?.type === "minLength" && (
+                <div className={classes.errorMsg}>
+                  Minimum length should be 10.
+                </div>
+              )}
+
+              {errors.contact?.type === "required" && (
+                <div className={classes.errorMsg}>
+                  Please provide your contact number.
+                </div>
+              )}
+
+              {(practitionerDetail.dob || !practitioner_id) && (
+                <div className={classes.FormControl}>
+                  {label("Date of birth", required)}
+                  <input
+                    type="date"
+                    defaultValue={practitionerDetail.dob}
+                    className={classes.InputStyle}
+                    {...register("dob", {
+                      required: true,
+                    })}
+                  />
+                </div>
+              )}
+
+              {errors.dob?.type === "required" && (
+                <div className={classes.errorMsg}>
+                  Please fill your date of birth.
+                </div>
+              )}
+
+              {(practitionerDetail.workingDays || !practitioner_id) && (
+                <div className={classes.FormControl}>
+                  {label("Working Days", required)}
+                  <input
+                    type="number"
+                    defaultValue={practitionerDetail.workingDays}
+                    className={classes.InputStyle}
+                    min={1}
+                    max={7}
+                    {...register("workingDays", {
+                      required: true,
+                    })}
+                    placeholder="Working Days"
+                  />
+                </div>
+              )}
+
+              {errors.workingDays?.type === "required" && (
+                <div className={classes.errorMsg}>
+                  Please fill your number of working days.
+                </div>
+              )}
+
+              {(practitionerDetail.startTime || !practitioner_id) && (
+                <div className={classes.FormControl}>
+                  {label("Start Time", required)}
+                  <input
+                    type="Time"
+                    defaultValue={practitionerDetail.startTime}
+                    className={classes.InputStyle}
+                    {...register("startTime", {
+                      required: true,
+                    })}
+                  />
+                </div>
+              )}
+
+              {errors.startTime?.type === "required" && (
+                <div className={classes.errorMsg}>Please fill start time.</div>
+              )}
+
+              {(practitionerDetail.endTime || !practitioner_id) && (
+                <div className={classes.FormControl}>
+                  {label("End Time", required)}
+                  <input
+                    type="Time"
+                    defaultValue={practitionerDetail.endTime}
+                    className={classes.InputStyle}
+                    {...register("endTime", {
+                      required: true,
+                    })}
+                  />
+                </div>
+              )}
+
+              {errors.endTime?.type === "required" && (
+                <div className={classes.errorMsg}>Please fill end time.</div>
+              )}
+
+              <div className={classes.FormControl}>
+                {label("Upload Photo")}
+                <input
+                  type="file"
+                  accept=".jpg, .jpeg, .png"
+                  className={classes.uploadPhoto}
+                  onChange={(e) =>
+                    setPhotoAfterValidation(e.target.files && e.target.files[0])
+                  }
+                />
+              </div>
+              {errorMessage && (
+                <div className={classes.errorMsg}> {errorMessage} </div>
+              )}
+
+              <button className="btn">
+                {practitioner_id ? "Edit" : "Add"}
+              </button>
+            </form>
+          </div>
+          <div>
+            <img src={bgImg} alt="Background Image" className={classes.col2} />
+          </div>
         </div>
-        <div>
-          <img src={bgImg} alt="Background Image" className={classes.col2} />
-        </div>
-      </div>
+      )}
     </section>
   );
 }

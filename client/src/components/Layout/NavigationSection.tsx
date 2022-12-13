@@ -1,7 +1,10 @@
-import { Popconfirm } from "antd";
+import { useState } from "react";
+import type { MenuProps } from "antd";
+import { Dropdown, Space } from "antd";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import useUserStore from "../../store/userStore";
+import { DownOutlined } from "@ant-design/icons";
 import classes from "./NavigationSection.module.css";
 
 type NavigationSectionType = {
@@ -11,24 +14,27 @@ type NavigationSectionType = {
 function NavigationSection(props: NavigationSectionType) {
   const history = useHistory();
 
-  const userInfo = useUserStore((state: any) => state.userInfo);
+  const userInfo = useUserStore((state) => state.userInfo);
 
-  const onLogout = () => {
+  const [redirect, setRedirect] = useState(false);
+
+  const items: MenuProps["items"] = [
+    {
+      label: <span>Log out</span>,
+      onClick: () => {
+        setRedirect(true);
+        localStorage.removeItem("userToken");
+      },
+      key: "0",
+    },
+  ];
+
+  if (redirect) {
     history.replace("/");
-    localStorage.removeItem("userToken");
-  };
+  }
 
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>
-        <Link to="/practitioner" className={classes.unactive}>
-          <div className={classes.userLogo}>
-            <div className={classes.activeUser}>
-              Hello, {userInfo.userName}!
-            </div>
-          </div>
-        </Link>
-      </div>
       <nav>
         <ul>
           <li>
@@ -55,17 +61,20 @@ function NavigationSection(props: NavigationSectionType) {
               Add Practitioner
             </Link>
           </li>
-          <li>
-            <Popconfirm
-              title="Sure to Logout?"
-              onConfirm={onLogout}
-              className={classes.logout}
-            >
-              <a>Log out</a>
-            </Popconfirm>
-          </li>
         </ul>
       </nav>
+      <div className={classes.logoSection}>
+        <div className={classes.activeUser}>Hello, {userInfo.userName}!</div>
+        <Dropdown
+          menu={{ items }}
+          trigger={["click"]}
+          className={classes.dropdown}
+        >
+          <Space>
+            <DownOutlined />
+          </Space>
+        </Dropdown>
+      </div>
     </header>
   );
 }

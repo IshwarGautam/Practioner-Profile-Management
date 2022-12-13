@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom";
+import useUserStore from "../../store/userStore";
 import { MouseEventHandler, useState } from "react";
 
 import SignInForm from "../../components/Form/SignInForm";
@@ -6,6 +7,8 @@ import SignUpForm from "../../components/Form/SignUpForm";
 
 function Form() {
   const history = useHistory();
+
+  const setUserInfo = useUserStore((state) => state.getUserInfo);
 
   const [isUserExist, setIsUserExist] = useState(true);
 
@@ -22,9 +25,17 @@ function Form() {
   return (
     <div className="Form">
       {isUserExist ? (
-        <SignInForm onClick={togglePage}></SignInForm>
+        <SignInForm
+          onClick={togglePage}
+          history={history}
+          setUserInfo={setUserInfo}
+        ></SignInForm>
       ) : (
-        <SignUpForm onClick={togglePage}></SignUpForm>
+        <SignUpForm
+          onClick={togglePage}
+          history={history}
+          setUserInfo={setUserInfo}
+        ></SignUpForm>
       )}
     </div>
   );

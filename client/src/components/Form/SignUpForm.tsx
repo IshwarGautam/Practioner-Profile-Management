@@ -5,7 +5,11 @@ import { MouseEventHandler, useState } from "react";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
 type FormType = {
-  onClick: MouseEventHandler | any;
+  history: {
+    replace: (url: string) => void;
+  };
+  setUserInfo: Function;
+  onClick: MouseEventHandler;
 };
 
 export default function Form(props: FormType) {
@@ -21,10 +25,14 @@ export default function Form(props: FormType) {
   const onSubmit = (data: object) => {
     http
       .post("/users/signup/", data)
-      .then(() => {
+      .then((response) => {
         setErrorMessage("");
 
-        props.onClick();
+        localStorage.setItem("userToken", JSON.stringify(response.data.token));
+
+        props.setUserInfo({ userName: response.data.user.username });
+
+        props.history.replace("/practitioner");
       })
       .catch((error) => {
         if (error.response.status === 409) {

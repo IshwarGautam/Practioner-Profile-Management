@@ -3,15 +3,17 @@ import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface UserState {
-  userInfo: {};
+  userInfo: {
+    userName: string;
+  };
   getUserInfo: (userInfo: object) => void;
 }
 
 const useUserStore = create(
   devtools(
     persist(
-      (set): UserState => ({
-        userInfo: {},
+      (set: Function): UserState => ({
+        userInfo: { userName: "" },
         getUserInfo: (userInfo) => set({ userInfo }),
       }),
       {

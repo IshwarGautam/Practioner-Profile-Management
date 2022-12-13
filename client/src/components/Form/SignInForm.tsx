@@ -1,11 +1,13 @@
 import http from "../../services/http";
 import { useForm } from "react-hook-form";
 import bgImg from "../../assets/img1.jpg";
-import { useHistory } from "react-router-dom";
-import useUserStore from "../../store/userStore";
 import { MouseEventHandler, useState } from "react";
 
 type FormType = {
+  history: {
+    replace: (url: string) => void;
+  };
+  setUserInfo: Function;
   onClick: MouseEventHandler;
 };
 
@@ -16,10 +18,6 @@ export default function Form(props: FormType) {
     formState: { errors },
   } = useForm();
 
-  const history = useHistory();
-
-  const setUserInfo = useUserStore((state: any) => state.getUserInfo);
-
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSubmit = (data: object) => {
@@ -28,9 +26,9 @@ export default function Form(props: FormType) {
       .then((response) => {
         localStorage.setItem("userToken", JSON.stringify(response.data.token));
 
-        setUserInfo({ userName: response.data.user.username });
+        props.setUserInfo({ userName: response.data.user.username });
 
-        history.replace("/practitioner");
+        props.history.replace("/practitioner");
       })
       .catch((error) => {
         switch (error.response.status) {

@@ -25,9 +25,11 @@ type NewDataType = {
 
 const PractitionerTable = () => {
   const history = useHistory();
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState(new Array());
 
   const [count, setCount] = useState(0);
+
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -116,22 +118,28 @@ const PractitionerTable = () => {
   ];
 
   useEffect(() => {
-    http.get("/practitioner").then((response) => {
-      const icuSpecialistPractitioners = response.data.filter(
-        (data: any) => data.icuSpecialist
-      );
+    setLoading(true);
+    http
+      .get("/practitioner")
+      .then((response) => {
+        const icuSpecialistPractitioners = response.data.filter(
+          (data: Item) => data.icuSpecialist
+        );
 
-      icuSpecialistPractitioners.sort(
-        (practitioner1: any, practitioner2: any) =>
-          practitioner1.fullName.localeCompare(practitioner2.fullName)
-      );
+        icuSpecialistPractitioners.sort(
+          (practitioner1: Item, practitioner2: Item) =>
+            practitioner1.fullName.localeCompare(practitioner2.fullName)
+        );
 
-      const nonSpecialistPractitioners = response.data.filter(
-        (data: any) => !data.icuSpecialist
-      );
+        const nonSpecialistPractitioners = response.data.filter(
+          (data: Item) => !data.icuSpecialist
+        );
 
-      setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
-    });
+        setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [count]);
 
   const edit = (record: Item) => {
@@ -164,6 +172,7 @@ const PractitionerTable = () => {
       dataSource={data}
       columns={columns}
       pagination={false}
+      loading={loading}
       className={classes.table}
     />
   );

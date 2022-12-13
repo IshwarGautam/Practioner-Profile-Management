@@ -7,12 +7,6 @@
   justify-content: space-between;
 }
 
-.logo {
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
 .header ul {
   margin: 0;
   padding: 0;
@@ -44,17 +38,19 @@
   color: #fcb8d2;
 }
 
-.logout {
+.logoSection {
   color: white;
-  padding: 4px;
+  display: flex;
   font-weight: bold;
-  border-radius: 10px;
-  border: 2px solid gray;
-  background-color: tomato;
 }
 
-.userLogo {
-  display: flex;
+.dropdown {
+  cursor: pointer;
+  margin-left: 12px;
+}
+
+.dropdown:hover {
+  color: rgb(155, 150, 150);
 }
 
 .activeUser {
