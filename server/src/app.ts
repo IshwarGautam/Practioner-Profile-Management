@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import express, { Application } from "express";
+import swaggerDocs from "./utils/swagger";
+import express, { Express } from "express";
 
 require("dotenv").config();
 
@@ -7,7 +8,7 @@ const cors = require("cors");
 const userRouter = require("./routes/userRoutes");
 const practitionerRouter = require("./routes/practitionerRoutes");
 
-const app: Application = express();
+const app: Express = express();
 const port: number = (process.env.PORT && parseInt(process.env.PORT)) || 8000;
 
 app.use(express.json());
@@ -22,6 +23,7 @@ mongoose
   )
   .then(() => {
     app.listen(port, () => {
+      swaggerDocs(app, port);
       console.log(`Connected successfully on port ${port}`);
     });
   })

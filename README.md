@@ -41,5 +41,10 @@ npm run dev
 It will run client and server concurrently.
 
 <hr>
-You will see the output at <a href="http://localhost:3000">port 3000</a><br>
+You will see the output at <a href="http://localhost:3000">port 3000</a><br><br>
+
+<div style="border: 1px solid; padding: 4px">
 <b>Postman link: <a href="https://elements.getpostman.com/redirect?entityId=8495691-936d24bc-9f47-4b2a-bdff-6d4165e42e5c&entityType=collection">here</a>
+<br>
+<b>API Documentation Using <a href="http://localhost:5000/docs">Swagger</a></b>
+</div>
