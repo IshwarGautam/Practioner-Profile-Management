@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
+const { validateSignup, validateSignin } = require("../validator");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
@@ -7,6 +9,12 @@ const userModel = require("../models/user");
 const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
 const signup = async (req: Request, res: Response) => {
+  const { error } = validateSignup(req.body);
+
+  if (error) {
+    return res.status(422).json({ message: error.details });
+  }
+
   const { username, email, password } = req.body;
 
   try {
@@ -37,6 +45,12 @@ const signup = async (req: Request, res: Response) => {
 };
 
 const signin = async (req: Request, res: Response) => {
+  const { error } = validateSignin(req.body);
+
+  if (error) {
+    return res.status(422).json({ message: error.details });
+  }
+
   const { email, password } = req.body;
 
   try {
@@ -49,7 +63,7 @@ const signin = async (req: Request, res: Response) => {
     const matchPassword = await bcrypt.compare(password, existingUser.password);
 
     if (!matchPassword) {
-      return res.status(400).json({ message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid Credentials" });
     }
 
     const token = jwt.sign(

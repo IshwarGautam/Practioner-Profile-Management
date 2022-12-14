@@ -27,7 +27,7 @@ const practitionerRouter = express.Router();
  *      401:
  *        description: Unauthorized User
  *      500:
- *        description: Bad Request
+ *        description: Internal Server Error
  */
 practitionerRouter.get("/", auth, getPractitioners);
 
@@ -51,7 +51,7 @@ practitionerRouter.get("/", auth, getPractitioners);
  *      401:
  *        description: Unauthorized User
  *      500:
- *        description: Bad Request
+ *        description: Internal Server Error
  */
 practitionerRouter.get("/form/:practitioner_id", auth, getPractitioner);
 
@@ -79,8 +79,12 @@ practitionerRouter.get("/form/:practitioner_id", auth, getPractitioner);
  *              $ref: '#/components/schemas/PractitionerResponse'
  *      401:
  *        description: Unauthorized User
+ *      409:
+ *        description: Conflict - Practitioner already exist
+ *      422:
+ *        description: Unprocessable Entity
  *      500:
- *        description: Bad Request
+ *        description: Internal Server Error
  */
 practitionerRouter.post("/", auth, addPractitioner);
 
@@ -104,7 +108,7 @@ practitionerRouter.post("/", auth, addPractitioner);
  *      401:
  *        description: Unauthorized User
  *      500:
- *        description: Bad Request
+ *        description: Internal Server Error
  */
 practitionerRouter.delete("/:practitioner_id", auth, deletePractitioner);
 
@@ -133,8 +137,10 @@ practitionerRouter.delete("/:practitioner_id", auth, deletePractitioner);
  *        description: Success
  *      401:
  *        description: Unauthorized User
+ *      422:
+ *        description: Unprocessable Entity
  *      500:
- *        description: Bad Request
+ *        description: Internal Server Error
  */
 practitionerRouter.put("/:practitioner_id", auth, updatePractitioner);
 

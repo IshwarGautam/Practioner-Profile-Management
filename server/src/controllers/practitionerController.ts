@@ -1,8 +1,16 @@
 import { Request, Response } from "express";
 
+const { validatePractitioner } = require("../validator");
+
 const practitionerModel = require("../models/practitioner");
 
 const addPractitioner = async (req: Request, res: Response) => {
+  const { error } = validatePractitioner(req.body);
+
+  if (error) {
+    return res.status(422).json({ message: error.details });
+  }
+
   const {
     fullName,
     email,
@@ -26,6 +34,12 @@ const addPractitioner = async (req: Request, res: Response) => {
   });
 
   try {
+    const existingPractitioner = await practitionerModel.findOne({ email });
+
+    if (existingPractitioner) {
+      return res.status(409).json({ message: "Practitioner already exists." });
+    }
+
     await newPractitioner.save();
     res.status(201).json(newPractitioner);
   } catch (error) {
@@ -35,6 +49,12 @@ const addPractitioner = async (req: Request, res: Response) => {
 };
 
 const updatePractitioner = async (req: Request, res: Response) => {
+  const { error } = validatePractitioner(req.body);
+
+  if (error) {
+    return res.status(422).json({ message: error.details });
+  }
+
   const id = req.params.practitioner_id;
 
   const {

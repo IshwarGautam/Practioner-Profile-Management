@@ -12,6 +12,12 @@ type FormType = {
   onClick: MouseEventHandler;
 };
 
+type DataType = {
+  username?: string;
+  email?: string;
+  password?: string;
+};
+
 export default function Form(props: FormType) {
   const {
     register,
@@ -23,8 +29,14 @@ export default function Form(props: FormType) {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSubmit = (data: object) => {
+    const userData: DataType = { ...data };
+
     http
-      .post("/users/signup/", data)
+      .post("/users/signup/", {
+        username: userData.username,
+        email: userData.email,
+        password: userData.password,
+      })
       .then((response) => {
         setErrorMessage("");
 
@@ -61,12 +73,26 @@ export default function Form(props: FormType) {
               type="text"
               {...register("username", {
                 required: true,
+                minLength: 10,
+                pattern: {
+                  value: /^[^\s]+(?:$|.*[^\s]+$)/,
+                  message:
+                    "No white space allowed at the beginning or at the end.",
+                },
               })}
               placeholder="User Name"
             />
 
             {errors.username?.type === "required" && (
               <div className="errorMsg">User Name is required.</div>
+            )}
+            {errors.username?.message && (
+              <div className="errorMsg">
+                {errors.username.message.toString()}
+              </div>
+            )}
+            {errors.username?.type === "minLength" && (
+              <div className="errorMsg">Minimum length should be 10.</div>
             )}
 
             <input

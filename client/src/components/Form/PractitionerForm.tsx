@@ -19,6 +19,7 @@ export default function PractitionerForm() {
 
   const [loading, setIsLoading] = useState(false);
   const [photo, setPhoto] = useState<string | Blob>("");
+  const [emailError, setEmailError] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>();
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
 
@@ -94,8 +95,8 @@ export default function PractitionerForm() {
         .then(() => {
           history.replace("/practitioner");
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          setErrorMessage("Something went wrong.");
         })
         .finally(() => {
           setIsLoading(false);
@@ -107,7 +108,14 @@ export default function PractitionerForm() {
           history.replace("/practitioner");
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.status === 409) {
+            setEmailError(
+              "Looks like the practitioner with that email already exist in the database."
+            );
+          } else {
+            setEmailError("");
+            setErrorMessage("Something went wrong.");
+          }
         })
         .finally(() => {
           setIsLoading(false);
@@ -154,6 +162,12 @@ export default function PractitionerForm() {
                     defaultValue={practitionerDetail.fullName}
                     {...register("fullName", {
                       required: true,
+                      minLength: 10,
+                      pattern: {
+                        value: /^[^\s]+(?:$|.*[^\s]+$)/,
+                        message:
+                          "No white space allowed at the beginning or at the end.",
+                      },
                     })}
                   />
                 </div>
@@ -161,6 +175,18 @@ export default function PractitionerForm() {
 
               {errors.fullName?.type === "required" && (
                 <div className={classes.errorMsg}>Name is required.</div>
+              )}
+
+              {errors.fullName?.message && (
+                <div className={classes.errorMsg}>
+                  {errors.fullName.message.toString()}
+                </div>
+              )}
+
+              {errors.fullName?.type === "minLength" && (
+                <div className={classes.errorMsg}>
+                  Minimum length should be 10.
+                </div>
               )}
 
               {(practitionerDetail.email || !practitioner_id) && (
@@ -186,6 +212,9 @@ export default function PractitionerForm() {
                 <div className={classes.errorMsg}>
                   {errors.email.message?.toString()}
                 </div>
+              )}
+              {emailError && (
+                <div className={classes.errorMsg}>{emailError}</div>
               )}
 
               {(practitionerDetail.contact || !practitioner_id) && (

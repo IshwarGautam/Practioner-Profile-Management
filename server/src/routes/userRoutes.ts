@@ -30,8 +30,10 @@ const userRouter = express.Router();
  *        description: Unauthorized User
  *      409:
  *        description: User already exist
+ *      422:
+ *        description: Unprocessable Entity
  *      500:
- *        description: Bad Request
+ *        description: Internal Server Error
  */
 userRouter.post("/signup", signup);
 
@@ -63,8 +65,10 @@ userRouter.post("/signup", signup);
  *        description: Unauthorized User
  *      404:
  *        description: User not found
+ *      422:
+ *        description: Unprocessable Entity
  *      500:
- *        description: Bad Request
+ *        description: Internal Server Error
  */
 userRouter.post("/signin", signin);
 
