@@ -6,7 +6,7 @@ import classes from "./PractitionerTable.module.css";
 import { Switch, Popconfirm, Table, Typography, Avatar } from "antd";
 
 type Item = {
-  _id: string;
+  _id?: string;
   fullName: string;
   email: string;
   contact: Number;
@@ -14,13 +14,8 @@ type Item = {
   workingDays: Number;
   startTime: string;
   endTime: string;
-  icuSpecialist: boolean;
-  assetUrl: string;
-};
-
-type NewDataType = {
-  _id?: string;
-  icuSpecialist: boolean;
+  icuSpecialist?: boolean;
+  assetUrl?: string;
 };
 
 const PractitionerTable = () => {
@@ -95,7 +90,7 @@ const PractitionerTable = () => {
             </Typography.Link>
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => onDelete(record._id)}
+              onConfirm={() => onDelete(record._id!)}
             >
               <a>Delete</a>
             </Popconfirm>
@@ -146,11 +141,20 @@ const PractitionerTable = () => {
     history.push(`/practitioner/form/${record._id}`);
   };
 
-  const onChangeSpecialist = (record: object, checked: boolean) => {
-    const updateData: NewDataType = { ...record, icuSpecialist: checked };
+  const onChangeSpecialist = (record: Item, checked: boolean) => {
+    const updateData: Item = {
+      fullName: record.fullName,
+      email: record.email,
+      contact: record.contact,
+      dob: record.dob,
+      workingDays: record.workingDays,
+      startTime: record.startTime,
+      endTime: record.endTime,
+      icuSpecialist: checked,
+    };
 
     http
-      .put(`/practitioner/${updateData?._id}`, updateData)
+      .put(`/practitioner/${record?._id}`, updateData)
       .then(() => {
         setCount((c) => c + 1);
       })

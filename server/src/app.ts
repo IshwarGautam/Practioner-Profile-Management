@@ -5,8 +5,8 @@ import express, { Express } from "express";
 require("dotenv").config();
 
 const cors = require("cors");
-const userRouter = require("./routes/userRoutes");
-const practitionerRouter = require("./routes/practitionerRoutes");
+const userRouter = require("./routes/user.route");
+const practitionerRouter = require("./routes/practitioner.route");
 
 const app: Express = express();
 const port: number = (process.env.PORT && parseInt(process.env.PORT)) || 8000;

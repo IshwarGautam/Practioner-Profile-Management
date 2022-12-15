@@ -6,7 +6,7 @@ const {
   addPractitioner,
   deletePractitioner,
   updatePractitioner,
-} = require("../controllers/practitionerController");
+} = require("../controllers/practitioner.controller");
 
 const auth = require("../middlewares/auth");
 

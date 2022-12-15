@@ -26,8 +26,10 @@ const practitionerSchema = Joi.object({
   endTime: Joi.string()
     .regex(/^([0-9]{2})\:([0-9]{2})$/)
     .required(),
+  icuSpecialist: Joi.boolean(),
+  assetUrl: Joi.string(),
 });
 
-exports.validateSignup = validator(signupSchema);
-exports.validateSignin = validator(signinSchema);
-exports.validatePractitioner = validator(practitionerSchema);
+export const validateSignup = validator(signupSchema);
+export const validateSignin = validator(signinSchema);
+export const validatePractitioner = validator(practitionerSchema);

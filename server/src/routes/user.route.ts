@@ -1,6 +1,6 @@
 import express from "express";
 
-const { signin, signup } = require("../controllers/userController");
+const { signin, signup } = require("../controllers/user.controller");
 
 const userRouter = express.Router();
 
