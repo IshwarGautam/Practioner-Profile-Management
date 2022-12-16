@@ -1,7 +1,6 @@
-import { userModel } from "../models/user.model";
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { userModel } = require("../models/user.model");
 
 const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
@@ -11,6 +10,12 @@ type payloadType = {
   password: string;
 };
 
+/**
+ * Service for handling user sign in
+ *
+ * @param payload payloadType
+ * @returns {object}
+ */
 export const handleUserSignin = async (payload: payloadType) => {
   const { email, password } = payload;
 
@@ -50,6 +55,12 @@ export const handleUserSignin = async (payload: payloadType) => {
   }
 };
 
+/**
+ * Service for handling user sign up
+ *
+ * @param payload payloadType
+ * @returns {object}
+ */
 export const handleUserSignup = async (payload: payloadType) => {
   const { username, email, password } = payload;
 

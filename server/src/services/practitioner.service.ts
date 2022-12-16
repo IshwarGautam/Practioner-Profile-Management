@@ -1,4 +1,4 @@
-import { practitionerModel } from "../models/practitioner.model";
+const { practitionerModel } = require("../models/practitioner.model");
 
 type PractitionerType = {
   fullName: string;
@@ -12,6 +12,12 @@ type PractitionerType = {
   assetUrl: string;
 };
 
+/**
+ * Service for handling add practitioner
+ *
+ * @param payload PractitionerType
+ * @returns {object}
+ */
 export const handleAddPractitioner = async (payload: PractitionerType) => {
   const {
     fullName,
@@ -59,6 +65,12 @@ export const handleAddPractitioner = async (payload: PractitionerType) => {
   }
 };
 
+/**
+ * Service for handling get practitioner
+ *
+ * @param id string | number
+ * @returns {object}
+ */
 export const handleGetPractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.find({ _id: id });
@@ -75,6 +87,11 @@ export const handleGetPractitioner = async (id: string | number) => {
   }
 };
 
+/**
+ * Service for handling get all practitioners
+ *
+ * @returns {object}
+ */
 export const handleGetAllPractitioners = async () => {
   try {
     const practitioners = await practitionerModel.find();
@@ -91,6 +108,13 @@ export const handleGetAllPractitioners = async () => {
   }
 };
 
+/**
+ * Service for handling update practitioner
+ *
+ * @param payload PractitionerType
+ * @param id string | number
+ * @returns {object}
+ */
 export const handleUpdatePractitioner = async (
   payload: PractitionerType,
   id: string | number
@@ -120,6 +144,19 @@ export const handleUpdatePractitioner = async (
   };
 
   try {
+    const existingPractitioner = await practitionerModel.find({ email });
+
+    if (
+      existingPractitioner.length &&
+      (existingPractitioner.length === 2 ||
+        existingPractitioner[0]._id.toString() !== id)
+    ) {
+      return {
+        status: 409,
+        data: { message: "Practitioner already exists." },
+      };
+    }
+
     await practitionerModel.findByIdAndUpdate(id, newPractitioner, {
       new: true,
     });
@@ -136,6 +173,12 @@ export const handleUpdatePractitioner = async (
   }
 };
 
+/**
+ * Service for handling delete practitioner
+ *
+ * @param id string | number
+ * @returns {object}
+ */
 export const handleDeletePractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.findByIdAndRemove(id);
@@ -144,7 +187,7 @@ export const handleDeletePractitioner = async (id: string | number) => {
       status: 202,
       data: practitioner,
     };
-  } catch (error) {
+  } catch {
     return {
       status: 500,
       data: { message: "Something went wrong." },

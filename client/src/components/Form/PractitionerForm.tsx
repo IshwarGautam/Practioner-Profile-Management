@@ -64,8 +64,9 @@ export default function PractitionerForm() {
   }, [practitioner_id]);
 
   const onSubmit = (data: object) => {
-    setIsLoading(true);
     if (isPhotoChanged) {
+      setIsLoading(true);
+
       const imageData = new FormData();
 
       imageData.append("file", photo);
@@ -95,11 +96,15 @@ export default function PractitionerForm() {
         .then(() => {
           history.replace("/practitioner");
         })
-        .catch(() => {
-          setErrorMessage("Something went wrong.");
-        })
-        .finally(() => {
-          setIsLoading(false);
+        .catch((error) => {
+          if (error.response.status === 409) {
+            setEmailError(
+              "Looks like the practitioner with that email already exist in the database."
+            );
+          } else {
+            setEmailError("");
+            setErrorMessage("Something went wrong.");
+          }
         });
     } else {
       http
@@ -116,9 +121,6 @@ export default function PractitionerForm() {
             setEmailError("");
             setErrorMessage("Something went wrong.");
           }
-        })
-        .finally(() => {
-          setIsLoading(false);
         });
     }
   };

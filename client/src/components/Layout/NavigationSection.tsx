@@ -46,19 +46,7 @@ function NavigationSection(props: NavigationSectionType) {
                   : classes.unactive
               }
             >
-              All Practitioners
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/practitioner/form"
-              className={
-                props.url === "/practitioner/form"
-                  ? classes.active
-                  : classes.unactive
-              }
-            >
-              Add Practitioner
+              Practitioner List
             </Link>
           </li>
         </ul>

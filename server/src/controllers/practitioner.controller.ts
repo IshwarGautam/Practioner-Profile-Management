@@ -8,6 +8,13 @@ import {
 import { Request, Response } from "express";
 import { validatePractitioner } from "../validator";
 
+/**
+ * Function to handle add practitioner
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
 const addPractitioner = async (req: Request, res: Response) => {
   const { error } = validatePractitioner(req.body);
 
@@ -20,6 +27,13 @@ const addPractitioner = async (req: Request, res: Response) => {
   return res.status(response.status).json(response.data);
 };
 
+/**
+ * Function to handle update practitioner
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
 const updatePractitioner = async (req: Request, res: Response) => {
   const { error } = validatePractitioner(req.body);
 
@@ -34,6 +48,13 @@ const updatePractitioner = async (req: Request, res: Response) => {
   return res.status(response.status).json(response.data);
 };
 
+/**
+ * Function to handle delete practitioner
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
 const deletePractitioner = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
@@ -42,6 +63,13 @@ const deletePractitioner = async (req: Request, res: Response) => {
   return res.status(response.status).json(response.data);
 };
 
+/**
+ * Function to handle get practitioner
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
 const getPractitioner = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
@@ -50,6 +78,13 @@ const getPractitioner = async (req: Request, res: Response) => {
   return res.status(response.status).json(response.data);
 };
 
+/**
+ * Function to handle get all practitioners
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
 const getPractitioners = async (req: Request, res: Response) => {
   const response = await handleGetAllPractitioners();
 

@@ -40,7 +40,4 @@ const PractitionerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const practitionerModel = mongoose.model(
-  "Practitioner",
-  PractitionerSchema
-);
+exports.practitionerModel = mongoose.model("Practitioner", PractitionerSchema);
