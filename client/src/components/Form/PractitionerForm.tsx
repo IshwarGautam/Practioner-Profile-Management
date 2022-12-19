@@ -141,24 +141,24 @@ export default function PractitionerForm() {
     <section>
       {loading && <Spin tip="Loading" size="large" />}
       {!loading && (
-        <div className={classes.addPractitioner}>
-          <div className={classes.col1}>
+        <div className={classes?.addPractitioner}>
+          <div className={classes?.col1}>
             <h2>{practitioner_id ? `Edit ` : `Add New `}Practitioner</h2>
-            <div className={classes.subTitle}>
+            <div className={classes?.subTitle}>
               {practitioner_id
                 ? `Update practitioner with new data.`
                 : `Fill the details of new practitioner.`}
             </div>
             <form
               id="form"
-              className={classes.form}
+              className={classes?.form}
               onSubmit={handleSubmit(onSubmit)}
             >
               {(practitionerDetail.fullName || !practitioner_id) && (
-                <div className={classes.FormControl}>
+                <div className={classes?.FormControl}>
                   {label("Full Name", required)}
                   <input
-                    className={classes.InputStyle}
+                    className={classes?.InputStyle}
                     type="text"
                     placeholder="Full Name"
                     defaultValue={practitionerDetail.fullName}
@@ -176,28 +176,28 @@ export default function PractitionerForm() {
               )}
 
               {errors.fullName?.type === "required" && (
-                <div className={classes.errorMsg}>Name is required.</div>
+                <div className={classes?.errorMsg}>Name is required.</div>
               )}
 
               {errors.fullName?.message && (
-                <div className={classes.errorMsg}>
+                <div className={classes?.errorMsg}>
                   {errors.fullName.message.toString()}
                 </div>
               )}
 
               {errors.fullName?.type === "minLength" && (
-                <div className={classes.errorMsg}>
+                <div className={classes?.errorMsg}>
                   Minimum length should be 10.
                 </div>
               )}
 
               {(practitionerDetail.email || !practitioner_id) && (
-                <div className={classes.FormControl}>
+                <div className={classes?.FormControl}>
                   {label("Email", required)}
                   <input
                     type="email"
                     defaultValue={practitionerDetail.email}
-                    className={classes.InputStyle}
+                    className={classes?.InputStyle}
                     {...register("email", {
                       required: true,
                       validate: handleEmailValidation,
@@ -208,24 +208,24 @@ export default function PractitionerForm() {
               )}
 
               {errors.email?.type === "required" && (
-                <div className={classes.errorMsg}>Email is required.</div>
+                <div className={classes?.errorMsg}>Email is required.</div>
               )}
               {errors.email?.message && (
-                <div className={classes.errorMsg}>
+                <div className={classes?.errorMsg}>
                   {errors.email.message?.toString()}
                 </div>
               )}
               {emailError && (
-                <div className={classes.errorMsg}>{emailError}</div>
+                <div className={classes?.errorMsg}>{emailError}</div>
               )}
 
               {(practitionerDetail.contact || !practitioner_id) && (
-                <div className={classes.FormControl}>
+                <div className={classes?.FormControl}>
                   {label("Contact", required)}
                   <input
                     type="number"
                     defaultValue={practitionerDetail.contact}
-                    className={classes.InputStyle}
+                    className={classes?.InputStyle}
                     {...register("contact", {
                       required: true,
                       minLength: 10,
@@ -236,24 +236,24 @@ export default function PractitionerForm() {
               )}
 
               {errors.contact?.type === "minLength" && (
-                <div className={classes.errorMsg}>
+                <div className={classes?.errorMsg}>
                   Minimum length should be 10.
                 </div>
               )}
 
               {errors.contact?.type === "required" && (
-                <div className={classes.errorMsg}>
+                <div className={classes?.errorMsg}>
                   Please provide your contact number.
                 </div>
               )}
 
               {(practitionerDetail.dob || !practitioner_id) && (
-                <div className={classes.FormControl}>
+                <div className={classes?.FormControl}>
                   {label("Date of birth", required)}
                   <input
                     type="date"
                     defaultValue={practitionerDetail.dob}
-                    className={classes.InputStyle}
+                    className={classes?.InputStyle}
                     {...register("dob", {
                       required: true,
                     })}
@@ -262,18 +262,18 @@ export default function PractitionerForm() {
               )}
 
               {errors.dob?.type === "required" && (
-                <div className={classes.errorMsg}>
+                <div className={classes?.errorMsg}>
                   Please fill your date of birth.
                 </div>
               )}
 
               {(practitionerDetail.workingDays || !practitioner_id) && (
-                <div className={classes.FormControl}>
+                <div className={classes?.FormControl}>
                   {label("Working Days", required)}
                   <input
                     type="number"
                     defaultValue={practitionerDetail.workingDays}
-                    className={classes.InputStyle}
+                    className={classes?.InputStyle}
                     min={1}
                     max={7}
                     {...register("workingDays", {
@@ -285,18 +285,18 @@ export default function PractitionerForm() {
               )}
 
               {errors.workingDays?.type === "required" && (
-                <div className={classes.errorMsg}>
+                <div className={classes?.errorMsg}>
                   Please fill your number of working days.
                 </div>
               )}
 
               {(practitionerDetail.startTime || !practitioner_id) && (
-                <div className={classes.FormControl}>
+                <div className={classes?.FormControl}>
                   {label("Start Time", required)}
                   <input
                     type="Time"
                     defaultValue={practitionerDetail.startTime}
-                    className={classes.InputStyle}
+                    className={classes?.InputStyle}
                     {...register("startTime", {
                       required: true,
                     })}
@@ -305,16 +305,16 @@ export default function PractitionerForm() {
               )}
 
               {errors.startTime?.type === "required" && (
-                <div className={classes.errorMsg}>Please fill start time.</div>
+                <div className={classes?.errorMsg}>Please fill start time.</div>
               )}
 
               {(practitionerDetail.endTime || !practitioner_id) && (
-                <div className={classes.FormControl}>
+                <div className={classes?.FormControl}>
                   {label("End Time", required)}
                   <input
                     type="Time"
                     defaultValue={practitionerDetail.endTime}
-                    className={classes.InputStyle}
+                    className={classes?.InputStyle}
                     {...register("endTime", {
                       required: true,
                     })}
@@ -323,22 +323,22 @@ export default function PractitionerForm() {
               )}
 
               {errors.endTime?.type === "required" && (
-                <div className={classes.errorMsg}>Please fill end time.</div>
+                <div className={classes?.errorMsg}>Please fill end time.</div>
               )}
 
-              <div className={classes.FormControl}>
+              <div className={classes?.FormControl}>
                 {label("Upload Photo")}
                 <input
                   type="file"
                   accept=".jpg, .jpeg, .png"
-                  className={classes.uploadPhoto}
+                  className={classes?.uploadPhoto}
                   onChange={(e) =>
                     setPhotoAfterValidation(e.target.files && e.target.files[0])
                   }
                 />
               </div>
               {errorMessage && (
-                <div className={classes.errorMsg}> {errorMessage} </div>
+                <div className={classes?.errorMsg}> {errorMessage} </div>
               )}
 
               <button className="btn">
@@ -347,7 +347,7 @@ export default function PractitionerForm() {
             </form>
           </div>
           <div>
-            <img src={bgImg} alt="Background Image" className={classes.col2} />
+            <img src={bgImg} alt="Background Image" className={classes?.col2} />
           </div>
         </div>
       )}

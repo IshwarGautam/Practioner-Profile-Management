@@ -5,7 +5,7 @@ import { MouseEventHandler, useState } from "react";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
 type FormType = {
-  history: {
+  history?: {
     replace: (url: string) => void;
   };
   setUserInfo: Function;
@@ -44,7 +44,7 @@ export default function Form(props: FormType) {
 
         props.setUserInfo({ userName: response.data.user.username });
 
-        props.history.replace("/practitioner");
+        props.history!.replace("/practitioner");
       })
       .catch((error) => {
         if (error.response.status === 409) {

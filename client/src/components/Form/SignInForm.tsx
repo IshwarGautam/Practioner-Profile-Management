@@ -4,7 +4,7 @@ import bgImg from "../../assets/img1.jpg";
 import { MouseEventHandler, useState } from "react";
 
 type FormType = {
-  history: {
+  history?: {
     replace: (url: string) => void;
   };
   setUserInfo: Function;
@@ -28,7 +28,7 @@ export default function Form(props: FormType) {
 
         props.setUserInfo({ userName: response.data.user.username });
 
-        props.history.replace("/practitioner");
+        props.history!.replace("/practitioner");
       })
       .catch((error) => {
         switch (error.response.status) {
