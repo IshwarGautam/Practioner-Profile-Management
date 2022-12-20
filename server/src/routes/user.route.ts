@@ -1,6 +1,6 @@
 import express from "express";
 
-const { signin, signup } = require("../controllers/user.controller");
+const { signin, signup, refresh } = require("../controllers/user.controller");
 
 const userRouter = express.Router();
 
@@ -124,5 +124,7 @@ userRouter.post("/signup", signup);
  *        description: Internal Server Error
  */
 userRouter.post("/signin", signin);
+
+userRouter.post("/refresh", refresh);
 
 module.exports = userRouter;

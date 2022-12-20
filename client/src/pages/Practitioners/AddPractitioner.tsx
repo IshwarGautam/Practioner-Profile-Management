@@ -5,7 +5,7 @@ import PractitionerForm from "../../components/Form/PractitionerForm";
 function AddPractitioner() {
   const history = useHistory();
 
-  const token = localStorage.getItem("userToken");
+  const token = localStorage.getItem("accessToken");
 
   if (!token) {
     history.replace("/");

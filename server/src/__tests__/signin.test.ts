@@ -45,8 +45,9 @@ describe("test signin function", () => {
 
     expect(response.status).toBe(201);
     expect(response.data).toHaveProperty("user");
-    expect(response.data).toHaveProperty("token");
+    expect(response.data).toHaveProperty("accessToken");
+    expect(response.data).toHaveProperty("refreshToken");
     expect(response.data.user).toBe(payload);
-    expect(response.data.token).toBe("some_token");
+    expect(response.data.accessToken).toBe("some_token");
   });
 });

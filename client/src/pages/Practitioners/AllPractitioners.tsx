@@ -7,7 +7,7 @@ import PractitionerTable from "../../components/Table/PractitionerTable";
 function AllPractitioners() {
   const history = useHistory();
 
-  const token = localStorage.getItem("userToken");
+  const token = localStorage.getItem("accessToken");
 
   if (!token) {
     history.replace("/");

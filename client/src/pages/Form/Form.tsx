@@ -12,7 +12,7 @@ function Form() {
 
   const [isUserExist, setIsUserExist] = useState(true);
 
-  const token = localStorage.getItem("userToken");
+  const token = localStorage.getItem("accessToken");
 
   if (token) {
     history.replace("/practitioner");

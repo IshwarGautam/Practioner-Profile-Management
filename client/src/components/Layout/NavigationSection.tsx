@@ -23,7 +23,8 @@ function NavigationSection(props: NavigationSectionType) {
       label: <span>Log out</span>,
       onClick: () => {
         setRedirect(true);
-        localStorage.removeItem("userToken");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       },
       key: "0",
     },

@@ -2,7 +2,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { userModel } = require("../models/user.model");
 
-const SECRET_KEY: string = process.env.SECRET_KEY || "";
+import {
+  ACCESS_TOKEN_SIGNATURE_KEY,
+  REFRESH_TOKEN_SIGNATURE_KEY,
+} from "../constant";
+
+let refreshTokens: string[] = [];
 
 type payloadType = {
   username?: string;
@@ -38,14 +43,22 @@ export const handleUserSignin = async (payload: payloadType) => {
       };
     }
 
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      SECRET_KEY
+      ACCESS_TOKEN_SIGNATURE_KEY,
+      { expiresIn: "5s" }
     );
+
+    const refreshToken = jwt.sign(
+      { email: existingUser.email, id: existingUser._id },
+      REFRESH_TOKEN_SIGNATURE_KEY,
+      { expiresIn: "7d" }
+    );
+    refreshTokens.push(refreshToken);
 
     return {
       status: 201,
-      data: { user: existingUser, token },
+      data: { user: existingUser, accessToken, refreshToken },
     };
   } catch (error) {
     return {
@@ -84,7 +97,7 @@ export const handleUserSignup = async (payload: payloadType) => {
 
     const token = jwt.sign(
       { email: userData.email, id: userData._id },
-      SECRET_KEY
+      ACCESS_TOKEN_SIGNATURE_KEY
     );
 
     return {
@@ -97,4 +110,49 @@ export const handleUserSignup = async (payload: payloadType) => {
       data: { message: "Something went wrong." },
     };
   }
+};
+
+/**
+ * Service for generating new access token from refresh token.
+ *
+ * @param refreshToken string
+ * @returns {object}
+ */
+export const handleRefreshToken = (refreshToken: string) => {
+  console.log("REFRESH", refreshToken);
+  if (!refreshToken || !refreshTokens.includes(refreshToken)) {
+    return {
+      status: 403,
+      data: { message: "Refresh token not found, login again" },
+    };
+  }
+
+  // If the refresh token is valid, create a new accessToken and return it.
+  const response = jwt.verify(
+    refreshToken,
+    REFRESH_TOKEN_SIGNATURE_KEY,
+    (err: string, user: { email: string; id: string }) => {
+      if (!err) {
+        const accessToken = jwt.sign(
+          { email: user.email, id: user.id },
+          ACCESS_TOKEN_SIGNATURE_KEY,
+          {
+            expiresIn: "20s",
+          }
+        );
+
+        return {
+          status: 200,
+          data: { token: accessToken },
+        };
+      } else {
+        return {
+          status: 403,
+          data: { message: "Invalid refresh token" },
+        };
+      }
+    }
+  );
+
+  return response;
 };

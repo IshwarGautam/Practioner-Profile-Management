@@ -132,6 +132,9 @@ const PractitionerTable = () => {
 
         setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
       })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         setLoading(false);
       });

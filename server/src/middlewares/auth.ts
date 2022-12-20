@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
+import { ACCESS_TOKEN_SIGNATURE_KEY } from "../constant";
 
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY: string = process.env.SECRET_KEY || "";
+const ACCESS_TOKEN: string = ACCESS_TOKEN_SIGNATURE_KEY || "";
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -11,15 +12,19 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
     if (token) {
       token = token.split(" ")[1];
 
-      jwt.verify(token, SECRET_KEY);
+      jwt.verify(token, ACCESS_TOKEN, (err: { message: string }) => {
+        if (!err) {
+          next();
+        } else if (err.message === "jwt expired") {
+          return res.status(401).json({ message: "Access Token expired." });
+        }
+      });
     } else {
-      res.status(401).json({ message: "Unauthorized User" });
+      return res.status(401).json({ message: "Unauthorized User" });
     }
-
-    next();
   } catch (error) {
     console.log(error);
-    res.status(401).json({ message: "Unauthorized User" });
+    return res.status(401).json({ message: "Unauthorized User" });
   }
 };
 
