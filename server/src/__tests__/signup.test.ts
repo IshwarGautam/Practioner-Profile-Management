@@ -34,17 +34,19 @@ describe("test signup function", () => {
       ...payload,
     });
 
-    jwt.sign.mockReturnValueOnce("some_token");
+    jwt.sign.mockReturnValue("some_token");
 
     const response = await handleUserSignup(payload);
 
     expect(response.status).toBe(201);
     expect(response.data).toHaveProperty("user");
-    expect(response.data).toHaveProperty("token");
+    expect(response.data).toHaveProperty("accessToken");
+    expect(response.data).toHaveProperty("refreshToken");
     expect(response.data.user).toEqual({
       _id: 1,
       ...payload,
     });
-    expect(response.data.token).toBe("some_token");
+    expect(response.data.accessToken).toBe("some_token");
+    expect(response.data.refreshToken).toBe("some_token");
   });
 });

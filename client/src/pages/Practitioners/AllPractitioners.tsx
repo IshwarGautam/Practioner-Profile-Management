@@ -29,7 +29,7 @@ function AllPractitioners() {
         </Button>
       </div>
 
-      <PractitionerTable />
+      {token && <PractitionerTable />}
     </div>
   );
 }

@@ -6,9 +6,7 @@ const http = axios.create({
 
 http.interceptors.request.use(
   (req: AxiosRequestConfig) => {
-    const token: string = JSON.parse(
-      localStorage.getItem("accessToken") || "false"
-    );
+    const token = localStorage.getItem("accessToken");
 
     req.headers!.Authorization = `Bearer ${token}`;
     return req;
@@ -19,14 +17,12 @@ http.interceptors.request.use(
 );
 
 http.interceptors.response.use(
-  (res: any) => {
+  (res) => {
     return res;
   },
   async (err) => {
     if (err.response.status === 401) {
-      const token: string = JSON.parse(
-        localStorage.getItem("refreshToken") || "false"
-      );
+      const token = localStorage.getItem("refreshToken");
 
       try {
         const response = await http.post("/users/refresh", { token });

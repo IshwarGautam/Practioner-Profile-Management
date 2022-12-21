@@ -39,7 +39,7 @@ describe("test signin function", () => {
 
     bcrypt.compare.mockResolvedValueOnce(true);
 
-    jwt.sign.mockReturnValueOnce("some_token");
+    jwt.sign.mockReturnValue("some_token");
 
     const response = await handleUserSignin(payload);
 
@@ -49,5 +49,6 @@ describe("test signin function", () => {
     expect(response.data).toHaveProperty("refreshToken");
     expect(response.data.user).toBe(payload);
     expect(response.data.accessToken).toBe("some_token");
+    expect(response.data.refreshToken).toBe("some_token");
   });
 });

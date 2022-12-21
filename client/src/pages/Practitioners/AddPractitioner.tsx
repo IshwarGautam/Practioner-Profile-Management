@@ -13,7 +13,7 @@ function AddPractitioner() {
 
   return (
     <div className={classes.PractitionerForm}>
-      <PractitionerForm />
+      {token && <PractitionerForm />}
     </div>
   );
 }

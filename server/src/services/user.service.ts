@@ -7,7 +7,7 @@ import {
   REFRESH_TOKEN_SIGNATURE_KEY,
 } from "../constant";
 
-let refreshTokens: string[] = [];
+export const refreshTokens: string[] = [];
 
 type payloadType = {
   username?: string;
@@ -46,7 +46,7 @@ export const handleUserSignin = async (payload: payloadType) => {
     const accessToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
       ACCESS_TOKEN_SIGNATURE_KEY,
-      { expiresIn: "5s" }
+      { expiresIn: "10m" }
     );
 
     const refreshToken = jwt.sign(
@@ -95,14 +95,22 @@ export const handleUserSignup = async (payload: payloadType) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       { email: userData.email, id: userData._id },
-      ACCESS_TOKEN_SIGNATURE_KEY
+      ACCESS_TOKEN_SIGNATURE_KEY,
+      { expiresIn: "10m" }
     );
+
+    const refreshToken = jwt.sign(
+      { email: userData.email, id: userData._id },
+      REFRESH_TOKEN_SIGNATURE_KEY,
+      { expiresIn: "7d" }
+    );
+    refreshTokens.push(refreshToken);
 
     return {
       status: 201,
-      data: { user: userData, token },
+      data: { user: userData, accessToken, refreshToken },
     };
   } catch (error) {
     return {
@@ -119,7 +127,6 @@ export const handleUserSignup = async (payload: payloadType) => {
  * @returns {object}
  */
 export const handleRefreshToken = (refreshToken: string) => {
-  console.log("REFRESH", refreshToken);
   if (!refreshToken || !refreshTokens.includes(refreshToken)) {
     return {
       status: 403,
@@ -127,32 +134,31 @@ export const handleRefreshToken = (refreshToken: string) => {
     };
   }
 
-  // If the refresh token is valid, create a new accessToken and return it.
   const response = jwt.verify(
     refreshToken,
     REFRESH_TOKEN_SIGNATURE_KEY,
     (err: string, user: { email: string; id: string }) => {
-      if (!err) {
-        const accessToken = jwt.sign(
-          { email: user.email, id: user.id },
-          ACCESS_TOKEN_SIGNATURE_KEY,
-          {
-            expiresIn: "20s",
-          }
-        );
-
-        return {
-          status: 200,
-          data: { token: accessToken },
-        };
-      } else {
-        return {
-          status: 403,
-          data: { message: "Invalid refresh token" },
-        };
-      }
+      return { err, user };
     }
   );
 
-  return response;
+  if (!response.err) {
+    const accessToken = jwt.sign(
+      { email: response.user.email, id: response.user.id },
+      ACCESS_TOKEN_SIGNATURE_KEY,
+      {
+        expiresIn: "10m",
+      }
+    );
+
+    return {
+      status: 200,
+      data: { token: accessToken },
+    };
+  } else {
+    return {
+      status: 403,
+      data: { message: "Invalid refresh token" },
+    };
+  }
 };

@@ -40,14 +40,8 @@ export default function Form(props: FormType) {
       .then((response) => {
         setErrorMessage("");
 
-        localStorage.setItem(
-          "accessToken",
-          JSON.stringify(response.data.accessToken)
-        );
-        localStorage.setItem(
-          "refreshToken",
-          JSON.stringify(response.data.refreshToken)
-        );
+        localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
 
         props.setUserInfo({ userName: response.data.user.username });
 

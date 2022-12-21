@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/app.js",
     "dev": "npx tsc && nodemon ./src/app.ts",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "Ishwar Gautam",
