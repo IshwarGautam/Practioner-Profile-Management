@@ -3,17 +3,7 @@
 <b>To run this program:</b><br>
 
 1. Clone this repository.
-
-2. Install all the packages required for this project for both client and server side.
-
-```
-cd client
-npm install
-```
-
-```
-cd ..
-```
+2. Install all the packages required for this project for server side.
 
 ```
 cd server
@@ -26,19 +16,26 @@ Back to the main home directory again
 cd ..
 ```
 
-3. Install concurrently and ts-node globally
+Api-server is dockerized. So, to start server, install docker compose in your system and run this command:
 
 ```
-sudo npm i -g concurrently ts-node
+sudo docker compose up
 ```
 
-4. Run the script
+3. Install all the packages required for this project for client side also.
+
+```
+cd client
+npm install
+```
+
+4. Start the client.
 
 ```
 npm run dev
 ```
 
-It will run client and server concurrently.
+Now both client and server are running.
 
 <hr>
 You will see the output at <a href="http://localhost:3000">port 3000</a><br><br>
