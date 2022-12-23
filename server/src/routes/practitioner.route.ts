@@ -1,14 +1,12 @@
 import express from "express";
-
-const {
+import { auth } from "../middlewares/auth";
+import {
   getPractitioner,
-  getPractitioners,
   addPractitioner,
+  getPractitioners,
   deletePractitioner,
   updatePractitioner,
-} = require("../controllers/practitioner.controller");
-
-const auth = require("../middlewares/auth");
+} from "../controllers/practitioner.controller";
 
 const practitionerRouter = express.Router();
 
@@ -201,4 +199,4 @@ practitionerRouter.delete("/:practitioner_id", auth, deletePractitioner);
  */
 practitionerRouter.put("/:practitioner_id", auth, updatePractitioner);
 
-module.exports = practitionerRouter;
+export default practitionerRouter;

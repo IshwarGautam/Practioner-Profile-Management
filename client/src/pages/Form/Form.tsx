@@ -12,12 +12,6 @@ function Form() {
 
   const [isUserExist, setIsUserExist] = useState(true);
 
-  const token = localStorage.getItem("accessToken");
-
-  if (token) {
-    history.replace("/practitioner");
-  }
-
   const togglePage: MouseEventHandler = () => {
     setIsUserExist(!isUserExist);
   };

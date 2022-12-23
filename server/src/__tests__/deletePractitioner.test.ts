@@ -1,5 +1,4 @@
-const { practitionerModel } = require("../models/practitioner.model");
-
+import { practitionerModel } from "../models/practitioner.model";
 import { handleDeletePractitioner } from "../services/practitioner.service";
 
 jest.mock("../models/practitioner.model");
@@ -17,11 +16,13 @@ const payload = {
 
 describe("delete practitioner details", () => {
   it("should return a status code of 202 when partitioner detail successfully deleted", async () => {
-    practitionerModel.findByIdAndRemove.mockResolvedValueOnce(payload);
+    (practitionerModel.findByIdAndRemove as jest.Mock).mockResolvedValueOnce(
+      payload
+    );
 
     const response = await handleDeletePractitioner(1);
 
     expect(response.status).toBe(202);
-    expect(response.data).toBe(payload);
+    expect(response.data).toEqual(payload);
   });
 });

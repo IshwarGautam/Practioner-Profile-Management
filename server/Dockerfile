@@ -9,4 +9,6 @@ RUN npm install
 
 COPY . .
 
-CMD ["sh", "-c", "npm run dev"]
+EXPOSE 5000
+
+CMD npm run dev

@@ -15,7 +15,7 @@ import { validatePractitioner } from "../validator";
  * @param res Response
  * @returns {Promise<Response>}
  */
-const addPractitioner = async (req: Request, res: Response) => {
+export const addPractitioner = async (req: Request, res: Response) => {
   const { error } = validatePractitioner(req.body);
 
   if (error) {
@@ -34,7 +34,7 @@ const addPractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-const updatePractitioner = async (req: Request, res: Response) => {
+export const updatePractitioner = async (req: Request, res: Response) => {
   const { error } = validatePractitioner(req.body);
 
   if (error) {
@@ -55,7 +55,7 @@ const updatePractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-const deletePractitioner = async (req: Request, res: Response) => {
+export const deletePractitioner = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
   const response = await handleDeletePractitioner(id);
@@ -70,7 +70,7 @@ const deletePractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-const getPractitioner = async (req: Request, res: Response) => {
+export const getPractitioner = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
   const response = await handleGetPractitioner(id);
@@ -85,16 +85,8 @@ const getPractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-const getPractitioners = async (req: Request, res: Response) => {
+export const getPractitioners = async (req: Request, res: Response) => {
   const response = await handleGetAllPractitioners();
 
   return res.status(response.status).json(response.data);
-};
-
-module.exports = {
-  addPractitioner,
-  getPractitioner,
-  getPractitioners,
-  updatePractitioner,
-  deletePractitioner,
 };

@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { validateSignup, validateSignin } from "../validator";
+import {
+  validateSignup,
+  validateSignin,
+  validateRefreshToken,
+} from "../validator";
 import {
   handleUserSignin,
   handleUserSignup,
@@ -13,7 +17,7 @@ import {
  * @param res Response
  * @returns {Promise<Response>}
  */
-const signup = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response) => {
   const { error } = validateSignup(req.body);
 
   if (error) {
@@ -32,7 +36,7 @@ const signup = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-const signin = async (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response) => {
   const { error } = validateSignin(req.body);
 
   if (error) {
@@ -51,12 +55,16 @@ const signin = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-const refresh = (req: Request, res: Response) => {
+export const refresh = (req: Request, res: Response) => {
   const refreshToken = req.body.token;
+
+  const { error } = validateRefreshToken(refreshToken);
+
+  if (error) {
+    return res.status(422).json({ message: error.details });
+  }
 
   const response = handleRefreshToken(refreshToken);
 
   return res.status(response.status).json(response.data);
 };
-
-module.exports = { signup, signin, refresh };

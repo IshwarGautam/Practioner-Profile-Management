@@ -1,6 +1,5 @@
 import express from "express";
-
-const { signin, signup, refresh } = require("../controllers/user.controller");
+import { signin, signup, refresh } from "../controllers/user.controller";
 
 const userRouter = express.Router();
 
@@ -127,4 +126,4 @@ userRouter.post("/signin", signin);
 
 userRouter.post("/refresh", refresh);
 
-module.exports = userRouter;
+export default userRouter;

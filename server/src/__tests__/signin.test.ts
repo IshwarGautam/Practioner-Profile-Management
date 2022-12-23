@@ -1,7 +1,6 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { userModel } = require("../models/user.model");
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { userModel } from "../models/user.model";
 import { handleUserSignin } from "../services/user.service";
 
 jest.mock("bcrypt");
@@ -15,7 +14,7 @@ const payload = {
 
 describe("test signin function", () => {
   it("should send a status of 404 when no user is found during sign in", async () => {
-    userModel.findOne.mockResolvedValueOnce(undefined);
+    (userModel.findOne as jest.Mock).mockResolvedValueOnce(undefined);
 
     const response = await handleUserSignin(payload);
 
@@ -24,9 +23,9 @@ describe("test signin function", () => {
   });
 
   it("should send a status of 401 on invalid credentials", async () => {
-    userModel.findOne.mockResolvedValueOnce(payload);
+    (userModel.findOne as jest.Mock).mockResolvedValueOnce(payload);
 
-    bcrypt.compare.mockResolvedValueOnce(false);
+    (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
 
     const response = await handleUserSignin(payload);
 
@@ -35,11 +34,11 @@ describe("test signin function", () => {
   });
 
   it("should send a status of 201 when user is verified", async () => {
-    userModel.findOne.mockResolvedValueOnce(payload);
+    (userModel.findOne as jest.Mock).mockResolvedValueOnce(payload);
 
-    bcrypt.compare.mockResolvedValueOnce(true);
+    (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
 
-    jwt.sign.mockReturnValue("some_token");
+    (jwt.sign as jest.Mock).mockReturnValue("some_token");
 
     const response = await handleUserSignin(payload);
 
@@ -47,7 +46,7 @@ describe("test signin function", () => {
     expect(response.data).toHaveProperty("user");
     expect(response.data).toHaveProperty("accessToken");
     expect(response.data).toHaveProperty("refreshToken");
-    expect(response.data.user).toBe(payload);
+    expect(response.data.user).toEqual(payload);
     expect(response.data.accessToken).toBe("some_token");
     expect(response.data.refreshToken).toBe("some_token");
   });

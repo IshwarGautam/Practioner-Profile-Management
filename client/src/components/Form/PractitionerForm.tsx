@@ -164,7 +164,7 @@ export default function PractitionerForm() {
                     defaultValue={practitionerDetail.fullName}
                     {...register("fullName", {
                       required: true,
-                      minLength: 10,
+                      minLength: 5,
                       pattern: {
                         value: /^[^\s]+(?:$|.*[^\s]+$)/,
                         message:
@@ -187,7 +187,7 @@ export default function PractitionerForm() {
 
               {errors.fullName?.type === "minLength" && (
                 <div className={classes?.errorMsg}>
-                  Minimum length should be 10.
+                  Minimum length should be 5.
                 </div>
               )}
 

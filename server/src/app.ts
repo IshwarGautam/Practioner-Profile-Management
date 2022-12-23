@@ -1,13 +1,13 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
+import cors from "cors";
 import mongoose from "mongoose";
 import swaggerDocs from "./utils/swagger";
 import express, { Express } from "express";
+import userRouter from "./routes/user.route";
+import practitionerRouter from "./routes/practitioner.route";
 import { DB_USERNAME, DB_PASSWORD, PORT } from "./constant";
-
-const cors = require("cors");
-const userRouter = require("./routes/user.route");
-const practitionerRouter = require("./routes/practitioner.route");
 
 const app: Express = express();
 const port: number = (PORT && parseInt(PORT)) || 8000;

@@ -1,4 +1,5 @@
-const { practitionerModel } = require("../models/practitioner.model");
+import { HttpError, HttpSuccess } from "../utils/error";
+import { practitionerModel } from "../models/practitioner.model";
 
 type PractitionerType = {
   fullName: string;
@@ -45,23 +46,14 @@ export const handleAddPractitioner = async (payload: PractitionerType) => {
     const existingPractitioner = await practitionerModel.findOne({ email });
 
     if (existingPractitioner) {
-      return {
-        status: 409,
-        data: { message: "Practitioner already exists." },
-      };
+      return JSON.parse(HttpError.Conflict("Practitioner already exists."));
     }
 
     await newPractitioner.save();
 
-    return {
-      status: 201,
-      data: newPractitioner,
-    };
+    return JSON.parse(HttpSuccess.Created(newPractitioner));
   } catch (error) {
-    return {
-      status: 500,
-      data: { message: "Something went wrong." },
-    };
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };
 
@@ -75,15 +67,9 @@ export const handleGetPractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.find({ _id: id });
 
-    return {
-      status: 202,
-      data: practitioner,
-    };
+    return JSON.parse(HttpSuccess.Accepted(practitioner));
   } catch (error) {
-    return {
-      status: 500,
-      data: { message: "Something went wrong." },
-    };
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };
 
@@ -96,15 +82,9 @@ export const handleGetAllPractitioners = async () => {
   try {
     const practitioners = await practitionerModel.find();
 
-    return {
-      status: 200,
-      data: practitioners,
-    };
+    return JSON.parse(HttpSuccess.OK(practitioners));
   } catch (error) {
-    return {
-      status: 500,
-      data: { message: "Something went wrong." },
-    };
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };
 
@@ -151,25 +131,16 @@ export const handleUpdatePractitioner = async (
       (existingPractitioner.length === 2 ||
         existingPractitioner[0]._id.toString() !== id)
     ) {
-      return {
-        status: 409,
-        data: { message: "Practitioner already exists." },
-      };
+      return JSON.parse(HttpError.Conflict("Practitioner already exists."));
     }
 
     await practitionerModel.findByIdAndUpdate(id, newPractitioner, {
       new: true,
     });
 
-    return {
-      status: 200,
-      data: newPractitioner,
-    };
+    return JSON.parse(HttpSuccess.OK(newPractitioner));
   } catch (error) {
-    return {
-      status: 500,
-      data: { message: "Something went wrong." },
-    };
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };
 
@@ -183,14 +154,8 @@ export const handleDeletePractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.findByIdAndRemove(id);
 
-    return {
-      status: 202,
-      data: practitioner,
-    };
+    return JSON.parse(HttpSuccess.Accepted(practitioner!));
   } catch {
-    return {
-      status: 500,
-      data: { message: "Something went wrong." },
-    };
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };

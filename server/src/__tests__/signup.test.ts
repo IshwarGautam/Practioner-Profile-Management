@@ -1,7 +1,6 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { userModel } = require("../models/user.model");
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { userModel } from "../models/user.model";
 import { handleUserSignup } from "../services/user.service";
 
 jest.mock("bcrypt");
@@ -16,7 +15,7 @@ const payload = {
 
 describe("test signup function", () => {
   it("should send a status code of 409 when user exists", async () => {
-    userModel.findOne.mockResolvedValueOnce(payload);
+    (userModel.findOne as jest.Mock).mockResolvedValueOnce(payload);
 
     const response = await handleUserSignup(payload);
 
@@ -25,16 +24,16 @@ describe("test signup function", () => {
   });
 
   it("should send a status of 201 when new user is created", async () => {
-    userModel.findOne.mockResolvedValueOnce(undefined);
+    (userModel.findOne as jest.Mock).mockResolvedValueOnce(undefined);
 
-    bcrypt.hash.mockResolvedValueOnce("hash_password");
+    (bcrypt.hash as jest.Mock).mockResolvedValueOnce("hash_password");
 
-    userModel.create.mockResolvedValueOnce({
+    (userModel.create as jest.Mock).mockResolvedValueOnce({
       _id: 1,
       ...payload,
     });
 
-    jwt.sign.mockReturnValue("some_token");
+    (jwt.sign as jest.Mock).mockReturnValue("some_token");
 
     const response = await handleUserSignup(payload);
 

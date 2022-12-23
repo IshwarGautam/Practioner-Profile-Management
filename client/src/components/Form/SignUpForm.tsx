@@ -74,7 +74,7 @@ export default function Form(props: FormType) {
               type="text"
               {...register("username", {
                 required: true,
-                minLength: 10,
+                minLength: 5,
                 pattern: {
                   value: /^[^\s]+(?:$|.*[^\s]+$)/,
                   message:
@@ -93,7 +93,7 @@ export default function Form(props: FormType) {
               </div>
             )}
             {errors.username?.type === "minLength" && (
-              <div className="errorMsg">Minimum length should be 10.</div>
+              <div className="errorMsg">Minimum length should be 5.</div>
             )}
 
             <input

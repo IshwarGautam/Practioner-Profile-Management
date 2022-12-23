@@ -1,13 +1,8 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { userModel } = require("../models/user.model");
-
-import {
-  ACCESS_TOKEN_SIGNATURE_KEY,
-  REFRESH_TOKEN_SIGNATURE_KEY,
-} from "../constant";
-
-export const refreshTokens: string[] = [];
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { userModel } from "../models/user.model";
+import { HttpError, HttpSuccess } from "../utils/error";
+import { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } from "../constant";
 
 type payloadType = {
   username?: string;
@@ -28,43 +23,32 @@ export const handleUserSignin = async (payload: payloadType) => {
     const existingUser = await userModel.findOne({ email });
 
     if (!existingUser) {
-      return {
-        status: 404,
-        data: { message: "User not found." },
-      };
+      return JSON.parse(HttpError.NotFound("User not found."));
     }
 
     const matchPassword = await bcrypt.compare(password, existingUser.password);
 
     if (!matchPassword) {
-      return {
-        status: 401,
-        data: { message: "Invalid Credentials." },
-      };
+      return JSON.parse(HttpError.Invalid("Invalid Credentials."));
     }
 
     const accessToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      ACCESS_TOKEN_SIGNATURE_KEY,
+      ACCESS_TOKEN_SECRET_KEY,
       { expiresIn: "10m" }
     );
 
     const refreshToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      REFRESH_TOKEN_SIGNATURE_KEY,
+      REFRESH_TOKEN_SECRET_KEY,
       { expiresIn: "7d" }
     );
-    refreshTokens.push(refreshToken);
 
-    return {
-      status: 201,
-      data: { user: existingUser, accessToken, refreshToken },
-    };
+    return JSON.parse(
+      HttpSuccess.Created({ user: existingUser, accessToken, refreshToken })
+    );
   } catch (error) {
-    return {
-      status: 500,
-      data: { message: "Something went wrong." },
-    };
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };
 
@@ -81,10 +65,7 @@ export const handleUserSignup = async (payload: payloadType) => {
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return {
-        status: 409,
-        data: { message: "User already exists." },
-      };
+      return JSON.parse(HttpError.Conflict("User already exists."));
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -97,26 +78,21 @@ export const handleUserSignup = async (payload: payloadType) => {
 
     const accessToken = jwt.sign(
       { email: userData.email, id: userData._id },
-      ACCESS_TOKEN_SIGNATURE_KEY,
+      ACCESS_TOKEN_SECRET_KEY,
       { expiresIn: "10m" }
     );
 
     const refreshToken = jwt.sign(
       { email: userData.email, id: userData._id },
-      REFRESH_TOKEN_SIGNATURE_KEY,
+      REFRESH_TOKEN_SECRET_KEY,
       { expiresIn: "7d" }
     );
-    refreshTokens.push(refreshToken);
 
-    return {
-      status: 201,
-      data: { user: userData, accessToken, refreshToken },
-    };
+    return JSON.parse(
+      HttpSuccess.Created({ user: userData, accessToken, refreshToken })
+    );
   } catch (error) {
-    return {
-      status: 500,
-      data: { message: "Something went wrong." },
-    };
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };
 
@@ -127,38 +103,33 @@ export const handleUserSignup = async (payload: payloadType) => {
  * @returns {object}
  */
 export const handleRefreshToken = (refreshToken: string) => {
-  if (!refreshToken || !refreshTokens.includes(refreshToken)) {
-    return {
-      status: 403,
-      data: { message: "Refresh token not found, login again" },
+  type ResponseType = {
+    err: string | null;
+    user: {
+      email: string;
+      id: string;
     };
-  }
+  };
 
-  const response = jwt.verify(
+  const response: ResponseType | any = jwt.verify(
     refreshToken,
-    REFRESH_TOKEN_SIGNATURE_KEY,
-    (err: string, user: { email: string; id: string }) => {
+    REFRESH_TOKEN_SECRET_KEY,
+    (err, user) => {
       return { err, user };
     }
   );
 
-  if (!response.err) {
+  if (!response?.err) {
     const accessToken = jwt.sign(
-      { email: response.user.email, id: response.user.id },
-      ACCESS_TOKEN_SIGNATURE_KEY,
+      { email: response?.user.email, id: response?.user.id },
+      ACCESS_TOKEN_SECRET_KEY,
       {
         expiresIn: "10m",
       }
     );
 
-    return {
-      status: 200,
-      data: { token: accessToken },
-    };
+    return JSON.parse(HttpSuccess.OK({ token: accessToken }));
   } else {
-    return {
-      status: 403,
-      data: { message: "Invalid refresh token" },
-    };
+    return JSON.parse(HttpError.Forbidden("Invalid refresh token"));
   }
 };

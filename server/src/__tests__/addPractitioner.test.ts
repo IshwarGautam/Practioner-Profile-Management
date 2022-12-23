@@ -1,5 +1,4 @@
-const { practitionerModel } = require("../models/practitioner.model");
-
+import { practitionerModel } from "../models/practitioner.model";
 import { handleAddPractitioner } from "../services/practitioner.service";
 
 jest.mock("../models/practitioner.model");
@@ -18,7 +17,7 @@ const payload = {
 
 describe("add practitioner", () => {
   it("should return a status code of 409 when partitioner already exist in the database.", async () => {
-    practitionerModel.findOne.mockResolvedValueOnce(payload);
+    (practitionerModel.findOne as jest.Mock).mockResolvedValueOnce(payload);
 
     const response = await handleAddPractitioner(payload);
 
@@ -27,11 +26,11 @@ describe("add practitioner", () => {
   });
 
   it("should return a status code of 201 on adding new practitioner.", async () => {
-    practitionerModel.findOne.mockResolvedValueOnce(undefined);
+    (practitionerModel.findOne as jest.Mock).mockResolvedValueOnce(undefined);
 
     const newPractitioner = new practitionerModel({ ...payload });
 
-    newPractitioner.save.mockResolvedValueOnce();
+    (newPractitioner.save as jest.Mock).mockResolvedValueOnce("");
 
     const response = await handleAddPractitioner(payload);
 

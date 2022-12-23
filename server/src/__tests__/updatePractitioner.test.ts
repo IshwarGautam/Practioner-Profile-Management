@@ -1,5 +1,4 @@
-const { practitionerModel } = require("../models/practitioner.model");
-
+import { practitionerModel } from "../models/practitioner.model";
 import { handleUpdatePractitioner } from "../services/practitioner.service";
 
 jest.mock("../models/practitioner.model");
@@ -18,7 +17,7 @@ const payload = {
 
 describe("update practitioner details", () => {
   it("should return a status code of 409 when practitioner already exist in the database.", async () => {
-    practitionerModel.find.mockResolvedValueOnce([
+    (practitionerModel.find as jest.Mock).mockResolvedValueOnce([
       { ...payload, _id: 1 },
       { ...payload, _id: 2, email: "joe@gmail.com" },
     ]);
@@ -30,8 +29,10 @@ describe("update practitioner details", () => {
   });
 
   it("should return a status code of 200 on updating partitioner details.", async () => {
-    practitionerModel.find.mockResolvedValueOnce([]);
-    practitionerModel.findByIdAndUpdate.mockResolvedValueOnce(payload);
+    (practitionerModel.find as jest.Mock).mockResolvedValueOnce([]);
+    (practitionerModel.findByIdAndUpdate as jest.Mock).mockResolvedValueOnce(
+      payload
+    );
 
     const response = await handleUpdatePractitioner(payload, 1);
 
