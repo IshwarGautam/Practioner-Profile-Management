@@ -51,6 +51,7 @@ export default function Form(props: FormType) {
 
           <form
             id="form"
+            data-test="signup-form"
             className="flex flex-col max-width"
             onSubmit={handleSubmit(onSubmit)}
           >

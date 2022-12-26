@@ -151,6 +151,7 @@ export default function PractitionerForm() {
             </div>
             <form
               id="form"
+              data-test="practitioner-form"
               className={classes?.form}
               onSubmit={handleSubmit(onSubmit)}
             >

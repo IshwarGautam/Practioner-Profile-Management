@@ -52,6 +52,7 @@ export default function Form(props: FormType) {
           <span className="sub-title">Log in using your account.</span>
           <form
             id="form"
+            data-test="login-form"
             className="flex flex-col max-width"
             onSubmit={handleSubmit(onSubmit)}
           >

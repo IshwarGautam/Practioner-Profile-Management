@@ -1,9 +1,20 @@
 import { render } from "react-dom";
+import "@testing-library/jest-dom";
+import { fireEvent } from "@testing-library/react";
+import { signUpUser } from "../services/user.service";
 import SignUpForm from "../components/Form/SignUpForm";
 
 global.console = {
   ...console,
   error: jest.fn(),
+};
+
+jest.mock("../services/user.service");
+
+const mockData = {
+  username: "Jone Doe",
+  email: "jonedoe@gmail.com",
+  password: "jonedoe",
 };
 
 describe("Sign up Component test", () => {
@@ -12,6 +23,15 @@ describe("Sign up Component test", () => {
   beforeEach(() => {
     container = document.createElement("div");
     document.body.appendChild(container);
+
+    (signUpUser as jest.Mock).mockResolvedValue({
+      response: {
+        data: { user: { ...mockData, _id: 1 } },
+        accessToken: "some-token",
+        refreshToken: "some-token",
+      },
+      error: null,
+    });
 
     render(
       <SignUpForm onClick={() => {}} setUserInfo={() => {}}></SignUpForm>,
@@ -36,5 +56,39 @@ describe("Sign up Component test", () => {
     expect(inputs[2].type).toBe("password");
     expect(inputs[3].name).toBe("confirmPassword");
     expect(inputs[3].type).toBe("password");
+  });
+
+  it("renders correctly initial document with data-test query", () => {
+    expect(
+      container.querySelector("[data-test='signup-form']")
+    ).toBeInTheDocument();
+  });
+
+  it("Passes data correctly", () => {
+    const inputs = container.querySelectorAll("input");
+    const loginInput = inputs[0];
+    const passwordInput = inputs[1];
+    const confirmPasswordInput = inputs[2];
+
+    const button = container.querySelectorAll("button");
+    const submitButton = button[0];
+
+    fireEvent.change(loginInput, { target: { value: "someUser" } });
+    fireEvent.change(passwordInput, { target: { value: "somePass" } });
+    fireEvent.change(confirmPasswordInput, { target: { value: "somePass" } });
+    fireEvent.click(submitButton);
+
+    expect(loginInput.value).toBe("someUser");
+    expect(passwordInput.value).toBe(confirmPasswordInput.value);
+  });
+
+  it("should return response on successfull api call", async () => {
+    const { response } = await signUpUser(mockData);
+
+    expect(response).toEqual({
+      data: { user: { ...mockData, _id: 1 } },
+      accessToken: "some-token",
+      refreshToken: "some-token",
+    });
   });
 });

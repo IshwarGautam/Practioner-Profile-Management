@@ -8,6 +8,11 @@ import SignUpForm from "../../components/Form/SignUpForm";
 function Form() {
   const history = useHistory();
 
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    history.replace("/practitioner");
+  }
+
   const setUserInfo = useUserStore((state) => state.getUserInfo);
 
   const [isUserExist, setIsUserExist] = useState(true);
