@@ -1,7 +1,7 @@
-import http from "../../services/http";
 import { useForm } from "react-hook-form";
 import bgImg from "../../assets/img1.jpg";
 import { MouseEventHandler, useState } from "react";
+import { signInUser } from "../../services/user.service";
 
 type FormType = {
   history?: {
@@ -20,32 +20,28 @@ export default function Form(props: FormType) {
 
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  const onSubmit = (data: object) => {
-    http
-      .post("/users/signin/", data)
-      .then((response) => {
-        localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
+  const onSubmit = async (data: object) => {
+    const { response, error } = await signInUser(data);
 
-        props.setUserInfo({ userName: response.data.user.username });
+    if (response) {
+      props.setUserInfo({ userName: response.data.user.username });
 
-        props.history!.replace("/practitioner");
-      })
-      .catch((error) => {
-        switch (error.response.status) {
-          case 400:
-            setErrorMessage("Invalid Credentials.");
-            break;
-          case 404:
-            setErrorMessage("User not found.");
-            break;
-          case 500:
-            setErrorMessage("Something went wrong.");
-            break;
-          default:
-            setErrorMessage("");
-        }
-      });
+      props.history!.replace("/practitioner");
+    } else {
+      switch (error.response.status) {
+        case 400:
+          setErrorMessage("Invalid Credentials.");
+          break;
+        case 404:
+          setErrorMessage("User not found.");
+          break;
+        case 500:
+          setErrorMessage("Something went wrong.");
+          break;
+        default:
+          setErrorMessage("");
+      }
+    }
   };
 
   return (

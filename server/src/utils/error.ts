@@ -1,7 +1,7 @@
 export const HttpError = {
   Invalid: (message: string) =>
     JSON.stringify({
-      status: 401,
+      status: 400,
       data: {
         message: message,
       },

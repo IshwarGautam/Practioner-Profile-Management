@@ -1,7 +1,7 @@
 import bgImg from "../../assets/img1.jpg";
 import { useForm } from "react-hook-form";
-import http from "../../services/http";
 import { MouseEventHandler, useState } from "react";
+import { signUpUser } from "../../services/user.service";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
 type FormType = {
@@ -10,12 +10,6 @@ type FormType = {
   };
   setUserInfo: Function;
   onClick: MouseEventHandler;
-};
-
-type DataType = {
-  username?: string;
-  email?: string;
-  password?: string;
 };
 
 export default function Form(props: FormType) {
@@ -28,34 +22,24 @@ export default function Form(props: FormType) {
 
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  const onSubmit = (data: object) => {
-    const userData: DataType = { ...data };
+  const onSubmit = async (data: object) => {
+    const { response, error } = await signUpUser(data);
 
-    http
-      .post("/users/signup/", {
-        username: userData.username,
-        email: userData.email,
-        password: userData.password,
-      })
-      .then((response) => {
-        setErrorMessage("");
+    if (response) {
+      setErrorMessage("");
 
-        localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
+      props.setUserInfo({ userName: response.data.user.username });
 
-        props.setUserInfo({ userName: response.data.user.username });
-
-        props.history!.replace("/practitioner");
-      })
-      .catch((error) => {
-        if (error.response.status === 409) {
-          setErrorMessage(
-            "Looks like the user with that email already exist in the database."
-          );
-        } else {
-          setErrorMessage("Something went wrong.");
-        }
-      });
+      props.history!.replace("/practitioner");
+    } else {
+      if (error.response.status === 409) {
+        setErrorMessage(
+          "Looks like the user with that email already exist in the database."
+        );
+      } else {
+        setErrorMessage("Something went wrong.");
+      }
+    }
   };
 
   return (

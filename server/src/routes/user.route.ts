@@ -78,8 +78,6 @@ const userRouter = express.Router();
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/UserResponse'
- *      401:
- *        description: Unauthorized User
  *      409:
  *        description: User already exist
  *      422:
@@ -113,8 +111,6 @@ userRouter.post("/signup", signup);
  *              $ref: '#/components/schemas/UserResponse'
  *      400:
  *        description: Invalid credentials
- *      401:
- *        description: Unauthorized User
  *      404:
  *        description: User not found
  *      422:

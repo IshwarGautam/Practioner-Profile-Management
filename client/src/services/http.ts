@@ -13,7 +13,7 @@ http.interceptors.request.use(
     return req;
   },
   (err) => {
-    console.log(err);
+    return Promise.reject(err);
   }
 );
 
@@ -22,7 +22,8 @@ http.interceptors.response.use(
     return res;
   },
   async (err) => {
-    if (err.response.status === 401) {
+    if (err.response.status === 401 && !err.config._retry) {
+      err.config._retry = true;
       const token = localStorage.getItem("refreshToken");
 
       try {
@@ -34,6 +35,8 @@ http.interceptors.response.use(
         return Promise.reject(err);
       }
     }
+
+    return Promise.reject(err);
   }
 );
 

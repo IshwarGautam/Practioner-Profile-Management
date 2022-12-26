@@ -22,14 +22,14 @@ describe("test signin function", () => {
     expect(response.data.message).toBe("User not found.");
   });
 
-  it("should send a status of 401 on invalid credentials", async () => {
+  it("should send a status of 400 on invalid credentials", async () => {
     (userModel.findOne as jest.Mock).mockResolvedValueOnce(payload);
 
     (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
 
     const response = await handleUserSignin(payload);
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(400);
     expect(response.data.message).toBe("Invalid Credentials.");
   });
 
