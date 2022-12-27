@@ -7,7 +7,7 @@ import swaggerDocs from "./utils/swagger";
 import express, { Express } from "express";
 import userRouter from "./routes/user.route";
 import practitionerRouter from "./routes/practitioner.route";
-import { DB_USERNAME, DB_PASSWORD, PORT } from "./constant";
+import { DB_USERNAME, DB_PASSWORD, PORT } from "./apiConfig";
 
 const app: Express = express();
 const port: number = (PORT && parseInt(PORT)) || 8000;

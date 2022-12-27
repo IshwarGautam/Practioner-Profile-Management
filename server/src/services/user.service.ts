@@ -2,7 +2,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userModel } from "../models/user.model";
 import { HttpError, HttpSuccess } from "../utils/error";
-import { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } from "../constant";
+import {
+  ACCESS_TOKEN_SECRET_KEY,
+  REFRESH_TOKEN_SECRET_KEY,
+} from "../apiConfig";
 
 type payloadType = {
   username?: string;

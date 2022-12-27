@@ -1,9 +1,20 @@
-import http from "../../services/http";
+import http from "../../utils/http";
 import { useHistory } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import classes from "./PractitionerTable.module.css";
-import { Switch, Popconfirm, Table, Typography, Avatar } from "antd";
+import {
+  Table,
+  Switch,
+  Avatar,
+  Popconfirm,
+  Typography,
+  notification,
+} from "antd";
+import {
+  successNotification,
+  errorNotification,
+} from "../../utils/notification";
 
 type Item = {
   _id?: string;
@@ -20,11 +31,11 @@ type Item = {
 
 const PractitionerTable = () => {
   const history = useHistory();
+
   const [data, setData] = useState(new Array());
-
   const [count, setCount] = useState(0);
-
   const [loading, setLoading] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
 
   const columns = [
     {
@@ -132,8 +143,8 @@ const PractitionerTable = () => {
 
         setData([...icuSpecialistPractitioners, ...nonSpecialistPractitioners]);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        errorNotification(api, "Unable to get practitioner details.");
       })
       .finally(() => {
         setLoading(false);
@@ -160,8 +171,11 @@ const PractitionerTable = () => {
       .put(`/practitioner/${record?._id}`, updateData)
       .then(() => {
         setCount((c) => c + 1);
+        successNotification(api, "Successfully updated icu specialist.");
       })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        errorNotification(api, "Unable to update icu specialist.");
+      });
   };
 
   const onDelete = async (key: React.Key) => {
@@ -169,19 +183,25 @@ const PractitionerTable = () => {
       .delete(`/practitioner/${key}`)
       .then(() => {
         setCount((c) => c + 1);
+        successNotification(api, "Successfully deleted practitioner.");
       })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        errorNotification(api, "Unable to delete practitioner.");
+      });
   };
 
   return (
-    <Table
-      rowKey={(obj) => obj.email}
-      dataSource={data}
-      columns={columns}
-      pagination={false}
-      loading={loading}
-      className={classes.table}
-    />
+    <section>
+      {contextHolder}
+      <Table
+        rowKey={(obj) => obj.email}
+        dataSource={data}
+        columns={columns}
+        pagination={false}
+        loading={loading}
+        className={classes.table}
+      />
+    </section>
   );
 };
 

@@ -1,12 +1,13 @@
 import axios from "axios";
-import { Spin } from "antd";
 import label from "../../utils/label";
-import http from "../../services/http";
+import http from "../../utils/http";
+import { Spin, notification } from "antd";
 import bgImg from "../../assets/img2.jpg";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import classes from "./PractitionerForm.module.css";
 import { useHistory, useParams } from "react-router-dom";
+import { errorNotification } from "../../utils/notification";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
 interface fileType {
@@ -19,9 +20,8 @@ export default function PractitionerForm() {
 
   const [loading, setIsLoading] = useState(false);
   const [photo, setPhoto] = useState<string | Blob>("");
-  const [emailError, setEmailError] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>();
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
 
   let { practitioner_id } = useParams<{ practitioner_id?: string }>();
 
@@ -98,12 +98,12 @@ export default function PractitionerForm() {
         })
         .catch((error) => {
           if (error.response.status === 409) {
-            setEmailError(
+            errorNotification(
+              api,
               "Looks like the practitioner with that email already exist in the database."
             );
           } else {
-            setEmailError("");
-            setErrorMessage("Something went wrong.");
+            errorNotification(api, "Something went wrong.");
           }
         });
     } else {
@@ -114,12 +114,12 @@ export default function PractitionerForm() {
         })
         .catch((error) => {
           if (error.response.status === 409) {
-            setEmailError(
+            errorNotification(
+              api,
               "Looks like the practitioner with that email already exist in the database."
             );
           } else {
-            setEmailError("");
-            setErrorMessage("Something went wrong.");
+            errorNotification(api, "Something went wrong.");
           }
         });
     }
@@ -130,15 +130,15 @@ export default function PractitionerForm() {
 
     if (file && acceptType.includes(file.type)) {
       setPhoto(file);
-      setErrorMessage("");
       setIsPhotoChanged(true);
     } else {
-      setErrorMessage("Only jpg, jpeg and png file are allowed.");
+      errorNotification(api, "Only jpg, jpeg and png file are allowed.");
     }
   };
 
   return (
     <section>
+      {contextHolder}
       {loading && <Spin tip="Loading" size="large" />}
       {!loading && (
         <div className={classes?.addPractitioner}>
@@ -215,9 +215,6 @@ export default function PractitionerForm() {
                 <div className={classes?.errorMsg}>
                   {errors.email.message?.toString()}
                 </div>
-              )}
-              {emailError && (
-                <div className={classes?.errorMsg}>{emailError}</div>
               )}
 
               {(practitionerDetail.contact || !practitioner_id) && (
@@ -338,10 +335,6 @@ export default function PractitionerForm() {
                   }
                 />
               </div>
-              {errorMessage && (
-                <div className={classes?.errorMsg}> {errorMessage} </div>
-              )}
-
               <button className="btn">
                 {practitioner_id ? "Edit" : "Add"}
               </button>

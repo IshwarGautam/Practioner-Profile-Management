@@ -1,4 +1,4 @@
-import http from "./http";
+import http from "../utils/http";
 
 type DataType = {
   username?: string;
