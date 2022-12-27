@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1672059332235" clover="3.2.0">
-  <project timestamp="1672059332235" name="All files">
-    <metrics statements="150" coveredstatements="81" conditionals="113" coveredconditionals="63" methods="34" coveredmethods="11" elements="297" coveredelements="155" complexity="0" loc="150" ncloc="150" packages="4" files="11" classes="11"/>
+<coverage generated="1672126441650" clover="3.2.0">
+  <project timestamp="1672126441651" name="All files">
+    <metrics statements="117" coveredstatements="69" conditionals="110" coveredconditionals="63" methods="24" coveredmethods="10" elements="251" coveredelements="142" complexity="0" loc="117" ncloc="117" packages="3" files="9" classes="9"/>
     <package name="assets">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="img1.jpg" path="/home/ishwargautam/Desktop/Assignments/Practitioner_Profile_Management/client/src/assets/img1.jpg">
@@ -132,48 +132,6 @@
         <line num="45" count="5" type="stmt"/>
         <line num="123" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="124" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="services">
-      <metrics statements="33" coveredstatements="12" conditionals="3" coveredconditionals="0" methods="10" coveredmethods="1"/>
-      <file name="http.ts" path="/home/ishwargautam/Desktop/Assignments/Practitioner_Profile_Management/client/src/services/http.ts">
-        <metrics statements="20" coveredstatements="9" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="1"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="8" count="3" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="25" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="43" count="3" type="stmt"/>
-      </file>
-      <file name="user.service.ts" path="/home/ishwargautam/Desktop/Assignments/Practitioner_Profile_Management/client/src/services/user.service.ts">
-        <metrics statements="13" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="23" count="2" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
       </file>
     </package>
     <package name="utils">

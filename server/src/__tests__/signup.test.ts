@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userModel } from "../models/user.model";
-import { handleUserSignup } from "../services/user.service";
+import { handleRefreshToken, handleUserSignup } from "../services/user.service";
 
 jest.mock("bcrypt");
 jest.mock("jsonwebtoken");
@@ -47,5 +47,34 @@ describe("test signup function", () => {
     });
     expect(response.data.accessToken).toBe("some_token");
     expect(response.data.refreshToken).toBe("some_token");
+  });
+});
+
+describe("test refresh token", () => {
+  it("should return status code of 200 when access token renewed.", async () => {
+    (jwt.verify as jest.Mock).mockReturnValue({
+      user: {
+        id: 1,
+        email: "joe@gmail.com",
+      },
+    });
+
+    (jwt.sign as jest.Mock).mockReturnValue("new-token");
+
+    const response = await handleRefreshToken("some-token");
+
+    expect(response.status).toBe(200);
+    expect(response.data.token).toBe("new-token");
+  });
+
+  it("should return status code of 403 when access token failed to renew.", async () => {
+    (jwt.verify as jest.Mock).mockReturnValue({
+      err: {},
+    });
+
+    const response = await handleRefreshToken("some-token");
+
+    expect(response.status).toBe(403);
+    expect(response.data.message).toBe("Invalid refresh token");
   });
 });

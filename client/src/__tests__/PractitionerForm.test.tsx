@@ -74,18 +74,26 @@ describe("test data", () => {
   it("Passes data correctly", () => {
     const { container } = renderComponent(<PractitionerForm />);
 
-    const nameInput: any = container.querySelector("input[name='fullName']");
-    const emailInput: any = container.querySelector("input[name='email']");
-    const contactInput: any = container.querySelector("input[name='contact']");
-    const dobInput: any = container.querySelector("input[name='dob']");
-    const workingDaysInput: any = container.querySelector(
+    const nameInput: HTMLInputElement = container.querySelector(
+      "input[name='fullName']"
+    )!;
+    const emailInput: HTMLInputElement = container.querySelector(
+      "input[name='email']"
+    )!;
+    const contactInput: HTMLInputElement = container.querySelector(
+      "input[name='contact']"
+    )!;
+    const dobInput: HTMLInputElement =
+      container.querySelector("input[name='dob']")!;
+    const workingDaysInput: HTMLInputElement = container.querySelector(
       "input[name='workingDays']"
-    );
-    const startTimeInput: any = container.querySelector(
+    )!;
+    const startTimeInput: HTMLInputElement = container.querySelector(
       "input[name='startTime']"
-    );
-    const endTimeInput: any = container.querySelector("input[name='endTime']");
-    const fileInput: any = container.querySelector("input[name='file']");
+    )!;
+    const endTimeInput: HTMLInputElement = container.querySelector(
+      "input[name='endTime']"
+    )!;
 
     const button = container.querySelectorAll("button");
     const submitButton = button[0];
