@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {
-  validateSignup,
-  validateSignin,
-  validateRefreshToken,
-} from "../validator";
+import { validateSignup, validateSignin } from "../validator";
 import {
   handleUserSignin,
   handleUserSignup,
@@ -45,7 +41,15 @@ export const signin = async (req: Request, res: Response) => {
 
   const response = await handleUserSignin(req.body);
 
-  return res.status(response.status).json(response.data);
+  const options = {
+    httpOnly: true,
+    expires: new Date(Date.now() + 3600000),
+  };
+
+  return res
+    .status(response.status)
+    .cookie("refreshToken", response.data.refreshToken, options)
+    .json(response.data);
 };
 
 /**
@@ -56,13 +60,7 @@ export const signin = async (req: Request, res: Response) => {
  * @returns {Promise<Response>}
  */
 export const refresh = (req: Request, res: Response) => {
-  const refreshToken = req.body.token;
-
-  const { error } = validateRefreshToken(refreshToken);
-
-  if (error) {
-    return res.status(422).json({ message: error.details });
-  }
+  const { refreshToken } = req.cookies;
 
   const response = handleRefreshToken(refreshToken);
 

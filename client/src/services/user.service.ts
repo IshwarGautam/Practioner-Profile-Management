@@ -8,10 +8,9 @@ type DataType = {
 
 export const signInUser = (data: object) => {
   return http
-    .post("/users/signin/", data)
+    .post("/users/signin/", data, { withCredentials: true })
     .then((response) => {
       localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
 
       return { response, error: null };
     })
@@ -29,7 +28,6 @@ export const signUpUser = (data: DataType) => {
     })
     .then((response) => {
       localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
 
       return { response, error: null };
     })

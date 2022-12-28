@@ -24,7 +24,6 @@ function NavigationSection(props: NavigationSectionType) {
       onClick: () => {
         setRedirect(true);
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
       },
       key: "0",
     },

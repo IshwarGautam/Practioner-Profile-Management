@@ -113,8 +113,10 @@ body {
   table
   thead.ant-table-thead
   .ant-table-cell {
+  color: white;
+  font-size: 16px;
   text-align: center;
-  background-color: rgb(130, 161, 130);
+  background-color: #52575a;
 }
 
 .ant-table-wrapper .ant-table-tbody {

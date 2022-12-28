@@ -24,10 +24,11 @@ http.interceptors.response.use(
   async (err) => {
     if (err.response.status === 401 && !err.config._retry) {
       err.config._retry = true;
-      const token = localStorage.getItem("refreshToken");
 
       try {
-        const response = await http.post("/users/refresh", { token });
+        const response = await http.get("/users/refresh", {
+          withCredentials: true,
+        });
         localStorage.setItem("accessToken", response.data.token);
 
         return http(err.config);

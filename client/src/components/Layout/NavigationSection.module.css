@@ -3,7 +3,7 @@
   display: flex;
   padding: 0 5%;
   align-items: center;
-  background-color: #2b2d2e;
+  background-color: #52575a;
   justify-content: space-between;
 }
 
@@ -57,5 +57,5 @@
   margin: auto;
   font-size: 18px;
   padding-left: 8px;
-  color: rgba(23, 228, 16, 0.863);
+  color: rgb(255, 255, 0);
 }

@@ -120,6 +120,6 @@ userRouter.post("/signup", signup);
  */
 userRouter.post("/signin", signin);
 
-userRouter.post("/refresh", refresh);
+userRouter.get("/refresh", refresh);
 
 export default userRouter;

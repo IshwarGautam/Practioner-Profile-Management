@@ -3,6 +3,7 @@ dotenv.config();
 
 import cors from "cors";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import swaggerDocs from "./utils/swagger";
 import express, { Express } from "express";
 import userRouter from "./routes/user.route";
@@ -13,7 +14,13 @@ const app: Express = express();
 const port: number = (PORT && parseInt(PORT)) || 8000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+
+const corsOptions = {
+  credentials: true,
+  origin: "http://localhost:3000",
+};
+app.use(cors(corsOptions));
 
 app.use("/users", userRouter);
 app.use("/practitioner", practitionerRouter);

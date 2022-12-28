@@ -30,9 +30,6 @@ const practitionerSchema = Joi.object({
   assetUrl: Joi.string(),
 });
 
-const renewTokenSchema = Joi.string().required();
-
 export const validateSignup = validator(signupSchema);
 export const validateSignin = validator(signinSchema);
-export const validateRefreshToken = validator(renewTokenSchema);
 export const validatePractitioner = validator(practitionerSchema);
