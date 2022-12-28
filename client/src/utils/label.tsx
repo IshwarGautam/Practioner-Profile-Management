@@ -1,4 +1,4 @@
-export default function label(label: string, required: Boolean = false) {
+export default function label(label: string, required = false) {
   return (
     <div className="input-label">
       <label>{label}</label>

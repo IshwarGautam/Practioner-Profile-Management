@@ -34,7 +34,11 @@ describe("Sign up Component test", () => {
     });
 
     render(
-      <SignUpForm onClick={() => {}} setUserInfo={() => {}}></SignUpForm>,
+      <SignUpForm
+        setUserInfo={() => {
+          /** */
+        }}
+      ></SignUpForm>,
       container
     );
   });

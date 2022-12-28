@@ -16,14 +16,14 @@ interface fileType {
 
 export default function PractitionerForm() {
   const history = useHistory();
-  const required: Boolean = true;
+  const required = true;
 
   const [loading, setIsLoading] = useState(false);
   const [photo, setPhoto] = useState<string | Blob>("");
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  let { practitioner_id } = useParams<{ practitioner_id?: string }>();
+  const { practitioner_id } = useParams<{ practitioner_id?: string }>();
 
   const initialState = {
     fullName: "",
@@ -35,7 +35,7 @@ export default function PractitionerForm() {
     endTime: "",
   };
 
-  let [practitionerDetail, setPractitionerDetail] = useState(initialState);
+  const [practitionerDetail, setPractitionerDetail] = useState(initialState);
 
   const {
     register,
@@ -59,7 +59,8 @@ export default function PractitionerForm() {
           setIsLoading(false);
         });
     } else {
-      reset((practitionerDetail = initialState));
+      setPractitionerDetail(initialState);
+      reset(practitionerDetail);
     }
   }, [practitioner_id]);
 

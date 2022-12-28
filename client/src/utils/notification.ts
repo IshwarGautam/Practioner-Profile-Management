@@ -1,4 +1,9 @@
-export const successNotification = (api: any, description: string) => {
+import { NotificationInstance } from "antd/es/notification/interface";
+
+export const successNotification = (
+  api: NotificationInstance,
+  description: string
+) => {
   api.success({
     message: "Success",
     description,
@@ -6,7 +11,10 @@ export const successNotification = (api: any, description: string) => {
   });
 };
 
-export const errorNotification = (api: any, description: string) => {
+export const errorNotification = (
+  api: NotificationInstance,
+  description: string
+) => {
   api.error({
     message: "Error",
     description,

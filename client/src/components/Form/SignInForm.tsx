@@ -4,11 +4,11 @@ import { MouseEventHandler, useState } from "react";
 import { signInUser } from "../../services/user.service";
 
 type FormType = {
-  history?: {
+  history: {
     replace: (url: string) => void;
   };
-  setUserInfo: Function;
-  onClick: MouseEventHandler;
+  setUserInfo: (userInfo: object) => void;
+  onClick?: MouseEventHandler;
 };
 
 export default function Form(props: FormType) {
@@ -26,7 +26,7 @@ export default function Form(props: FormType) {
     if (response) {
       props.setUserInfo({ userName: response.data.user.username });
 
-      props.history!.replace("/practitioner");
+      props.history.replace("/practitioner");
     } else {
       switch (error.response.status) {
         case 400:

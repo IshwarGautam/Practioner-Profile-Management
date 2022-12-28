@@ -8,8 +8,8 @@ type FormType = {
   history?: {
     replace: (url: string) => void;
   };
-  setUserInfo: Function;
-  onClick: MouseEventHandler;
+  setUserInfo: (userInfo: object) => void;
+  onClick?: MouseEventHandler;
 };
 
 export default function Form(props: FormType) {

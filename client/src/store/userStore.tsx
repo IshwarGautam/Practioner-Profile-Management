@@ -12,7 +12,7 @@ interface UserState {
 const useUserStore = create(
   devtools(
     persist(
-      (set: Function): UserState => ({
+      (set): UserState => ({
         userInfo: { userName: "" },
         getUserInfo: (userInfo) => set({ userInfo }),
       }),

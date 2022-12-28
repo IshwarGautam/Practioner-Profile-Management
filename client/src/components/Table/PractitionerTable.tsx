@@ -1,7 +1,7 @@
 import http from "../../utils/http";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import React, { useState, useEffect } from "react";
 import classes from "./PractitionerTable.module.css";
 import {
   Table,
@@ -20,9 +20,9 @@ type Item = {
   _id?: string;
   fullName: string;
   email: string;
-  contact: Number;
+  contact: number;
   dob: string;
-  workingDays: Number;
+  workingDays: number;
   startTime: string;
   endTime: string;
   icuSpecialist?: boolean;
@@ -32,7 +32,7 @@ type Item = {
 const PractitionerTable = () => {
   const history = useHistory();
 
-  const [data, setData] = useState(new Array());
+  const [data, setData] = useState<Item[]>([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
@@ -41,7 +41,7 @@ const PractitionerTable = () => {
     {
       title: "Basic Info",
       dataIndex: "basicInfo",
-      render: (_: any, record: Item) => {
+      render: (_: null, record: Item) => {
         return (
           <div className={classes.basicInfo}>
             <Avatar
@@ -90,7 +90,7 @@ const PractitionerTable = () => {
     {
       title: "operation",
       dataIndex: "operation",
-      render: (_: any, record: Item) => {
+      render: (_: null, record: Item) => {
         return (
           <span>
             <Typography.Link
@@ -101,7 +101,7 @@ const PractitionerTable = () => {
             </Typography.Link>
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => onDelete(record._id!)}
+              onConfirm={() => onDelete(record)}
             >
               <a>Delete</a>
             </Popconfirm>
@@ -112,7 +112,7 @@ const PractitionerTable = () => {
     {
       title: "ICU Specialist",
       dataIndex: "ICU Specialist",
-      render: (_: any, record: Item) => {
+      render: (_: null, record: Item) => {
         return (
           <Switch
             onChange={(checked) => onChangeSpecialist(record, checked)}
@@ -178,9 +178,9 @@ const PractitionerTable = () => {
       });
   };
 
-  const onDelete = async (key: React.Key) => {
+  const onDelete = async (record: Item) => {
     http
-      .delete(`/practitioner/${key}`)
+      .delete(`/practitioner/${record._id}`)
       .then(() => {
         setCount((c) => c + 1);
         successNotification(api, "Successfully deleted practitioner.");

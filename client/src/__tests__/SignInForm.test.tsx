@@ -1,5 +1,6 @@
 import { render } from "react-dom";
 import "@testing-library/jest-dom";
+import { useHistory } from "react-router-dom";
 import { fireEvent } from "@testing-library/react";
 import { signInUser } from "../services/user.service";
 import SignInForm from "../components/Form/SignInForm";
@@ -8,6 +9,14 @@ global.console = {
   ...console,
   error: jest.fn(),
 };
+
+jest.mock("react-router-dom", () => {
+  return {
+    useHistory: () => {
+      /** */
+    },
+  };
+});
 
 jest.mock("../services/user.service");
 
@@ -33,7 +42,12 @@ describe("Login in Component test", () => {
     });
 
     render(
-      <SignInForm onClick={() => {}} setUserInfo={() => {}}></SignInForm>,
+      <SignInForm
+        history={useHistory()}
+        setUserInfo={() => {
+          /** */
+        }}
+      ></SignInForm>,
       container
     );
   });

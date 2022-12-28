@@ -23,7 +23,9 @@ jest.mock("react-router-dom", () => {
     useParams: () => ({
       id: "123",
     }),
-    useHistory: () => {},
+    useHistory: () => {
+      /** */
+    },
   };
 });
 
