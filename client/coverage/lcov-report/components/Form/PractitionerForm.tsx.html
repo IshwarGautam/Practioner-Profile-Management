@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.56% </span>
+                <span class="strong">54.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/64</span>
+                <span class='fraction'>34/62</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.9% </span>
+                <span class="strong">59.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>43/73</span>
+                <span class='fraction'>41/69</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.56% </span>
+                <span class="strong">54.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/64</span>
+                <span class='fraction'>34/62</span>
             </div>
         
             
@@ -414,13 +414,8 @@
 <a name='L349'></a><a href='#L349'>349</a>
 <a name='L350'></a><a href='#L350'>350</a>
 <a name='L351'></a><a href='#L351'>351</a>
-<a name='L352'></a><a href='#L352'>352</a>
-<a name='L353'></a><a href='#L353'>353</a>
-<a name='L354'></a><a href='#L354'>354</a>
-<a name='L355'></a><a href='#L355'>355</a>
-<a name='L356'></a><a href='#L356'>356</a>
-<a name='L357'></a><a href='#L357'>357</a>
-<a name='L358'></a><a href='#L358'>358</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L352'></a><a href='#L352'>352</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -440,7 +435,6 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -481,6 +475,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -524,7 +519,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -540,7 +535,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -553,7 +548,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -754,13 +748,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -778,14 +766,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import axios from "axios";
-import { Spin } from "antd";
 import label from "../../utils/label";
-import http from "../../services/http";
+import http from "../../utils/http";
+import { Spin, notification } from "antd";
 import bgImg from "../../assets/img2.jpg";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import classes from "./PractitionerForm.module.css";
 import { useHistory, useParams } from "react-router-dom";
+import { errorNotification } from "../../utils/notification";
 import { handleEmailValidation } from "../../utils/emailValidation";
 &nbsp;
 interface fileType {
@@ -794,15 +783,14 @@ interface fileType {
 &nbsp;
 export default function PractitionerForm() {
   const history = useHistory();
-  const required: Boolean = true;
+  const required = true;
 &nbsp;
   const [loading, setIsLoading] = useState(false);
   const [photo, setPhoto] = useState&lt;string | Blob&gt;("");
-  const [emailError, setEmailError] = useState&lt;string&gt;("");
-  const [errorMessage, setErrorMessage] = useState&lt;string&gt;();
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
 &nbsp;
-  let { practitioner_id } = useParams&lt;{ practitioner_id?: string }&gt;();
+  const { practitioner_id } = useParams&lt;{ practitioner_id?: string }&gt;();
 &nbsp;
   const initialState = {
     fullName: "",
@@ -814,7 +802,7 @@ export default function PractitionerForm() {
     endTime: "",
   };
 &nbsp;
-  let [practitionerDetail, setPractitionerDetail] = useState(initialState);
+  const [practitionerDetail, setPractitionerDetail] = useState(initialState);
 &nbsp;
   const {
     register,
@@ -838,7 +826,8 @@ export default function PractitionerForm() {
 <span class="cstat-no" title="statement not covered" >          setIsLoading(false);</span>
         });
     } else {
-      reset((practitionerDetail = initialState));
+      setPractitionerDetail(initialState);
+      reset(practitionerDetail);
     }
   }, [practitioner_id]);
 &nbsp;
@@ -877,12 +866,12 @@ export default function PractitionerForm() {
         })
         .catch(<span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {
 <span class="cstat-no" title="statement not covered" >          if (error.response.status === 409) {</span>
-<span class="cstat-no" title="statement not covered" >            setEmailError(</span>
+<span class="cstat-no" title="statement not covered" >            errorNotification(</span>
+              api,
               "Looks like the practitioner with that email already exist in the database."
             );
           } else {
-<span class="cstat-no" title="statement not covered" >            setEmailError("");</span>
-<span class="cstat-no" title="statement not covered" >            setErrorMessage("Something went wrong.");</span>
+<span class="cstat-no" title="statement not covered" >            errorNotification(api, "Something went wrong.");</span>
           }
         });
     } else {
@@ -893,12 +882,12 @@ export default function PractitionerForm() {
         })
         .catch(<span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {
 <span class="cstat-no" title="statement not covered" >          if (error.response.status === 409) {</span>
-<span class="cstat-no" title="statement not covered" >            setEmailError(</span>
+<span class="cstat-no" title="statement not covered" >            errorNotification(</span>
+              api,
               "Looks like the practitioner with that email already exist in the database."
             );
           } else {
-<span class="cstat-no" title="statement not covered" >            setEmailError("");</span>
-<span class="cstat-no" title="statement not covered" >            setErrorMessage("Something went wrong.");</span>
+<span class="cstat-no" title="statement not covered" >            errorNotification(api, "Something went wrong.");</span>
           }
         });
     }
@@ -909,15 +898,15 @@ export default function PractitionerForm() {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (file &amp;&amp; acceptType.includes(file.type)) {</span>
 <span class="cstat-no" title="statement not covered" >      setPhoto(file);</span>
-<span class="cstat-no" title="statement not covered" >      setErrorMessage("");</span>
 <span class="cstat-no" title="statement not covered" >      setIsPhotoChanged(true);</span>
     } else {
-<span class="cstat-no" title="statement not covered" >      setErrorMessage("Only jpg, jpeg and png file are allowed.");</span>
+<span class="cstat-no" title="statement not covered" >      errorNotification(api, "Only jpg, jpeg and png file are allowed.");</span>
     }
   };
 &nbsp;
   return (
     &lt;section&gt;
+      {contextHolder}
       {loading &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;Spin tip="Loading" size="large" /&gt;}</span>
       {!loading &amp;&amp; (
         &lt;div className={classes?.addPractitioner}&gt;
@@ -994,9 +983,6 @@ export default function PractitionerForm() {
 <span class="branch-1 cbranch-no" title="branch not covered" >                &lt;div className={classes?.errorMsg}&gt;</span>
                   {errors.email.message?.toString()}
                 &lt;/div&gt;
-              )}
-              {emailError &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >                &lt;div className={classes?.errorMsg}&gt;{emailError}&lt;/div&gt;</span>
               )}
 &nbsp;
               {(practitionerDetail.contact || !practitioner_id) &amp;&amp; (
@@ -1117,10 +1103,6 @@ export default function PractitionerForm() {
                   }
                 /&gt;
               &lt;/div&gt;
-              {errorMessage &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >                &lt;div className={classes?.errorMsg}&gt; {errorMessage} &lt;/div&gt;</span>
-              )}
-&nbsp;
               &lt;button className="btn"&gt;
                 {practitioner_id ? <span class="branch-0 cbranch-no" title="branch not covered" >"Edit" </span>: "Add"}
               &lt;/button&gt;
@@ -1141,7 +1123,7 @@ export default function PractitionerForm() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-27T07:34:01.534Z
+                at 2022-12-28T12:23:27.396Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
