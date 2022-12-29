@@ -21,27 +21,9 @@ export default function Form(props: FormType) {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSubmit = async (data: object) => {
-    const { response, error } = await signInUser(data);
+    const { errorMessage } = await signInUser(data, props);
 
-    if (response) {
-      props.setUserInfo({ userName: response.data.user.username });
-
-      props.history.replace("/practitioner");
-    } else {
-      switch (error.response.status) {
-        case 400:
-          setErrorMessage("Invalid Credentials.");
-          break;
-        case 404:
-          setErrorMessage("User not found.");
-          break;
-        case 500:
-          setErrorMessage("Something went wrong.");
-          break;
-        default:
-          setErrorMessage("");
-      }
-    }
+    setErrorMessage(errorMessage);
   };
 
   return (

@@ -9,7 +9,11 @@ const config: Config.InitialOptions = {
   testEnvironment: "jsdom",
   testRegex: "(__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  coveragePathIgnorePatterns: ["<rootDir>/src/services/"],
+  coveragePathIgnorePatterns: [
+    "<rootDir>/src/services/",
+    "<rootDir>/src/utils/http.ts",
+    "<rootDir>/src/utils/notification.ts",
+  ],
 };
 
 export default config;

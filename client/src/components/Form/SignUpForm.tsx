@@ -23,23 +23,9 @@ export default function Form(props: FormType) {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onSubmit = async (data: object) => {
-    const { response, error } = await signUpUser(data);
+    const { errorMessage } = await signUpUser(data, props);
 
-    if (response) {
-      setErrorMessage("");
-
-      props.setUserInfo({ userName: response.data.user.username });
-
-      props.history!.replace("/practitioner");
-    } else {
-      if (error.response.status === 409) {
-        setErrorMessage(
-          "Looks like the user with that email already exist in the database."
-        );
-      } else {
-        setErrorMessage("Something went wrong.");
-      }
-    }
+    setErrorMessage(errorMessage);
   };
 
   return (

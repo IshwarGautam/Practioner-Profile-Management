@@ -20,11 +20,6 @@ jest.mock("react-router-dom", () => {
 
 jest.mock("../services/user.service");
 
-const mockData = {
-  email: "jonedoe@gmail.com",
-  password: "jonedoe",
-};
-
 describe("Login in Component test", () => {
   let container: HTMLDivElement;
 
@@ -90,11 +85,5 @@ describe("Login in Component test", () => {
 
     expect(loginInput.value).toBe("someUser");
     expect(passwordInput.value).toBe("somePass");
-  });
-
-  it("should return status code of 400 on unsuccessful api call", async () => {
-    const { error } = await signInUser(mockData);
-
-    expect(error.response.status).toEqual(400);
   });
 });

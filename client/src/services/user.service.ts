@@ -6,20 +6,40 @@ type DataType = {
   password?: string;
 };
 
-export const signInUser = (data: object) => {
+export const signInUser = (data: object, props: any) => {
   return http
     .post("/users/signin/", data, { withCredentials: true })
     .then((response) => {
       localStorage.setItem("accessToken", response.data.accessToken);
 
-      return { response, error: null };
+      props.setUserInfo({ userName: response.data.user.username });
+
+      props.history.replace("/practitioner");
+
+      return { errorMessage: "" };
     })
     .catch((error) => {
-      return { response: null, error };
+      let msg = "";
+
+      switch (error.response.status) {
+        case 400:
+          msg = "Invalid Credentials.";
+          break;
+        case 404:
+          msg = "User not found.";
+          break;
+        case 500:
+          msg = "Something went wrong.";
+          break;
+        default:
+          msg = "";
+      }
+
+      return { errorMessage: msg };
     });
 };
 
-export const signUpUser = (data: DataType) => {
+export const signUpUser = (data: DataType, props: any) => {
   return http
     .post("/users/signup/", {
       username: data.username,
@@ -29,9 +49,22 @@ export const signUpUser = (data: DataType) => {
     .then((response) => {
       localStorage.setItem("accessToken", response.data.accessToken);
 
-      return { response, error: null };
+      props.setUserInfo({ userName: response.data.user.username });
+
+      props.history.replace("/practitioner");
+
+      return { errorMessage: "" };
     })
     .catch((error) => {
-      return { response: null, error };
+      if (error.response.status === 409) {
+        return {
+          errorMessage:
+            "Looks like the user with that email already exist in the database.",
+        };
+      } else {
+        return {
+          errorMessage: "Something went wrong.",
+        };
+      }
     });
 };

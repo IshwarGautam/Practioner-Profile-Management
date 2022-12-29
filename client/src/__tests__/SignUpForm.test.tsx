@@ -11,12 +11,6 @@ global.console = {
 
 jest.mock("../services/user.service");
 
-const mockData = {
-  username: "Jone Doe",
-  email: "jonedoe@gmail.com",
-  password: "jonedoe",
-};
-
 describe("Sign up Component test", () => {
   let container: HTMLDivElement;
 
@@ -25,12 +19,12 @@ describe("Sign up Component test", () => {
     document.body.appendChild(container);
 
     (signUpUser as jest.Mock).mockResolvedValue({
-      response: {
-        data: { user: { ...mockData, _id: 1 } },
-        accessToken: "some-token",
-        refreshToken: "some-token",
+      response: null,
+      error: {
+        response: {
+          status: 400,
+        },
       },
-      error: null,
     });
 
     render(
@@ -84,15 +78,5 @@ describe("Sign up Component test", () => {
 
     expect(loginInput.value).toBe("someUser");
     expect(passwordInput.value).toBe(confirmPasswordInput.value);
-  });
-
-  it("should return response on successfull api call", async () => {
-    const { response } = await signUpUser(mockData);
-
-    expect(response).toEqual({
-      data: { user: { ...mockData, _id: 1 } },
-      accessToken: "some-token",
-      refreshToken: "some-token",
-    });
   });
 });
