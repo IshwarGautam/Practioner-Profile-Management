@@ -1,5 +1,6 @@
 import { render } from "react-dom";
 import "@testing-library/jest-dom";
+import { useHistory } from "react-router-dom";
 import { fireEvent } from "@testing-library/react";
 import { signUpUser } from "../services/user.service";
 import SignUpForm from "../components/Form/SignUpForm";
@@ -10,6 +11,14 @@ global.console = {
 };
 
 jest.mock("../services/user.service");
+
+jest.mock("react-router-dom", () => {
+  return {
+    useHistory: () => {
+      /** */
+    },
+  };
+});
 
 describe("Sign up Component test", () => {
   let container: HTMLDivElement;
@@ -29,6 +38,7 @@ describe("Sign up Component test", () => {
 
     render(
       <SignUpForm
+        history={useHistory()}
         setUserInfo={() => {
           /** */
         }}

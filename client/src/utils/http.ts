@@ -42,7 +42,6 @@ export const SetupInterceptors = (
         }
       }
 
-      history.replace("/");
       return Promise.reject(err);
     }
   );

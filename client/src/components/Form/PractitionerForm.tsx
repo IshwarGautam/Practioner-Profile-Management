@@ -1,6 +1,4 @@
-import axios from "axios";
 import label from "../../utils/label";
-import http from "../../utils/http";
 import { Spin, notification } from "antd";
 import bgImg from "../../assets/img2.jpg";
 import { useForm } from "react-hook-form";
@@ -8,7 +6,13 @@ import { useEffect, useState } from "react";
 import classes from "./PractitionerForm.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import { errorNotification } from "../../utils/notification";
+import { uploadImage } from "../../services/uploadImage.service";
 import { handleEmailValidation } from "../../utils/emailValidation";
+import {
+  getPractitioner,
+  addPractitioner,
+  updatePractitioner,
+} from "../../services/practitioner.service";
 
 interface fileType {
   type: string;
@@ -47,82 +51,54 @@ export default function PractitionerForm() {
   useEffect(() => {
     if (practitioner_id) {
       setIsLoading(true);
-      http
-        .get(`/practitioner/form/${practitioner_id}`)
-        .then((response) => {
-          setPractitionerDetail(response.data[0]);
-        })
-        .catch(() => {
-          history.replace("/practitioner-not-found");
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+
+      (async () => {
+        const { response } = await getPractitioner(practitioner_id, history);
+        if (response) {
+          setPractitionerDetail(response);
+        }
+      })();
+
+      setIsLoading(false);
     } else {
       setPractitionerDetail(initialState);
       reset(practitionerDetail);
     }
   }, [practitioner_id]);
 
-  const onSubmit = (data: object) => {
+  const onSubmit = async (data: object) => {
     if (isPhotoChanged) {
       setIsLoading(true);
 
-      const imageData = new FormData();
+      const { response } = await uploadImage(data, photo);
 
-      imageData.append("file", photo);
-      imageData.append("upload_preset", "practitioner_profile_management");
+      if (response) {
+        await updatePractitionerData({ ...data, assetUrl: response.data.url });
+      }
 
-      axios
-        .post(
-          "https://api.cloudinary.com/v1_1/dly7e04zt/image/upload",
-          imageData
-        )
-        .then((res) => {
-          updatePractitionerData({ ...data, assetUrl: res.data.url });
-        })
-        .catch((error) => console.log(error))
-        .finally(() => {
-          setIsLoading(false);
-        });
+      setIsLoading(false);
     } else {
       updatePractitionerData(data);
     }
   };
 
-  const updatePractitionerData = (data: object) => {
+  const updatePractitionerData = async (data: object) => {
     if (practitioner_id) {
-      http
-        .put(`/practitioner/${practitioner_id}`, data)
-        .then(() => {
-          history.replace("/practitioner");
-        })
-        .catch((error) => {
-          if (error.response.status === 409) {
-            errorNotification(
-              api,
-              "Looks like the practitioner with that email already exist in the database."
-            );
-          } else {
-            errorNotification(api, "Something went wrong.");
-          }
-        });
+      const { errorMessage } = await updatePractitioner(
+        practitioner_id,
+        data,
+        history
+      );
+
+      if (errorMessage) {
+        errorNotification(api, errorMessage);
+      }
     } else {
-      http
-        .post("/practitioner", data)
-        .then(() => {
-          history.replace("/practitioner");
-        })
-        .catch((error) => {
-          if (error.response.status === 409) {
-            errorNotification(
-              api,
-              "Looks like the practitioner with that email already exist in the database."
-            );
-          } else {
-            errorNotification(api, "Something went wrong.");
-          }
-        });
+      const { errorMessage } = await addPractitioner(data, history);
+
+      if (errorMessage) {
+        errorNotification(api, errorMessage);
+      }
     }
   };
 

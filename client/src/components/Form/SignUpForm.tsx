@@ -5,7 +5,7 @@ import { signUpUser } from "../../services/user.service";
 import { handleEmailValidation } from "../../utils/emailValidation";
 
 type FormType = {
-  history?: {
+  history: {
     replace: (url: string) => void;
   };
   setUserInfo: (userInfo: object) => void;
