@@ -1,9 +1,9 @@
 import {
-  handleAddPractitioner,
-  handleGetPractitioner,
-  handleUpdatePractitioner,
-  handleDeletePractitioner,
-  handleGetAllPractitioners,
+  addPractitioner,
+  getPractitioner,
+  updatePractitioner,
+  deletePractitioner,
+  getAllPractitioner,
 } from "../services/practitioner.service";
 import { Request, Response } from "express";
 import { validatePractitioner } from "../validator";
@@ -15,14 +15,14 @@ import { validatePractitioner } from "../validator";
  * @param res Response
  * @returns {Promise<Response>}
  */
-export const addPractitioner = async (req: Request, res: Response) => {
+export const add = async (req: Request, res: Response) => {
   const { error } = validatePractitioner(req.body);
 
   if (error) {
     return res.status(422).json({ message: error.details });
   }
 
-  const response = await handleAddPractitioner(req.body);
+  const response = await addPractitioner(req.body);
 
   return res.status(response.status).json(response.data);
 };
@@ -34,7 +34,7 @@ export const addPractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-export const updatePractitioner = async (req: Request, res: Response) => {
+export const update = async (req: Request, res: Response) => {
   const { error } = validatePractitioner(req.body);
 
   if (error) {
@@ -43,7 +43,7 @@ export const updatePractitioner = async (req: Request, res: Response) => {
 
   const id = req.params.practitioner_id;
 
-  const response = await handleUpdatePractitioner(req.body, id);
+  const response = await updatePractitioner(req.body, id);
 
   return res.status(response.status).json(response.data);
 };
@@ -55,10 +55,10 @@ export const updatePractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-export const deletePractitioner = async (req: Request, res: Response) => {
+export const remove = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
-  const response = await handleDeletePractitioner(id);
+  const response = await deletePractitioner(id);
 
   return res.status(response.status).json(response.data);
 };
@@ -70,10 +70,10 @@ export const deletePractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-export const getPractitioner = async (req: Request, res: Response) => {
+export const get = async (req: Request, res: Response) => {
   const id = req.params.practitioner_id;
 
-  const response = await handleGetPractitioner(id);
+  const response = await getPractitioner(id);
 
   return res.status(response.status).json(response.data);
 };
@@ -85,8 +85,8 @@ export const getPractitioner = async (req: Request, res: Response) => {
  * @param res Response
  * @returns {Promise<Response>}
  */
-export const getPractitioners = async (req: Request, res: Response) => {
-  const response = await handleGetAllPractitioners();
+export const getAll = async (req: Request, res: Response) => {
+  const response = await getAllPractitioner();
 
   return res.status(response.status).json(response.data);
 };

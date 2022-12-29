@@ -1,5 +1,5 @@
 import { practitionerModel } from "../models/practitioner.model";
-import { handleUpdatePractitioner } from "../services/practitioner.service";
+import { updatePractitioner } from "../services/practitioner.service";
 
 jest.mock("../models/practitioner.model");
 
@@ -22,7 +22,7 @@ describe("update practitioner details", () => {
       { ...payload, _id: 2, email: "joe@gmail.com" },
     ]);
 
-    const response = await handleUpdatePractitioner(payload, 1);
+    const response = await updatePractitioner(payload, 1);
 
     expect(response.status).toBe(409);
     expect(response.data).toEqual({ message: "Practitioner already exists." });
@@ -34,7 +34,7 @@ describe("update practitioner details", () => {
       payload
     );
 
-    const response = await handleUpdatePractitioner(payload, 1);
+    const response = await updatePractitioner(payload, 1);
 
     expect(response.status).toBe(200);
     expect(response.data).toEqual(payload);

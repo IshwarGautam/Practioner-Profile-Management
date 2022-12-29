@@ -1,7 +1,7 @@
 import { practitionerModel } from "../models/practitioner.model";
 import {
-  handleGetPractitioner,
-  handleGetAllPractitioners,
+  getPractitioner,
+  getAllPractitioner,
 } from "../services/practitioner.service";
 
 jest.mock("../models/practitioner.model");
@@ -21,7 +21,7 @@ describe("Get practitioner/s details", () => {
   it("should return a status code of 202 when a practitioner detail is fetched successfully.", async () => {
     (practitionerModel.find as jest.Mock).mockResolvedValueOnce(payload);
 
-    const response = await handleGetPractitioner(payload._id);
+    const response = await getPractitioner(payload._id);
 
     expect(response.status).toBe(202);
     expect(response.data).toEqual(payload);
@@ -32,7 +32,7 @@ describe("Get practitioner/s details", () => {
       { ...payload },
     ]);
 
-    const response = await handleGetAllPractitioners();
+    const response = await getAllPractitioner();
 
     expect(response.status).toBe(200);
     expect(response.data).toEqual([{ ...payload }]);

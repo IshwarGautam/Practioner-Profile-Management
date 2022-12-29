@@ -12,7 +12,7 @@ import {
  * @param refreshToken string
  * @returns {object}
  */
-export const handleRefreshToken = (refreshToken: string) => {
+export const updateToken = (refreshToken: string) => {
   type ResponseType = {
     err: string | null;
     user: {
@@ -50,7 +50,7 @@ export const handleRefreshToken = (refreshToken: string) => {
  * @param res Response
  * @returns {object}
  */
-export const handleRemoveToken = (res: Response) => {
+export const removeToken = (res: Response) => {
   try {
     res.clearCookie("refreshToken");
 

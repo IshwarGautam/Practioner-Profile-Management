@@ -124,9 +124,18 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -142,6 +151,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,7 +160,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,9 +178,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,71 +194,81 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const HttpError = {
-  Invalid: (message: string) =&gt;
-    JSON.stringify({
+  Invalid: (message: string) =&gt; {
+    return {
       status: 400,
       data: {
         message: message,
       },
-    }),
+    };
+  },
 &nbsp;
-  Forbidden: (message: string) =&gt;
-    JSON.stringify({
+  Forbidden: (message: string) =&gt; {
+    return {
       status: 403,
       data: {
         message: message,
       },
-    }),
+    };
+  },
 &nbsp;
-  NotFound: (message: string) =&gt;
-    JSON.stringify({
+  NotFound: (message: string) =&gt; {
+    return {
       status: 404,
       data: {
         message: message,
       },
-    }),
+    };
+  },
 &nbsp;
-  Conflict: (message: string) =&gt;
-    JSON.stringify({
+  Conflict: (message: string) =&gt; {
+    return {
       status: 409,
       data: {
         message: message,
       },
-    }),
+    };
+  },
 &nbsp;
-  BadRequest: <span class="fstat-no" title="function not covered" >(m</span>essage: string) =&gt;
-<span class="cstat-no" title="statement not covered" >    JSON.stringify({</span>
+  BadRequest: <span class="fstat-no" title="function not covered" >(m</span>essage: string) =&gt; {
+<span class="cstat-no" title="statement not covered" >    return {</span>
       status: 500,
       data: {
         message: message,
       },
-    }),
+    };
+  },
 };
 &nbsp;
 export const HttpSuccess = {
-  OK: (data: object) =&gt;
-    JSON.stringify({
+  OK: (data: object) =&gt; {
+    return {
       status: 200,
       data: data,
-    }),
+    };
+  },
 &nbsp;
-  Created: (data: object) =&gt;
-    JSON.stringify({
+  Created: (data: object) =&gt; {
+    return {
       status: 201,
       data: data,
-    }),
+    };
+  },
 &nbsp;
-  Accepted: (data: object) =&gt;
-    JSON.stringify({
+  Accepted: (data: object) =&gt; {
+    return {
       status: 202,
       data: data,
-    }),
+    };
+  },
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -253,7 +277,7 @@ export const HttpSuccess = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-29T08:25:33.292Z
+                at 2022-12-29T11:39:15.656Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

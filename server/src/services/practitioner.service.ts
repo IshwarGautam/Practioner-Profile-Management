@@ -19,7 +19,7 @@ type PractitionerType = {
  * @param payload PractitionerType
  * @returns {object}
  */
-export const handleAddPractitioner = async (payload: PractitionerType) => {
+export const addPractitioner = async (payload: PractitionerType) => {
   const {
     fullName,
     email,
@@ -63,7 +63,7 @@ export const handleAddPractitioner = async (payload: PractitionerType) => {
  * @param id string | number
  * @returns {object}
  */
-export const handleGetPractitioner = async (id: string | number) => {
+export const getPractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.find({ _id: id });
 
@@ -78,7 +78,7 @@ export const handleGetPractitioner = async (id: string | number) => {
  *
  * @returns {object}
  */
-export const handleGetAllPractitioners = async () => {
+export const getAllPractitioner = async () => {
   try {
     const practitioners = await practitionerModel.find();
 
@@ -95,7 +95,7 @@ export const handleGetAllPractitioners = async () => {
  * @param id string | number
  * @returns {object}
  */
-export const handleUpdatePractitioner = async (
+export const updatePractitioner = async (
   payload: PractitionerType,
   id: string | number
 ) => {
@@ -150,7 +150,7 @@ export const handleUpdatePractitioner = async (
  * @param id string | number
  * @returns {object}
  */
-export const handleDeletePractitioner = async (id: string | number) => {
+export const deletePractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.findByIdAndRemove(id);
 

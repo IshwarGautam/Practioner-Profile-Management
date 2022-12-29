@@ -19,7 +19,7 @@ type payloadType = {
  * @param payload payloadType
  * @returns {object}
  */
-export const handleUserSignin = async (payload: payloadType) => {
+export const userSignin = async (payload: payloadType) => {
   const { email, password } = payload;
 
   try {
@@ -63,7 +63,7 @@ export const handleUserSignin = async (payload: payloadType) => {
  * @param payload payloadType
  * @returns {object}
  */
-export const handleUserSignup = async (payload: payloadType) => {
+export const userSignup = async (payload: payloadType) => {
   const { username, email, password } = payload;
 
   try {

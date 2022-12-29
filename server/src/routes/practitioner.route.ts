@@ -1,11 +1,11 @@
 import express from "express";
 import { auth } from "../middlewares/auth";
 import {
-  getPractitioner,
-  addPractitioner,
-  getPractitioners,
-  deletePractitioner,
-  updatePractitioner,
+  get,
+  add,
+  getAll,
+  remove,
+  update,
 } from "../controllers/practitioner.controller";
 
 const practitionerRouter = express.Router();
@@ -84,7 +84,7 @@ const practitionerRouter = express.Router();
  *      500:
  *        description: Internal Server Error
  */
-practitionerRouter.get("/", auth, getPractitioners);
+practitionerRouter.get("/", auth, getAll);
 
 /**
  * @openapi
@@ -108,7 +108,7 @@ practitionerRouter.get("/", auth, getPractitioners);
  *      500:
  *        description: Internal Server Error
  */
-practitionerRouter.get("/form/:practitioner_id", auth, getPractitioner);
+practitionerRouter.get("/form/:practitioner_id", auth, get);
 
 /**
  * @openapi
@@ -141,7 +141,7 @@ practitionerRouter.get("/form/:practitioner_id", auth, getPractitioner);
  *      500:
  *        description: Internal Server Error
  */
-practitionerRouter.post("/", auth, addPractitioner);
+practitionerRouter.post("/", auth, add);
 
 /**
  * @openapi
@@ -165,7 +165,7 @@ practitionerRouter.post("/", auth, addPractitioner);
  *      500:
  *        description: Internal Server Error
  */
-practitionerRouter.delete("/:practitioner_id", auth, deletePractitioner);
+practitionerRouter.delete("/:practitioner_id", auth, remove);
 
 /**
  * @openapi
@@ -197,6 +197,6 @@ practitionerRouter.delete("/:practitioner_id", auth, deletePractitioner);
  *      500:
  *        description: Internal Server Error
  */
-practitionerRouter.put("/:practitioner_id", auth, updatePractitioner);
+practitionerRouter.put("/:practitioner_id", auth, update);
 
 export default practitionerRouter;

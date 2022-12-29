@@ -1,5 +1,5 @@
 import { practitionerModel } from "../models/practitioner.model";
-import { handleAddPractitioner } from "../services/practitioner.service";
+import { addPractitioner } from "../services/practitioner.service";
 
 jest.mock("../models/practitioner.model");
 
@@ -15,11 +15,19 @@ const payload = {
   assetUrl: "",
 };
 
+type ResponseType = {
+  status: number;
+  data: {
+    message?: string;
+    token?: string;
+  };
+};
+
 describe("add practitioner", () => {
   it("should return a status code of 409 when partitioner already exist in the database.", async () => {
     (practitionerModel.findOne as jest.Mock).mockResolvedValueOnce(payload);
 
-    const response = await handleAddPractitioner(payload);
+    const response: ResponseType = await addPractitioner(payload);
 
     expect(response.status).toBe(409);
     expect(response.data.message).toBe("Practitioner already exists.");
@@ -32,7 +40,7 @@ describe("add practitioner", () => {
 
     (newPractitioner.save as jest.Mock).mockResolvedValueOnce("");
 
-    const response = await handleAddPractitioner(payload);
+    const response = await addPractitioner(payload);
 
     expect(response.status).toBe(201);
   });

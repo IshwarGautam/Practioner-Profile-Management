@@ -1,5 +1,5 @@
 import { practitionerModel } from "../models/practitioner.model";
-import { handleDeletePractitioner } from "../services/practitioner.service";
+import { deletePractitioner } from "../services/practitioner.service";
 
 jest.mock("../models/practitioner.model");
 
@@ -20,7 +20,7 @@ describe("delete practitioner details", () => {
       payload
     );
 
-    const response = await handleDeletePractitioner(1);
+    const response = await deletePractitioner(1);
 
     expect(response.status).toBe(202);
     expect(response.data).toEqual(payload);

@@ -1,8 +1,5 @@
-import {
-  handleRefreshToken,
-  handleRemoveToken,
-} from "../services/token.service";
 import { Request, Response } from "express";
+import { updateToken, removeToken } from "../services/token.service";
 
 /**
  * Function to generate new access token from refresh token.
@@ -14,7 +11,7 @@ import { Request, Response } from "express";
 export const refresh = (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
 
-  const response = handleRefreshToken(refreshToken);
+  const response = updateToken(refreshToken);
 
   return res.status(response.status).json(response.data);
 };
@@ -27,7 +24,7 @@ export const refresh = (req: Request, res: Response) => {
  * @returns {Promise<Response>}
  */
 export const remove = (req: Request, res: Response) => {
-  const response = handleRemoveToken(res);
+  const response = removeToken(res);
 
   return res.status(response.status).json(response.data);
 };

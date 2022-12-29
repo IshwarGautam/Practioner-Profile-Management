@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { validateSignup, validateSignin } from "../validator";
-import { handleUserSignin, handleUserSignup } from "../services/user.service";
+import { userSignin, userSignup } from "../services/user.service";
 
 /**
  * Function to handle user signup
@@ -16,7 +16,7 @@ export const signup = async (req: Request, res: Response) => {
     return res.status(422).json({ message: error.details });
   }
 
-  const response = await handleUserSignup(req.body);
+  const response = await userSignup(req.body);
 
   return res.status(response.status).json(response.data);
 };
@@ -42,7 +42,7 @@ export const signin = async (req: Request, res: Response) => {
     };
   };
 
-  const response: responseType = await handleUserSignin(req.body);
+  const response: responseType = await userSignin(req.body);
 
   const options = {
     httpOnly: true,

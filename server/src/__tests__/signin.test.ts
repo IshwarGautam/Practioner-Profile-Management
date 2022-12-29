@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userModel } from "../models/user.model";
-import { handleUserSignin } from "../services/user.service";
+import { userSignin } from "../services/user.service";
 
 jest.mock("bcrypt");
 jest.mock("jsonwebtoken");
@@ -12,11 +12,22 @@ const payload = {
   password: "martin98776",
 };
 
+type ResponseType = {
+  status: number;
+  data: {
+    user?: string;
+    message?: string;
+    token?: string;
+    accessToken?: string;
+    refreshToken?: string;
+  };
+};
+
 describe("test signin function", () => {
   it("should send a status of 404 when no user is found during sign in", async () => {
     (userModel.findOne as jest.Mock).mockResolvedValueOnce(undefined);
 
-    const response = await handleUserSignin(payload);
+    const response: ResponseType = await userSignin(payload);
 
     expect(response.status).toBe(404);
     expect(response.data.message).toBe("User not found.");
@@ -27,7 +38,7 @@ describe("test signin function", () => {
 
     (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
 
-    const response = await handleUserSignin(payload);
+    const response: ResponseType = await userSignin(payload);
 
     expect(response.status).toBe(400);
     expect(response.data.message).toBe("Invalid Credentials.");
@@ -40,7 +51,7 @@ describe("test signin function", () => {
 
     (jwt.sign as jest.Mock).mockReturnValue("some_token");
 
-    const response = await handleUserSignin(payload);
+    const response: ResponseType = await userSignin(payload);
 
     expect(response.status).toBe(201);
     expect(response.data).toHaveProperty("user");

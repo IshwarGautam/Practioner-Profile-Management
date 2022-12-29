@@ -1,7 +1,15 @@
 import jwt from "jsonwebtoken";
-import { handleRefreshToken } from "../services/token.service";
+import { updateToken } from "../services/token.service";
 
 jest.mock("jsonwebtoken");
+
+type ResponseType = {
+  status: number;
+  data: {
+    message?: string;
+    token?: string;
+  };
+};
 
 describe("Refresh token", () => {
   it("should return status code of 403 on invalid refresh token.", () => {
@@ -9,7 +17,7 @@ describe("Refresh token", () => {
 
     const invalidToken = "hdf87f";
 
-    const response = handleRefreshToken(invalidToken);
+    const response: ResponseType = updateToken(invalidToken);
 
     expect(response.status).toBe(403);
     expect(response.data.message).toBe("Invalid refresh token");
@@ -22,7 +30,7 @@ describe("Refresh token", () => {
 
     (jwt.sign as jest.Mock).mockReturnValue("some_token");
 
-    const response = handleRefreshToken(validToken);
+    const response: ResponseType = updateToken(validToken);
 
     expect(response.status).toBe(200);
     expect(response.data.token).toBe("some_token");

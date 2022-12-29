@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userModel } from "../models/user.model";
-import { handleUserSignup } from "../services/user.service";
-import { handleRefreshToken } from "../services/token.service";
+import { userSignup } from "../services/user.service";
+import { updateToken } from "../services/token.service";
 
 jest.mock("bcrypt");
 jest.mock("jsonwebtoken");
@@ -14,11 +14,22 @@ const payload = {
   password: "martin98776",
 };
 
+type ResponseType = {
+  status: number;
+  data: {
+    user?: object;
+    message?: string;
+    token?: string;
+    accessToken?: string;
+    refreshToken?: string;
+  };
+};
+
 describe("test signup function", () => {
   it("should send a status code of 409 when user exists", async () => {
     (userModel.findOne as jest.Mock).mockResolvedValueOnce(payload);
 
-    const response = await handleUserSignup(payload);
+    const response: ResponseType = await userSignup(payload);
 
     expect(response.status).toBe(409);
     expect(response.data.message).toBe("User already exists.");
@@ -36,7 +47,7 @@ describe("test signup function", () => {
 
     (jwt.sign as jest.Mock).mockReturnValue("some_token");
 
-    const response = await handleUserSignup(payload);
+    const response: ResponseType = await userSignup(payload);
 
     expect(response.status).toBe(201);
     expect(response.data).toHaveProperty("user");
@@ -62,7 +73,7 @@ describe("test refresh token", () => {
 
     (jwt.sign as jest.Mock).mockReturnValue("new-token");
 
-    const response = await handleRefreshToken("some-token");
+    const response: ResponseType = await updateToken("some-token");
 
     expect(response.status).toBe(200);
     expect(response.data.token).toBe("new-token");
@@ -73,7 +84,7 @@ describe("test refresh token", () => {
       err: {},
     });
 
-    const response = await handleRefreshToken("some-token");
+    const response: ResponseType = await updateToken("some-token");
 
     expect(response.status).toBe(403);
     expect(response.data.message).toBe("Invalid refresh token");
