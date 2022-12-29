@@ -7,12 +7,6 @@ import PractitionerTable from "../../components/Table/PractitionerTable";
 function AllPractitioners() {
   const history = useHistory();
 
-  const token = localStorage.getItem("accessToken");
-
-  if (!token) {
-    history.replace("/");
-  }
-
   const redirectToAddPage = () => {
     history.replace("/practitioner/form");
   };
@@ -29,7 +23,7 @@ function AllPractitioners() {
         </Button>
       </div>
 
-      {token && <PractitionerTable />}
+      <PractitionerTable />
     </div>
   );
 }
