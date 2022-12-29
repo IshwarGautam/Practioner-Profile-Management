@@ -26,13 +26,13 @@ export const handleUserSignin = async (payload: payloadType) => {
     const existingUser = await userModel.findOne({ email });
 
     if (!existingUser) {
-      return JSON.parse(HttpError.NotFound("User not found."));
+      return HttpError.NotFound("User not found.");
     }
 
     const matchPassword = await bcrypt.compare(password, existingUser.password);
 
     if (!matchPassword) {
-      return JSON.parse(HttpError.Invalid("Invalid Credentials."));
+      return HttpError.Invalid("Invalid Credentials.");
     }
 
     const accessToken = jwt.sign(
@@ -47,11 +47,13 @@ export const handleUserSignin = async (payload: payloadType) => {
       { expiresIn: "7d" }
     );
 
-    return JSON.parse(
-      HttpSuccess.Created({ user: existingUser, accessToken, refreshToken })
-    );
+    return HttpSuccess.Created({
+      user: existingUser,
+      accessToken,
+      refreshToken,
+    });
   } catch (error) {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };
 
@@ -68,7 +70,7 @@ export const handleUserSignup = async (payload: payloadType) => {
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return JSON.parse(HttpError.Conflict("User already exists."));
+      return HttpError.Conflict("User already exists.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -91,10 +93,8 @@ export const handleUserSignup = async (payload: payloadType) => {
       { expiresIn: "7d" }
     );
 
-    return JSON.parse(
-      HttpSuccess.Created({ user: userData, accessToken, refreshToken })
-    );
+    return HttpSuccess.Created({ user: userData, accessToken, refreshToken });
   } catch (error) {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };

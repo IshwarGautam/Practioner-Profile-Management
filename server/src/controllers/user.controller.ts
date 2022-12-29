@@ -35,7 +35,14 @@ export const signin = async (req: Request, res: Response) => {
     return res.status(422).json({ message: error.details });
   }
 
-  const response = await handleUserSignin(req.body);
+  type responseType = {
+    status: number;
+    data: {
+      refreshToken?: string;
+    };
+  };
+
+  const response: responseType = await handleUserSignin(req.body);
 
   const options = {
     httpOnly: true,

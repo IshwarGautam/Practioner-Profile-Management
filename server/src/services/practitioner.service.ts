@@ -46,14 +46,14 @@ export const handleAddPractitioner = async (payload: PractitionerType) => {
     const existingPractitioner = await practitionerModel.findOne({ email });
 
     if (existingPractitioner) {
-      return JSON.parse(HttpError.Conflict("Practitioner already exists."));
+      return HttpError.Conflict("Practitioner already exists.");
     }
 
     await newPractitioner.save();
 
-    return JSON.parse(HttpSuccess.Created(newPractitioner));
+    return HttpSuccess.Created(newPractitioner);
   } catch (error) {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };
 
@@ -67,9 +67,9 @@ export const handleGetPractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.find({ _id: id });
 
-    return JSON.parse(HttpSuccess.Accepted(practitioner));
+    return HttpSuccess.Accepted(practitioner);
   } catch (error) {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };
 
@@ -82,9 +82,9 @@ export const handleGetAllPractitioners = async () => {
   try {
     const practitioners = await practitionerModel.find();
 
-    return JSON.parse(HttpSuccess.OK(practitioners));
+    return HttpSuccess.OK(practitioners);
   } catch (error) {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };
 
@@ -131,16 +131,16 @@ export const handleUpdatePractitioner = async (
       (existingPractitioner.length === 2 ||
         existingPractitioner[0]._id.toString() !== id)
     ) {
-      return JSON.parse(HttpError.Conflict("Practitioner already exists."));
+      return HttpError.Conflict("Practitioner already exists.");
     }
 
     await practitionerModel.findByIdAndUpdate(id, newPractitioner, {
       new: true,
     });
 
-    return JSON.parse(HttpSuccess.OK(newPractitioner));
+    return HttpSuccess.OK(newPractitioner);
   } catch (error) {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };
 
@@ -154,8 +154,8 @@ export const handleDeletePractitioner = async (id: string | number) => {
   try {
     const practitioner = await practitionerModel.findByIdAndRemove(id);
 
-    return JSON.parse(HttpSuccess.Accepted(practitioner!));
+    return HttpSuccess.Accepted(practitioner!);
   } catch {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };

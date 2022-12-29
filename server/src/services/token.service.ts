@@ -38,9 +38,9 @@ export const handleRefreshToken = (refreshToken: string) => {
       }
     );
 
-    return JSON.parse(HttpSuccess.OK({ token: accessToken }));
+    return HttpSuccess.OK({ token: accessToken });
   } else {
-    return JSON.parse(HttpError.Forbidden("Invalid refresh token"));
+    return HttpError.Forbidden("Invalid refresh token");
   }
 };
 
@@ -54,10 +54,8 @@ export const handleRemoveToken = (res: Response) => {
   try {
     res.clearCookie("refreshToken");
 
-    return JSON.parse(
-      HttpSuccess.OK({ message: "Token successfully cleared." })
-    );
+    return HttpSuccess.OK({ message: "Token successfully cleared." });
   } catch {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
+    return HttpError.BadRequest("Something went wrong.");
   }
 };
