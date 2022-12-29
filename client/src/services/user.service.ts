@@ -6,7 +6,13 @@ type DataType = {
   password?: string;
 };
 
-export const signInUser = (data: object, props: any) => {
+type propsType = {
+  history: {
+    replace: (url: string) => void;
+  };
+  setUserInfo: (userInfo: object) => void;
+};
+export const signInUser = (data: object, props: propsType) => {
   return http
     .post("/users/signin/", data, { withCredentials: true })
     .then((response) => {
@@ -39,7 +45,7 @@ export const signInUser = (data: object, props: any) => {
     });
 };
 
-export const signUpUser = (data: DataType, props: any) => {
+export const signUpUser = (data: DataType, props: propsType) => {
   return http
     .post("/users/signup/", {
       username: data.username,

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const validator = (schema: any) => (payload: object) =>
+const validator = (schema: Joi.ObjectSchema) => (payload: object) =>
   schema.validate(payload, { abortEarly: false });
 
 const signupSchema = Joi.object({

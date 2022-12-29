@@ -1,10 +1,6 @@
 import express from "express";
-import {
-  signin,
-  signup,
-  refresh,
-  remove,
-} from "../controllers/user.controller";
+import { signin, signup } from "../controllers/user.controller";
+import { refresh, remove } from "../controllers/token.controller";
 
 const userRouter = express.Router();
 

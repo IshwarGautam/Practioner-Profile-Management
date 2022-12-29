@@ -1,11 +1,14 @@
 import { apiBaseUrl } from "./constant";
 import axios, { AxiosRequestConfig } from "axios";
+import { RouterChildContext } from "react-router-dom";
 
 const http = axios.create({
   baseURL: apiBaseUrl,
 });
 
-export const SetupInterceptors = (history: any) => {
+export const SetupInterceptors = (
+  history: RouterChildContext["router"]["history"]
+) => {
   http.interceptors.request.use(
     (req: AxiosRequestConfig) => {
       const token = localStorage.getItem("accessToken");

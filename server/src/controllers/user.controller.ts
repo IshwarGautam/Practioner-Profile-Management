@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
 import { validateSignup, validateSignin } from "../validator";
-import {
-  handleUserSignin,
-  handleUserSignup,
-  handleRefreshToken,
-  handleRemoveToken,
-} from "../services/user.service";
+import { handleUserSignin, handleUserSignup } from "../services/user.service";
 
 /**
  * Function to handle user signup
@@ -51,32 +46,4 @@ export const signin = async (req: Request, res: Response) => {
     .status(response.status)
     .cookie("refreshToken", response.data.refreshToken, options)
     .json(response.data);
-};
-
-/**
- * Function to generate new access token from refresh token.
- *
- * @param req Request
- * @param res Response
- * @returns {Promise<Response>}
- */
-export const refresh = (req: Request, res: Response) => {
-  const { refreshToken } = req.cookies;
-
-  const response = handleRefreshToken(refreshToken);
-
-  return res.status(response.status).json(response.data);
-};
-
-/**
- * Function to remove refresh token from cookies.
- *
- * @param req Request
- * @param res Response
- * @returns {Promise<Response>}
- */
-export const remove = (req: Request, res: Response) => {
-  const response = handleRemoveToken(res);
-
-  return res.status(response.status).json(response.data);
 };

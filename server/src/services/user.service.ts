@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Response } from "express";
 import { userModel } from "../models/user.model";
 import { HttpError, HttpSuccess } from "../utils/error";
 import {
@@ -96,62 +95,6 @@ export const handleUserSignup = async (payload: payloadType) => {
       HttpSuccess.Created({ user: userData, accessToken, refreshToken })
     );
   } catch (error) {
-    return JSON.parse(HttpError.BadRequest("Something went wrong."));
-  }
-};
-
-/**
- * Service for generating new access token from refresh token.
- *
- * @param refreshToken string
- * @returns {object}
- */
-export const handleRefreshToken = (refreshToken: string) => {
-  type ResponseType = {
-    err: string | null;
-    user: {
-      email: string;
-      id: string;
-    };
-  };
-
-  const response: ResponseType | any = jwt.verify(
-    refreshToken,
-    REFRESH_TOKEN_SECRET_KEY,
-    (err, user) => {
-      return { err, user };
-    }
-  );
-
-  if (!response?.err) {
-    const accessToken = jwt.sign(
-      { email: response?.user.email, id: response?.user.id },
-      ACCESS_TOKEN_SECRET_KEY,
-      {
-        expiresIn: "10m",
-      }
-    );
-
-    return JSON.parse(HttpSuccess.OK({ token: accessToken }));
-  } else {
-    return JSON.parse(HttpError.Forbidden("Invalid refresh token"));
-  }
-};
-
-/**
- * Service for removing refresh token from cookies.
- *
- * @param res Response
- * @returns {object}
- */
-export const handleRemoveToken = (res: Response) => {
-  try {
-    res.clearCookie("refreshToken");
-
-    return JSON.parse(
-      HttpSuccess.OK({ message: "Token successfully cleared." })
-    );
-  } catch {
     return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };

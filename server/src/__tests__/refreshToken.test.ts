@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { handleRefreshToken } from "../services/user.service";
+import { handleRefreshToken } from "../services/token.service";
 
 jest.mock("jsonwebtoken");
 
