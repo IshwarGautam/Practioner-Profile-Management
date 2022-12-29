@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Response } from "express";
 import { userModel } from "../models/user.model";
 import { HttpError, HttpSuccess } from "../utils/error";
 import {
@@ -134,5 +135,23 @@ export const handleRefreshToken = (refreshToken: string) => {
     return JSON.parse(HttpSuccess.OK({ token: accessToken }));
   } else {
     return JSON.parse(HttpError.Forbidden("Invalid refresh token"));
+  }
+};
+
+/**
+ * Service for removing refresh token from cookies.
+ *
+ * @param res Response
+ * @returns {object}
+ */
+export const handleRemoveToken = (res: Response) => {
+  try {
+    res.clearCookie("refreshToken");
+
+    return JSON.parse(
+      HttpSuccess.OK({ message: "Token successfully cleared." })
+    );
+  } catch {
+    return JSON.parse(HttpError.BadRequest("Something went wrong."));
   }
 };

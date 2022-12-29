@@ -1,5 +1,10 @@
 import express from "express";
-import { signin, signup, refresh } from "../controllers/user.controller";
+import {
+  signin,
+  signup,
+  refresh,
+  remove,
+} from "../controllers/user.controller";
 
 const userRouter = express.Router();
 
@@ -120,6 +125,8 @@ userRouter.post("/signup", signup);
  */
 userRouter.post("/signin", signin);
 
-userRouter.get("/refresh", refresh);
+userRouter.get("/refreshToken", refresh);
+
+userRouter.get("/removeToken", remove);
 
 export default userRouter;

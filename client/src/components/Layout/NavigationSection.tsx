@@ -1,4 +1,5 @@
 import { useState } from "react";
+import http from "../../utils/http";
 import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import { Link } from "react-router-dom";
@@ -24,6 +25,13 @@ function NavigationSection(props: NavigationSectionType) {
       onClick: () => {
         setRedirect(true);
         localStorage.removeItem("accessToken");
+
+        //remove refresh token from cookies
+        http
+          .get("/users/removeToken", { withCredentials: true })
+          .catch((error) => {
+            console.log(error);
+          });
       },
       key: "0",
     },

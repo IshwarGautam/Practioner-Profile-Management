@@ -4,6 +4,7 @@ import {
   handleUserSignin,
   handleUserSignup,
   handleRefreshToken,
+  handleRemoveToken,
 } from "../services/user.service";
 
 /**
@@ -63,6 +64,19 @@ export const refresh = (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
 
   const response = handleRefreshToken(refreshToken);
+
+  return res.status(response.status).json(response.data);
+};
+
+/**
+ * Function to remove refresh token from cookies.
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
+export const remove = (req: Request, res: Response) => {
+  const response = handleRemoveToken(res);
 
   return res.status(response.status).json(response.data);
 };
