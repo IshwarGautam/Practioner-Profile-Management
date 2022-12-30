@@ -14,7 +14,7 @@ type propsType = {
 };
 export const signInUser = (data: object, props: propsType) => {
   return http
-    .post("/users/signin/", data, { withCredentials: true })
+    .post("/users/signin", data, { withCredentials: true })
     .then((response) => {
       localStorage.setItem("accessToken", response.data.accessToken);
 
@@ -47,7 +47,7 @@ export const signInUser = (data: object, props: propsType) => {
 
 export const signUpUser = (data: DataType, props: propsType) => {
   return http
-    .post("/users/signup/", {
+    .post("/users/signup", {
       username: data.username,
       email: data.email,
       password: data.password,

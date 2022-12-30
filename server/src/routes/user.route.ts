@@ -1,4 +1,5 @@
 import express from "express";
+import { validation } from "../middlewares/validation";
 import { signin, signup } from "../controllers/user.controller";
 import { refresh, remove } from "../controllers/token.controller";
 
@@ -86,7 +87,7 @@ const userRouter = express.Router();
  *      500:
  *        description: Internal Server Error
  */
-userRouter.post("/signup", signup);
+userRouter.post("/signup", validation, signup);
 
 /**
  * @openapi
@@ -119,7 +120,7 @@ userRouter.post("/signup", signup);
  *      500:
  *        description: Internal Server Error
  */
-userRouter.post("/signin", signin);
+userRouter.post("/signin", validation, signin);
 
 userRouter.get("/refreshToken", refresh);
 

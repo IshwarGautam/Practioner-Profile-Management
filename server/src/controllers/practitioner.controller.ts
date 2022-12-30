@@ -6,7 +6,6 @@ import {
   getAllPractitioner,
 } from "../services/practitioner.service";
 import { Request, Response } from "express";
-import { validatePractitioner } from "../validator";
 
 /**
  * Function to handle add practitioner
@@ -16,12 +15,6 @@ import { validatePractitioner } from "../validator";
  * @returns {Promise<Response>}
  */
 export const add = async (req: Request, res: Response) => {
-  const { error } = validatePractitioner(req.body);
-
-  if (error) {
-    return res.status(422).json({ message: error.details });
-  }
-
   const response = await addPractitioner(req.body);
 
   return res.status(response.status).json(response.data);
@@ -35,12 +28,6 @@ export const add = async (req: Request, res: Response) => {
  * @returns {Promise<Response>}
  */
 export const update = async (req: Request, res: Response) => {
-  const { error } = validatePractitioner(req.body);
-
-  if (error) {
-    return res.status(422).json({ message: error.details });
-  }
-
   const id = req.params.practitioner_id;
 
   const response = await updatePractitioner(req.body, id);

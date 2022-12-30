@@ -7,6 +7,7 @@ import {
   remove,
   update,
 } from "../controllers/practitioner.controller";
+import { validation } from "../middlewares/validation";
 
 const practitionerRouter = express.Router();
 
@@ -141,7 +142,7 @@ practitionerRouter.get("/form/:practitioner_id", auth, get);
  *      500:
  *        description: Internal Server Error
  */
-practitionerRouter.post("/", auth, add);
+practitionerRouter.post("/", auth, validation, add);
 
 /**
  * @openapi
@@ -197,6 +198,6 @@ practitionerRouter.delete("/:practitioner_id", auth, remove);
  *      500:
  *        description: Internal Server Error
  */
-practitionerRouter.put("/:practitioner_id", auth, update);
+practitionerRouter.put("/:practitioner_id", auth, validation, update);
 
 export default practitionerRouter;

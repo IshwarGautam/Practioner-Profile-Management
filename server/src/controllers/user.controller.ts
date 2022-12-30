@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { validateSignup, validateSignin } from "../validator";
 import { userSignin, userSignup } from "../services/user.service";
 
 /**
@@ -10,12 +9,6 @@ import { userSignin, userSignup } from "../services/user.service";
  * @returns {Promise<Response>}
  */
 export const signup = async (req: Request, res: Response) => {
-  const { error } = validateSignup(req.body);
-
-  if (error) {
-    return res.status(422).json({ message: error.details });
-  }
-
   const response = await userSignup(req.body);
 
   return res.status(response.status).json(response.data);
@@ -29,12 +22,6 @@ export const signup = async (req: Request, res: Response) => {
  * @returns {Promise<Response>}
  */
 export const signin = async (req: Request, res: Response) => {
-  const { error } = validateSignin(req.body);
-
-  if (error) {
-    return res.status(422).json({ message: error.details });
-  }
-
   type responseType = {
     status: number;
     data: {
