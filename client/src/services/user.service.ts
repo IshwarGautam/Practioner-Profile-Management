@@ -96,3 +96,25 @@ export const deleteUser = (payload: object) => {
       return { error };
     });
 };
+
+export const forgetPassword = (payload: object) => {
+  return http
+    .post(`/users/forgetPassword`, payload)
+    .then(() => {
+      return { error: null };
+    })
+    .catch((error) => {
+      return { error };
+    });
+};
+
+export const resetPassword = (token: string, payload: object) => {
+  return http
+    .post(`/users/resetPassword?token=${token}`, payload)
+    .then(() => {
+      return { error: null };
+    })
+    .catch((error) => {
+      return { error };
+    });
+};

@@ -2,7 +2,14 @@ import express from "express";
 import { auth } from "../middlewares/auth";
 import { validation } from "../middlewares/validation";
 import { refresh, remove } from "../controllers/token.controller";
-import { signin, signup, get, unpublish } from "../controllers/user.controller";
+import {
+  get,
+  signin,
+  signup,
+  unpublish,
+  resetPassword,
+  forgetPassword,
+} from "../controllers/user.controller";
 
 const userRouter = express.Router();
 
@@ -130,5 +137,9 @@ userRouter.delete("/delete", auth, validation, unpublish);
 userRouter.get("/refreshToken", refresh);
 
 userRouter.get("/removeToken", remove);
+
+userRouter.post("/forgetPassword", forgetPassword);
+
+userRouter.post("/resetPassword", resetPassword);
 
 export default userRouter;

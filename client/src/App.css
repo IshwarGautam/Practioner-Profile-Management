@@ -94,6 +94,12 @@ body {
   text-align: left;
 }
 
+.successMsg {
+  color: green;
+  font-size: 12px;
+  text-align: left;
+}
+
 .register-user,
 .sign-in-user {
   left: 20px;
@@ -102,9 +108,14 @@ body {
 }
 
 .sign-up-label,
-.sign-in-label {
+.sign-in-label,
+.back-btn {
   color: blue;
   cursor: pointer;
+}
+
+.back-btn {
+  text-align: left;
 }
 
 .ant-table
@@ -139,6 +150,12 @@ body {
 
 label {
   text-shadow: 1px 1px;
+}
+
+.forget-password {
+  cursor: pointer;
+  text-align: left;
+  color: rgb(3, 3, 253);
 }
 
 /* width */

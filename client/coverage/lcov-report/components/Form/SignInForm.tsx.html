@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>15/17</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">62.5% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
+                <span class="quiet">Functions</span>
                 <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.23% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>15/17</span>
             </div>
         
             
@@ -137,7 +137,24 @@
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -158,6 +175,7 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -166,6 +184,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -214,6 +246,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useForm } from "react-hook-form";
 import bgImg from "../../assets/img1.jpg";
 import { MouseEventHandler, useState } from "react";
+import ForgetPasswordForm from "./ForgetPasswordForm";
 import { signInUser } from "../../services/user.service";
 &nbsp;
 type FormType = {
@@ -232,6 +265,7 @@ export default function Form(props: FormType) {
   } = useForm();
 &nbsp;
   const [errorMessage, setErrorMessage] = useState&lt;string&gt;();
+  const [isPasswordForget, setIsPasswordForget] = useState(false);
 &nbsp;
   const onSubmit = async (data: object) =&gt; {
     const { errorMessage } = await signInUser(data, props);
@@ -239,49 +273,63 @@ export default function Form(props: FormType) {
     setErrorMessage(errorMessage);
   };
 &nbsp;
+  const onForgetBtnClicked = <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+<span class="cstat-no" title="statement not covered" >    setIsPasswordForget(true);</span>
+  };
+&nbsp;
+  const onBack = <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+<span class="cstat-no" title="statement not covered" >    setIsPasswordForget(false);</span>
+  };
+&nbsp;
   return (
     &lt;section&gt;
-      &lt;div className="register"&gt;
-        &lt;div className="col-1"&gt;
-          &lt;h2&gt;Sign In&lt;/h2&gt;
-          &lt;span className="sub-title"&gt;Log in using your account.&lt;/span&gt;
-          &lt;form
-            id="form"
-            data-test="login-form"
-            className="flex flex-col max-width"
-            onSubmit={handleSubmit(onSubmit)}
-          &gt;
-            &lt;input
-              type="text"
-              {...register("email", {
-                required: true,
-              })}
-              placeholder="email"
-            /&gt;
-            {errors.email?.type === "required" &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;div className="errorMsg"&gt;Email is required.&lt;/div&gt;</span>
-            )}
+      {isPasswordForget &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;ForgetPasswordForm onBack={onBack} /&gt;}</span>
+      {!isPasswordForget &amp;&amp; (
+        &lt;div className="register"&gt;
+          &lt;div className="col-1"&gt;
+            &lt;h2&gt;Sign In&lt;/h2&gt;
+            &lt;span className="sub-title"&gt;Log in using your account.&lt;/span&gt;
+            &lt;form
+              id="form"
+              data-test="login-form"
+              className="flex flex-col max-width"
+              onSubmit={handleSubmit(onSubmit)}
+            &gt;
+              &lt;input
+                type="text"
+                {...register("email", {
+                  required: true,
+                })}
+                placeholder="email"
+              /&gt;
+              {errors.email?.type === "required" &amp;&amp; (
+<span class="branch-1 cbranch-no" title="branch not covered" >                &lt;div className="errorMsg"&gt;Email is required.&lt;/div&gt;</span>
+              )}
 &nbsp;
-            &lt;input
-              type="password"
-              {...register("password")}
-              placeholder="password"
-            /&gt;
-            &lt;button className="btn"&gt;Sign In&lt;/button&gt;
-            {errorMessage &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;div className="errorMsg"&gt; {errorMessage} &lt;/div&gt;}</span>
-          &lt;/form&gt;
-          &lt;div className="register-user"&gt;
-            Don't have an account?
-            &lt;span className="sign-up-label" onClick={props.onClick}&gt;
-              {" "}
-              Sign up
-            &lt;/span&gt;
+              &lt;input
+                type="password"
+                {...register("password")}
+                placeholder="password"
+              /&gt;
+              &lt;div className="forget-password" onClick={onForgetBtnClicked}&gt;
+                Forget Password?
+              &lt;/div&gt;
+              &lt;button className="btn"&gt;Sign In&lt;/button&gt;
+              {errorMessage &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;div className="errorMsg"&gt; {errorMessage} &lt;/div&gt;}</span>
+            &lt;/form&gt;
+            &lt;div className="register-user"&gt;
+              Don't have an account?
+              &lt;span className="sign-up-label" onClick={props.onClick}&gt;
+                {" "}
+                Sign up
+              &lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div className="col-2"&gt;
+            &lt;img src={bgImg} alt="Background Image" /&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;div className="col-2"&gt;
-          &lt;img src={bgImg} alt="Background Image" /&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
+      )}
     &lt;/section&gt;
   );
 }
@@ -292,7 +340,7 @@ export default function Form(props: FormType) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-29T11:39:34.799Z
+                at 2023-01-04T05:15:01.167Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
