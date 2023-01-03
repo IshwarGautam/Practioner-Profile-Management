@@ -1,7 +1,8 @@
 import express from "express";
+import { auth } from "../middlewares/auth";
 import { validation } from "../middlewares/validation";
-import { signin, signup } from "../controllers/user.controller";
 import { refresh, remove } from "../controllers/token.controller";
+import { signin, signup, get, unpublish } from "../controllers/user.controller";
 
 const userRouter = express.Router();
 
@@ -121,6 +122,10 @@ userRouter.post("/signup", validation, signup);
  *        description: Internal Server Error
  */
 userRouter.post("/signin", validation, signin);
+
+userRouter.get("/", auth, get);
+
+userRouter.delete("/delete", auth, validation, unpublish);
 
 userRouter.get("/refreshToken", refresh);
 

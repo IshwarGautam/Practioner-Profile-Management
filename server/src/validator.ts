@@ -30,6 +30,13 @@ const practitionerSchema = Joi.object({
   assetUrl: Joi.string(),
 });
 
+const adminSchema = Joi.object({
+  userid: Joi.string().required(),
+  username: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
 export const validateSignup = validator(signupSchema);
 export const validateSignin = validator(signinSchema);
+export const validateAdmin = validator(adminSchema);
 export const validatePractitioner = validator(practitionerSchema);

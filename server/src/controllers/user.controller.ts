@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { userSignin, userSignup } from "../services/user.service";
+import {
+  getUsers,
+  userSignin,
+  userSignup,
+  deleteUser,
+} from "../services/user.service";
 
 /**
  * Function to handle user signup
@@ -40,4 +45,32 @@ export const signin = async (req: Request, res: Response) => {
     .status(response.status)
     .cookie("refreshToken", response.data.refreshToken, options)
     .json(response.data);
+};
+
+/**
+ * Function to get all users.
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
+export const get = async (req: Request, res: Response) => {
+  const response = await getUsers();
+
+  return res.status(response.status).json(response.data);
+};
+
+/**
+ * Function to delete user
+ *
+ * @param req Request
+ * @param res Response
+ * @returns {Promise<Response>}
+ */
+export const unpublish = async (req: Request, res: Response) => {
+  const payload = req.body;
+
+  const response = await deleteUser(payload);
+
+  return res.status(response.status).json(response.data);
 };

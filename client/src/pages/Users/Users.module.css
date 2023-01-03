@@ -1,0 +1,29 @@
+.usersList {
+  margin: auto;
+  overflow: auto;
+  height: calc(100vh - 250px);
+}
+
+.label {
+  width: 100px;
+  display: inline-block;
+}
+
+.input {
+  height: 40px;
+  border: 1px solid #e9ecef;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.inputSection {
+  margin-bottom: 16px;
+}
+
+.card {
+  width: 900px;
+  margin: auto;
+  margin-top: 12px;
+}

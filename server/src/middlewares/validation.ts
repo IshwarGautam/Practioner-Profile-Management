@@ -1,4 +1,5 @@
 import {
+  validateAdmin,
   validateSignin,
   validateSignup,
   validatePractitioner,
@@ -14,6 +15,9 @@ export const validation = (req: Request, res: Response, next: NextFunction) => {
       break;
     case "/signup":
       ({ error } = validateSignup(req.body));
+      break;
+    case "/delete": //requires admin access to delete users
+      ({ error } = validateAdmin(req.body));
       break;
     default:
       ({ error } = validatePractitioner(req.body));

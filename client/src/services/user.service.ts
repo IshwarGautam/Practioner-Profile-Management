@@ -74,3 +74,25 @@ export const signUpUser = (data: DataType, props: propsType) => {
       }
     });
 };
+
+export const getUsers = () => {
+  return http
+    .get("/users")
+    .then((response) => {
+      return { response };
+    })
+    .catch(() => {
+      return { response: null };
+    });
+};
+
+export const deleteUser = (payload: object) => {
+  return http
+    .delete(`/users/delete`, { data: payload })
+    .then(() => {
+      return { error: null };
+    })
+    .catch((error) => {
+      return { error };
+    });
+};

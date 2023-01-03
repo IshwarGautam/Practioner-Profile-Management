@@ -16,6 +16,8 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
           next();
         } else if (err.message === "jwt expired") {
           return res.status(401).json({ message: "Access Token expired." });
+        } else {
+          return res.status(500).json({ message: err });
         }
       });
     } else {

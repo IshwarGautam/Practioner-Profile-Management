@@ -143,11 +143,11 @@ label {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #b9c7d9;
   border-radius: 10px;
 }
