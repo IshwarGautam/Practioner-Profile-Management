@@ -89,4 +89,13 @@ describe("test refresh token", () => {
     expect(response.status).toBe(403);
     expect(response.data.message).toBe("Invalid refresh token");
   });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (userModel.findOne as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response: ResponseType = await userSignup(payload);
+
+    expect(response.status).toBe(500);
+    expect(response.data.message).toBe("Something went wrong.");
+  });
 });

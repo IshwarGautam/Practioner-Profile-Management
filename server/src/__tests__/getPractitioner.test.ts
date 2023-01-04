@@ -37,4 +37,22 @@ describe("Get practitioner/s details", () => {
     expect(response.status).toBe(200);
     expect(response.data).toEqual([{ ...payload }]);
   });
+
+  it("should return status code of 500 on bad request while trying to get single practitioner detail.", async () => {
+    (practitionerModel.find as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response = await getPractitioner(payload._id);
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
+  });
+
+  it("should return status code of 500 on bad request when trying to get all practitioner details.", async () => {
+    (practitionerModel.find as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response = await getAllPractitioner();
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
+  });
 });

@@ -25,4 +25,15 @@ describe("delete practitioner details", () => {
     expect(response.status).toBe(202);
     expect(response.data).toEqual(payload);
   });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (practitionerModel.findByIdAndRemove as jest.Mock).mockRejectedValueOnce(
+      undefined
+    );
+
+    const response = await deletePractitioner(1);
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
+  });
 });

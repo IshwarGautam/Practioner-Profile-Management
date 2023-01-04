@@ -23,18 +23,13 @@ jest.mock("../services/user.service");
 describe("Login in Component test", () => {
   let container: HTMLDivElement;
 
+  (signInUser as jest.Mock).mockResolvedValue({
+    errorMessage: "some error",
+  });
+
   beforeEach(() => {
     container = document.createElement("div");
     document.body.appendChild(container);
-
-    (signInUser as jest.Mock).mockResolvedValue({
-      response: null,
-      error: {
-        response: {
-          status: 400,
-        },
-      },
-    });
 
     render(
       <SignInForm

@@ -10,8 +10,6 @@ global.console = {
   error: jest.fn(),
 };
 
-jest.mock("../services/user.service");
-
 jest.mock("react-router-dom", () => {
   return {
     useHistory: () => {
@@ -20,21 +18,18 @@ jest.mock("react-router-dom", () => {
   };
 });
 
+jest.mock("../services/user.service");
+
 describe("Sign up Component test", () => {
   let container: HTMLDivElement;
+
+  (signUpUser as jest.Mock).mockResolvedValue({
+    errorMessage: null,
+  });
 
   beforeEach(() => {
     container = document.createElement("div");
     document.body.appendChild(container);
-
-    (signUpUser as jest.Mock).mockResolvedValue({
-      response: null,
-      error: {
-        response: {
-          status: 400,
-        },
-      },
-    });
 
     render(
       <SignUpForm

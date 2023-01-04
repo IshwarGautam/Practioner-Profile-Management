@@ -6,7 +6,7 @@ jest.mock("randomstring");
 jest.mock("../models/user.model");
 
 jest.mock("nodemailer", () => ({
-  createTransport: jest.fn().mockReturnValue({
+  createTransport: jest.fn().mockRejectedValue({
     sendMail: jest
       .fn()
       .mockReturnValue((mailoptions: object, callback: () => void) => {}),
@@ -36,5 +36,23 @@ describe("Forget password", () => {
     expect(response.data).toEqual({
       message: "Please check your inbox and reset your password.",
     });
+  });
+
+  it("should return status code of 404 if the email doesn't exist in the database.", async () => {
+    (userModel.findOne as jest.Mock).mockResolvedValue(undefined);
+
+    const response = await forget_password(dummy_data.email);
+
+    expect(response.status).toBe(404);
+    expect(response.data).toEqual({ message: "This email doesn't exist." });
+  });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (userModel.findOne as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response = await forget_password(dummy_data.email);
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
   });
 });

@@ -9,13 +9,17 @@ export default function pagenotfound() {
   };
 
   return (
-    <div className={classes.PageNotFound}>
-      <div className={classes.title}>404 page</div>
-      <p className={classes.subtitle}>
+    <div className={classes?.PageNotFound}>
+      <div className={classes?.title}>404 page</div>
+      <p className={classes?.subtitle}>
         Looks like the page you are looking for is no longer here.
       </p>
-      <div className={classes.button} onClick={onButtonClicked}>
-        <span className={classes.redirect}>Take you back</span>
+      <div
+        className={classes?.button}
+        onClick={onButtonClicked}
+        data-testid="back-btn"
+      >
+        <span className={classes?.redirect}>Take you back</span>
       </div>
     </div>
   );

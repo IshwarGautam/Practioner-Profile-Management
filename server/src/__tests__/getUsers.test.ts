@@ -18,4 +18,13 @@ describe("Get User's detail", () => {
     expect(response.status).toBe(200);
     expect(response.data).toEqual([{ ...dummy_data }]);
   });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (userModel.find as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response = await getUsers();
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
+  });
 });

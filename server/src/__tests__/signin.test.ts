@@ -61,4 +61,13 @@ describe("test signin function", () => {
     expect(response.data.accessToken).toBe("some_token");
     expect(response.data.refreshToken).toBe("some_token");
   });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (userModel.findOne as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response: ResponseType = await userSignin(payload);
+
+    expect(response.status).toBe(500);
+    expect(response.data.message).toBe("Something went wrong.");
+  });
 });

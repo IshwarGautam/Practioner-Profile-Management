@@ -44,4 +44,13 @@ describe("add practitioner", () => {
 
     expect(response.status).toBe(201);
   });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (practitionerModel.findOne as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response = await addPractitioner(payload);
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
+  });
 });

@@ -42,4 +42,13 @@ describe("delete user details", () => {
     expect(response.status).toBe(202);
     expect(response.data).toBe(dummy_data);
   });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (userModel.findByIdAndRemove as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response = await deleteUser(another_data);
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
+  });
 });

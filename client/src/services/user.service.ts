@@ -47,11 +47,15 @@ export const signInUser = (data: object, props: propsType) => {
 
 export const signUpUser = (data: DataType, props: propsType) => {
   return http
-    .post("/users/signup", {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    })
+    .post(
+      "/users/signup",
+      {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      },
+      { withCredentials: true }
+    )
     .then((response) => {
       localStorage.setItem("accessToken", response.data.accessToken);
 
@@ -62,16 +66,16 @@ export const signUpUser = (data: DataType, props: propsType) => {
       return { errorMessage: "" };
     })
     .catch((error) => {
+      let errorMsg = "";
+
       if (error.response.status === 409) {
-        return {
-          errorMessage:
-            "Looks like the user with that email already exist in the database.",
-        };
+        errorMsg =
+          "Looks like the user with that email already exist in the database.";
       } else {
-        return {
-          errorMessage: "Something went wrong.",
-        };
+        errorMsg = "Something went wrong.";
       }
+
+      return { errorMessage: errorMsg };
     });
 };
 

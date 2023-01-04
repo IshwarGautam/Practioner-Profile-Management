@@ -37,4 +37,13 @@ describe("Reset password", () => {
       message: "The token is not valid.",
     });
   });
+
+  it("should return status code of 500 on bad request.", async () => {
+    (userModel.findOne as jest.Mock).mockRejectedValueOnce(undefined);
+
+    const response = await reset_password("some-token", "new-pswd");
+
+    expect(response.status).toBe(500);
+    expect(response.data).toEqual({ message: "Something went wrong." });
+  });
 });

@@ -117,22 +117,22 @@ export default function PractitionerForm() {
     <section>
       {contextHolder}
       {loading && <Spin tip="Loading" size="large" />}
-      {!loading && (
-        <div className={classes?.addPractitioner}>
-          <div className={classes?.col1}>
-            <h2>{practitioner_id ? `Edit ` : `Add New `}Practitioner</h2>
-            <div className={classes?.subTitle}>
-              {practitioner_id
-                ? `Update practitioner with new data.`
-                : `Fill the details of new practitioner.`}
-            </div>
-            <form
-              id="form"
-              data-test="practitioner-form"
-              className={classes?.form}
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              {(practitionerDetail.fullName || !practitioner_id) && (
+      {!loading &&
+        (practitionerDetail !== initialState || !practitioner_id) && (
+          <div className={classes?.addPractitioner}>
+            <div className={classes?.col1}>
+              <h2>{practitioner_id ? `Edit ` : `Add New `}Practitioner</h2>
+              <div className={classes?.subTitle}>
+                {practitioner_id
+                  ? `Update practitioner with new data.`
+                  : `Fill the details of new practitioner.`}
+              </div>
+              <form
+                id="form"
+                data-test="practitioner-form"
+                className={classes?.form}
+                onSubmit={handleSubmit(onSubmit)}
+              >
                 <div className={classes?.FormControl}>
                   {label("Full Name", required)}
                   <input
@@ -151,25 +151,23 @@ export default function PractitionerForm() {
                     })}
                   />
                 </div>
-              )}
 
-              {errors.fullName?.type === "required" && (
-                <div className={classes?.errorMsg}>Name is required.</div>
-              )}
+                {errors.fullName?.type === "required" && (
+                  <div className={classes?.errorMsg}>Name is required.</div>
+                )}
 
-              {errors.fullName?.message && (
-                <div className={classes?.errorMsg}>
-                  {errors.fullName.message.toString()}
-                </div>
-              )}
+                {errors.fullName?.message && (
+                  <div className={classes?.errorMsg}>
+                    {errors.fullName.message.toString()}
+                  </div>
+                )}
 
-              {errors.fullName?.type === "minLength" && (
-                <div className={classes?.errorMsg}>
-                  Minimum length should be 5.
-                </div>
-              )}
+                {errors.fullName?.type === "minLength" && (
+                  <div className={classes?.errorMsg}>
+                    Minimum length should be 5.
+                  </div>
+                )}
 
-              {(practitionerDetail.email || !practitioner_id) && (
                 <div className={classes?.FormControl}>
                   {label("Email", required)}
                   <input
@@ -183,18 +181,16 @@ export default function PractitionerForm() {
                     placeholder="Email"
                   />
                 </div>
-              )}
 
-              {errors.email?.type === "required" && (
-                <div className={classes?.errorMsg}>Email is required.</div>
-              )}
-              {errors.email?.message && (
-                <div className={classes?.errorMsg}>
-                  {errors.email.message?.toString()}
-                </div>
-              )}
+                {errors.email?.type === "required" && (
+                  <div className={classes?.errorMsg}>Email is required.</div>
+                )}
+                {errors.email?.message && (
+                  <div className={classes?.errorMsg}>
+                    {errors.email.message?.toString()}
+                  </div>
+                )}
 
-              {(practitionerDetail.contact || !practitioner_id) && (
                 <div className={classes?.FormControl}>
                   {label("Contact", required)}
                   <input
@@ -208,21 +204,19 @@ export default function PractitionerForm() {
                     placeholder="Contact Number"
                   />
                 </div>
-              )}
 
-              {errors.contact?.type === "minLength" && (
-                <div className={classes?.errorMsg}>
-                  Minimum length should be 10.
-                </div>
-              )}
+                {errors.contact?.type === "minLength" && (
+                  <div className={classes?.errorMsg}>
+                    Minimum length should be 10.
+                  </div>
+                )}
 
-              {errors.contact?.type === "required" && (
-                <div className={classes?.errorMsg}>
-                  Please provide your contact number.
-                </div>
-              )}
+                {errors.contact?.type === "required" && (
+                  <div className={classes?.errorMsg}>
+                    Please provide your contact number.
+                  </div>
+                )}
 
-              {(practitionerDetail.dob || !practitioner_id) && (
                 <div className={classes?.FormControl}>
                   {label("Date of birth", required)}
                   <input
@@ -234,15 +228,13 @@ export default function PractitionerForm() {
                     })}
                   />
                 </div>
-              )}
 
-              {errors.dob?.type === "required" && (
-                <div className={classes?.errorMsg}>
-                  Please fill your date of birth.
-                </div>
-              )}
+                {errors.dob?.type === "required" && (
+                  <div className={classes?.errorMsg}>
+                    Please fill your date of birth.
+                  </div>
+                )}
 
-              {(practitionerDetail.workingDays || !practitioner_id) && (
                 <div className={classes?.FormControl}>
                   {label("Working Days", required)}
                   <input
@@ -257,15 +249,13 @@ export default function PractitionerForm() {
                     placeholder="Working Days"
                   />
                 </div>
-              )}
 
-              {errors.workingDays?.type === "required" && (
-                <div className={classes?.errorMsg}>
-                  Please fill your number of working days.
-                </div>
-              )}
+                {errors.workingDays?.type === "required" && (
+                  <div className={classes?.errorMsg}>
+                    Please fill your number of working days.
+                  </div>
+                )}
 
-              {(practitionerDetail.startTime || !practitioner_id) && (
                 <div className={classes?.FormControl}>
                   {label("Start Time", required)}
                   <input
@@ -277,13 +267,13 @@ export default function PractitionerForm() {
                     })}
                   />
                 </div>
-              )}
 
-              {errors.startTime?.type === "required" && (
-                <div className={classes?.errorMsg}>Please fill start time.</div>
-              )}
+                {errors.startTime?.type === "required" && (
+                  <div className={classes?.errorMsg}>
+                    Please fill start time.
+                  </div>
+                )}
 
-              {(practitionerDetail.endTime || !practitioner_id) && (
                 <div className={classes?.FormControl}>
                   {label("End Time", required)}
                   <input
@@ -295,33 +285,39 @@ export default function PractitionerForm() {
                     })}
                   />
                 </div>
-              )}
 
-              {errors.endTime?.type === "required" && (
-                <div className={classes?.errorMsg}>Please fill end time.</div>
-              )}
+                {errors.endTime?.type === "required" && (
+                  <div className={classes?.errorMsg}>Please fill end time.</div>
+                )}
 
-              <div className={classes?.FormControl}>
-                {label("Upload Photo")}
-                <input
-                  type="file"
-                  accept=".jpg, .jpeg, .png"
-                  className={classes?.uploadPhoto}
-                  onChange={(e) =>
-                    setPhotoAfterValidation(e.target.files && e.target.files[0])
-                  }
-                />
-              </div>
-              <button className="btn">
-                {practitioner_id ? "Edit" : "Add"}
-              </button>
-            </form>
+                <div className={classes?.FormControl}>
+                  {label("Upload Photo")}
+                  <input
+                    type="file"
+                    accept=".jpg, .jpeg, .png"
+                    className={classes?.uploadPhoto}
+                    data-testid="input-file"
+                    onChange={(e) =>
+                      setPhotoAfterValidation(
+                        e.target.files && e.target.files[0]
+                      )
+                    }
+                  />
+                </div>
+                <button className="btn">
+                  {practitioner_id ? "Edit" : "Add"}
+                </button>
+              </form>
+            </div>
+            <div>
+              <img
+                src={bgImg}
+                alt="Background Image"
+                className={classes?.col2}
+              />
+            </div>
           </div>
-          <div>
-            <img src={bgImg} alt="Background Image" className={classes?.col2} />
-          </div>
-        </div>
-      )}
+        )}
     </section>
   );
 }
