@@ -130,7 +130,7 @@ export const getUsers = async () => {
 /**
  * Service for handling delete user
  *
- * @param id string | number
+ * @param payload adminPayloadType
  * @returns {object}
  */
 export const deleteUser = async (payload: adminPayloadType) => {

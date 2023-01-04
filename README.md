@@ -42,7 +42,7 @@ Now both client and server are running.
 You will see the output at <a href="http://localhost:3000">port 3000</a> if the port is not used.<br><br>
 
 <div style="border: 1px solid; padding: 4px">
-<b>Postman link: <a href="https://elements.getpostman.com/redirect?entityId=8495691-936d24bc-9f47-4b2a-bdff-6d4165e42e5c&entityType=collection">here</a>
+<b>Postman link: <a href="https://www.postman.com/ishwargautam/workspace/public-workspace/api/4656ed2e-f95d-4d87-ba1f-8723ce600576">here</a>
 <br>
 <b>API Documentation Using <a href="http://localhost:5000/docs">Swagger</a></b>
 </div>
